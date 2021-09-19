@@ -1,0 +1,3 @@
+INGRÉDIENT: codeIngrédient, nature, unité, prixU, allergene 
+CONTENIR, 0N INGRÉDIENT, 1N FICHETECHNIQUE: ordre, quantitéIngrédient 
+FICHETECHNIQUE: numéroFiche, nom, nbreCouverts, progression
