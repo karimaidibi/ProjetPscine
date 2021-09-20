@@ -1,3 +1,5 @@
-INGRÉDIENT: codeIngrédient, nature, unité, prixU, allergene 
-CONTENIR, 0N INGRÉDIENT, 1N FICHETECHNIQUE: ordre, quantitéIngrédient 
 FICHETECHNIQUE: numéroFiche, nom, nbreCouverts, progression
+CONTENIR, 0N INGREDIENT, 1N FICHETECHNIQUE: ordre, quantitéIngrédient
+INGREDIENT: codeIngrédient, nature, unité, prixU, allergene 
+AVOIR, 0N CATEGORIE, 11 INGREDIENT
+CATEGORIE: numéroCatégorie, nomCatégorie
