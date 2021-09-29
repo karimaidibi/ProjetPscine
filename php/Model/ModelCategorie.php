@@ -27,7 +27,7 @@ class ModelCategorie extends Model{
 	public function __construct($nom = NULL, $idCategorie = NULL) {
   	if (!is_null($nom)) {
 	    $this->nomCategorie = $nom;
-      $this->idCategorie = $idCategorie;
+        $this->idCategorie = $idCategorie;
     	}
   	}
 
@@ -66,7 +66,7 @@ class ModelCategorie extends Model{
             );
             // On donne les valeurs et on exécute la requête     
             $req_prep->execute($values);
-           // echo $sql;
+            // echo $sql;
         } catch (PDOException $e) {
             if (Conf::getDebug()) {
                 echo $e->getMessage(); // affiche un message d'erreur
