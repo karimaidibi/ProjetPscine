@@ -1,3 +1,22 @@
-INGRÉDIENT: codeIngrédient, nature, unité, prixU, allergene 
-CONTENIR, 0N INGRÉDIENT, 1N FICHETECHNIQUE: ordre, quantitéIngrédient 
-FICHETECHNIQUE: numéroFiche, nom, nbreCouverts, progression
+INCLURE, 0N FICHETECHNIQUE, 0N> [sous fiche technique] FICHETECHNIQUE
+CONTENIR, 1N FICHETECHNIQUE, 0N ETAPE
+ETAPE: NumEtape, NomEtape, DescriptionEtape
+APPLIQUER, 11 INGREDIENT, 0N TVA 
+TVA: CodeTVA, NomTVA, CoefTVA
+
+
+UTILISER, 0N COEFFICIENT, 1N FICHETECHNIQUE
+FICHETECHNIQUE: NuméroFiche, NomFiche, NbreCouverts, NomAuteur, CoutFluide
+COMPOSER, 1N FICHETECHNIQUE, 0N INGREDIENT: QuantitéIngrédient
+INGREDIENT: NumIngrédient, NomIng, prixUnitaireIng, LuxeOuNon, QtéStockIngrédient
+ETRE, 01 INGREDIENT, 0N ALLERGENE
+
+COEFFICIENT: CodeCoeff, NomCoeff, Coefficient
+APPARTENIR, 11 FICHETECHNIQUE, 0N CATEGORIE_FICHE
+POSSEDER, 11 INGREDIENT, 0N CATEGORIE_INGREDIENT
+QUALIFIER, 11 INGREDIENT, 0N UNITE
+ALLERGENE: NumAllèrgene, NomAllergène
+
+CATEGORIE_FICHE: NuméroCatFiche, NomCatFiche
+CATEGORIE_INGREDIENT: NumCatégorie, NomCatégorie
+UNITE: NumUnité, NomUnité

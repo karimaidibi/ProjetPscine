@@ -31,17 +31,31 @@ USE `projetpiscine_db`;
 DROP TABLE IF EXISTS `fiche_technique`;
 CREATE TABLE IF NOT EXISTS `fiche_technique` (
   `numeroFiche` int(11) NOT NULL AUTO_INCREMENT,
-  `nom` varchar(255) NOT NULL,
+  `nomFiche` varchar(255) NOT NULL,
   `nbreCouverts` int(11) NOT NULL,
   `progression` text NOT NULL,
   PRIMARY KEY (`numeroFiche`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
+--
+-- structure de la table categorie 
+--
+DROP TABLE IF EXISTS `categorie`;
+CREATE TABLE IF NOT EXISTS `categorie` (
+    `numeroCategorie` int(11) NOT NULL AUTO_INCREMENT,
+    `nomCategorie` varchar(255) NOT NULL,
+    PRIMARY KEY (`numeroCategorie`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+
+-- --------------------------------------------------------
 
 --
 -- Structure de la table `ingrédient`
 --
+
+
 
 DROP TABLE IF EXISTS `ingredient`;
 CREATE TABLE IF NOT EXISTS `ingredient` (
@@ -50,7 +64,9 @@ CREATE TABLE IF NOT EXISTS `ingredient` (
   `unite` varchar(255) NOT NULL,
   `prixU` float NOT NULL,
   `allergene` tinyint(1) NOT NULL,
-  PRIMARY KEY (`codeIngredient`)
+  `codeCategorie` int(11) NOT NULL,
+  PRIMARY KEY (`codeIngredient`),
+  KEY `FK_ingredient_codeCtagorie` (`codeCategorie`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 
@@ -75,6 +91,12 @@ CREATE TABLE IF NOT EXISTS `contenu_fiche` (
 ALTER TABLE `contenu_fiche`
   ADD CONSTRAINT `FK_contenu_fiche_idFiche` FOREIGN KEY (`idFiche`) REFERENCES `fiche_technique` (`numeroFiche`),
   ADD CONSTRAINT `FK_contenu_fiche_idIngredient` FOREIGN KEY (`idIngredient`) REFERENCES `ingredient` (`codeIngredient`);
+
+--
+-- contrainte pour la table ingredient 
+--
+ALTER TABLE `ingredient`
+  ADD CONSTRAINT `FK_ingredient_codeCategorie` FOREIGN KEY (`codeCategorie`) REFERENCES `categorie` (`numeroCategorie`);
 
 
 -- --------------------------------------------------------
