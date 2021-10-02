@@ -1,0 +1,12 @@
+.p-2{
+    background-color: #DCDCDC;
+}
+.current{
+    height: 100px;
+    width: 500px
+}
+.TextAuMilieu{
+    text-align: center;
+    font-size: 200%;
+    margin-left: 22%;
+}
