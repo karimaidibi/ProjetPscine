@@ -50,7 +50,7 @@
       <!---la division contenant tout le form de création de la fiche technique-->
       <div class="container-fluid mt-5 ms-4 pe-5">
         <form>
-            <!--Titré création de fiche technkque -->
+            <!--Titré création de fiche technique -->
             <div class="container-fluid bg-dark bg-gradient">
               <p class="fs-2" style="color:white;"> Création d'une fiche technique </p>
             </div>
@@ -121,7 +121,7 @@
                 </div>
               </div>
               <!-- cinquième colonne (colonne des progressions ) -->
-              <div class ="col-sm-5 pt-4 ">
+              <div class ="col-sm-5 pt-4 container">
                   <!-- Area text pour une nouvelle progression-->
                   <!-- Premier group d'input -->
                   <label for="progression" class="form-label">J'ajoute une nouvelle progression : </label>
@@ -178,7 +178,7 @@
                   </div>
               </div>
               <!-- sixième colonne colonne (colonne d'ajout des ingrédients ) -->
-              <div class ="col-sm-7 pt-4">
+              <div class ="col-sm-7 pt-4 container">
                 <!-- Barre de recherche des ingrédients pour rajouter un ingrédient-->
                 <div class="ps-5 ms-2">
                   <label for="AjouterIngrédient" class="form-label"> J'ajoute un ingrédient : </label>
@@ -242,11 +242,12 @@
               </div>
             </div>
             <!-- validation -->
-            <div class="mx-auto mt-3 mb-5" align=center>
+            <div class="mt-3 mb-5 " align=center>
               <button class="btn btn-dark" type="button">
                 <i class="bi bi-folder-plus"></i>
                 Créer la fiche technique 
-              </button>              
+              </button>
+              <input type="button" value="Imprimer" onClick="window.print()">             
             </div>
         </form>
       </div>
