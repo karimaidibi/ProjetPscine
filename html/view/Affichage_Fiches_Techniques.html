@@ -15,7 +15,7 @@
  
       
     <!---------------------- The navigation bar---------------- ------>
-      <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark bg-gradient">
         <div class="container-fluid">
           <a class="navbar-brand" href="#">Restaurant du chef</a>
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
@@ -48,13 +48,13 @@
       </nav>
 
       <!--Label pour la barre de recherche -->
-      <div class="mt-5 ms-3">
-        <p class="fs-5"> Chercher par catégorie, par fiche ou par auteur ! </p>
+      <div class=" container mt-5 bg-dark bg-gradient" align=center style="color:whitesmoke;">
+        <p class="fs-5"> Chercher par catégorie, par fiche ou par ingrédient ! </p>
       </div>
 
       <!---La barre de recherche, trier les fiches et bouton ajouter une fiches-->
-      <div class="container-fluid mt-2">
-        <div class="row">
+      <div class="container-fluid pt-4">
+        <div class="row rows-cols-3">
             <!--premiére colonne-->
             <div class="col-5">
                 <!---- Barre de recherche des fiches techniques 
@@ -66,7 +66,7 @@
                             <i class="bi bi-search"></i>
                     </div>
                     <div class="flex-grow-1 ms-3 ">
-                        <input class="form-control" list="datalistOptions" id="exampleDataList" placeholder="Chercher...">
+                        <input class="form-control" list="datalistOptions" id="exampleDataList" placeholder="Chercher..." type="text">
                         <datalist id="datalistOptions">
                             <option value="choco framboise">
                             <option value="coeur choco">
@@ -78,7 +78,7 @@
                 </div>
             </div>
             <!--deuxieme colonne-->
-            <div class="col">
+            <div class="col-3">
                 <!--- Bouton pour trier les fiches d'ingrédients-->
                 <div class="dropdown">
                     <button class="btn btn-dark dropdown-toggle" type="button" id="dropdownMenu2" data-bs-toggle="dropdown" aria-expanded="false">
@@ -93,7 +93,7 @@
                   </div>
             </div>
             <!--3eme colonne colonne-->
-            <div class="col">
+            <div class="col-4">
                 <button type="button" class="btn btn-dark">
                     <i class="bi bi-plus-square"></i>
                     Créer une ficher technique
@@ -104,7 +104,7 @@
 
 
 
-      <div class="container-fluid mt-4">
+      <div class="container-fluid pt-5 ps-5 pe-5">
         <!------LA TABLE QUI CONTIENT LES FICHES TECHNIQUES--------->
         <table class="table table-striped table-hover align-middle">
             <thead class = "table-dark">
