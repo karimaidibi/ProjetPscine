@@ -50,27 +50,11 @@
                 <div id="header_presentation">
                     <div id="header_profil">
                     </div>
-                    <div id="header_titre">
-                        <h1>A la mercuriale</h1>
-                    </div>
                     <div id="header_bouton">
                         <a href='?action=afficher&controller=panier'><img id="image_header" src="../img/panier.png" alt=""></a>;
                     </div>
                 </div>
                 <nav>
-                    <div id="menu1">
-                        <div><a href="index.php?action=readAll">Produits</a></div>
-                        <div><a>Catégorie de produits</a>
-                        <ul>
-                        <?php
-	                        $tab_option = ModelFicheTechnique::selectAll();
-	                        foreach ($tab_option as $o){
-	                            echo('<li><a href="index.php?controller=ficheTechnique"></a></li>');
-	                        }
-                    	?>
-                        </ul>
-                        </div>
-                    </div>
                 </nav>
             </div>
         </header>
