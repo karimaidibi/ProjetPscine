@@ -1,4 +1,5 @@
 <?php
+require_once File::build_path(array("model","ModelFicheTechnique.php"));	
 class ControllerFicheTechnique{
 
 	protected static $object='FicheTechnique';

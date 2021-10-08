@@ -1,4 +1,6 @@
 <?php
+ini_set('display_errors', 'on'); 
+require_once "lib/File.php";
 require_once File::build_path(array("config", "conf.php"));
 class Model{
 	public static $pdo;

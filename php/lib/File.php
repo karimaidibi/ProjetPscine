@@ -1,4 +1,5 @@
 <?php
+ini_set('display_errors', 'on'); 
 class File{
 	public static function build_path($path_array) {
 	    $DS = DIRECTORY_SEPARATOR;

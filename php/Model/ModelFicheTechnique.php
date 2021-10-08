@@ -57,7 +57,7 @@ class ModelFicheTechnique extends Model{
         $this->NomFiche = $NomFiche;
         $this->NbreCouverts = $NbreCouverts;
         $this->NomAuteur = $NomAuteur;
-        $this->CoutFluide = $CoutFluide
+        $this->CoutFluide = $CoutFluide;
         }
   	}
 
@@ -92,9 +92,9 @@ class ModelFicheTechnique extends Model{
 
             $values = array(
                 "NumeroFiche" => self::configNumeroFiche()+1,
-                "NomFiche" => $this->NomFiche
-                "NbreCouverts" => $this->NbreCouverts
-                "NomAuteur" => $this->NomAuteur
+                "NomFiche" => $this->NomFiche,
+                "NbreCouverts" => $this->NbreCouverts,
+                "NomAuteur" => $this->NomAuteur,
                 "CoutFluide" => $this->CoutFluide,
             );
             // On donne les valeurs et on exécute la requête     

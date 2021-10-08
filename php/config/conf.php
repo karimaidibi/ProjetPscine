@@ -1,24 +1,24 @@
 <?php
-//ini_set('display_errors', 'on'); 
+ini_set('display_errors', 'on'); 
 class Conf {
    
   static private $databases = array(
     // Le nom d'hote est webinfo a l'IUT
     // ou localhost sur votre machine
-    'hostname' => 'webinfo.iutmontp.univ-montp2.fr',
+    'hostname' => 'localhost',
     //'hostname' => 'localhost',
     // A l'IUT, vous avez une BDD nommee comme votre login
     // Sur votre machine, vous devrez creer une BDD
     //'database' => 'pirona',
-    'database' => 'mathieue',
+    'database' => 'projetpiscine',
     // A l'IUT, c'est votre login
     // Sur votre machine, vous avez surement un compte 'root'
     //'login' => 'pirona',
-    'login' => 'mathieue',
+    'login' => 'root',
     // A l'IUT, c'est votre mdp (INE par defaut)
     // Sur votre machine personelle, vous avez creez ce mdp a l'installation
     //'password' => 'E7JbMyzQ'
-    'password' => 'pastabox001'
+    'password' => 'root'
   );
    
   static public function getLogin() {
