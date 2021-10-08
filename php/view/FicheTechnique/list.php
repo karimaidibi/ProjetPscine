@@ -19,13 +19,12 @@ echo '<div class=" container mt-5 bg-dark bg-gradient" align=center style="color
                     </div>
                     <div class="flex-grow-1 ms-3 ">
                         <input class="form-control" list="datalistOptions" id="exampleDataList" placeholder="Chercher..." type="text">
-                        <datalist id="datalistOptions">
-                            <option value="choco framboise">
-                            <option value="coeur choco">
-                            <option value="malakoff">
-                            <option value="arrancini pesto">
-                            <option value="arrancini boeuf">
-                        </datalist> 
+                        <datalist id="datalistOptions">';
+                        foreach ($tab_u as $element){
+                            $NomFiche = $element->getNomFiche();
+                             echo '<option value=' .$NomFiche. '>';
+                        }
+                  echo '</datalist> 
                     </div>                   
                 </div>
             </div>
@@ -42,7 +41,7 @@ echo '<div class=" container mt-5 bg-dark bg-gradient" align=center style="color
                       <li><button class="dropdown-item" type="button">a--z</button></li>
                       <li><button class="dropdown-item" type="button">z--a</button></li>
                     </ul>
-                  </div>
+                </div>
             </div>
             <!--3eme colonne colonne-->
             <div class="col-4">
