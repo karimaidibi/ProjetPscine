@@ -3,7 +3,8 @@
 	//LE CONTROLLER EST INCLUS SELON LACTION DE LUTILISATEUR
 	ini_set('display_errors', 'on'); 
 	require_once File::build_path(array("lib","File.php"));	
-	require_once File::build_path(array("controller","ControllerFicheTechnique.php"));	
+	require_once File::build_path(array("controller","ControllerFicheTechnique.php"));
+	require_once File::build_path(array("controller","ControllerIngredient.php"));	
 
 	/*SI ON NE TROUVE PAS CONTROLLR SPECIFIQUE =>
 		- on affiche la page d'acceuil

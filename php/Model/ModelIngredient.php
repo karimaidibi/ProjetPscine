@@ -34,11 +34,11 @@ class ModelIngredient extends Model{
         $this->prixUnitaire = $prixUnitaire2;
     }
 
-    public getquantiteStock(){
+    public function getQuantiteStock(){
         return $this->quantiteStock;
     }
 
-    public setquantiteStock($quantiteStock2){
+    public function setQuantiteStock($quantiteStock2){
         $this->quantiteStock = $quantiteStock2;
     }
 

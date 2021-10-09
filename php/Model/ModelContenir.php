@@ -4,6 +4,7 @@ class ModelContenir extends Model{
 
 	protected static $object = 'Contenir';
 	protected static $primary='NumEtape';
+    protected static $primary2='NumeroFiche';
 
 	private $NumEtape;
 	private $NumeroFiche;
@@ -45,15 +46,6 @@ class ModelContenir extends Model{
       }
     }
 
-    public function configNumEtape() {
-      $sql = "SELECT MAX(NumEtape) FROM Contenir";
-      $rep = Model::$pdo->query($sql);  
-      $rep->setFetchMode(PDO::FETCH_CLASS, 'Contenir');
-     
-      $resultat = $rep->fetchAll();
-      return $resultat[0][0];
-    }
-
     public function save() {
         try {
             $sql = "INSERT INTO Contenir VALUES (:NumEtape, :NumeroFiche)";
@@ -61,8 +53,8 @@ class ModelContenir extends Model{
             $req_prep = Model::$pdo->prepare($sql);
 
             $values = array(
-                "NumEtape" => self::configNumEtape()+1,
-                "NumeroFiche" => $this->NumeroFiche
+                "NumEtape" => $this->NumEtape,
+                "NumeroFiche" => $this->NumeroFiche,
             );
             // On donne les valeurs et on exécute la requête     
             $req_prep->execute($values);

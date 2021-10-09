@@ -49,8 +49,8 @@ class ControllerFicheTechnique{
 		}
 	}
 
-	public static function create($nomFicheTechnique,$DescriptionFicheTechnique){
-        $v1 = new ModelFicheTechnique($nomFicheTechnique,$DescriptionFicheTechnique);
+	public static function create($NomFiche,$FK_NumeroCatFiche){
+        $v1 = new ModelFicheTechnique($nomFicheTechnique,$FK_NumeroCatFiche);
 		$v1->save();
 		return $v1->getNumeroFiche();
 	}
