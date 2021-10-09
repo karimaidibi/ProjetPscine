@@ -47,7 +47,7 @@ echo '<div class=" container mt-5 bg-dark bg-gradient" align=center style="color
             <div class="col-4">
                 <button type="button" class="btn btn-dark">
                     <i class="bi bi-plus-square"></i>
-                    Créer une ficher technique
+                    <a class="" href="index.php?controller=ficheTechnique&action=update">Créer une ficher technique</a>
                 </button>
             </div>
         </div>
@@ -91,7 +91,9 @@ foreach ($tab_u as $u)
                     <i class="bi bi-pencil" style="font-size: 1rem;" ></i>
                 </button>
                 <button class="btn btn-danger" type="button">
+                    <a href="index.php?controller=ficheTechnique&action=delete&NumeroFiche=' . $NumeroFiche . '">
                     <i class="bi bi-trash" style="font-size: 1rem;" ></i>
+                    </a>
                 </button>
                 <button class="btn btn-primary" type="button">
                     <i class="bi bi-eye" style="font-size: 1rem;" ></i>                        

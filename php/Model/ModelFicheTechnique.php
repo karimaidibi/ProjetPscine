@@ -56,11 +56,11 @@ class ModelFicheTechnique extends Model{
         $this->CoutFluide = $CoutFluide2;
     }
 
-    public function setNumeroFiche($NumeroCatFiche2){
+    public function setNumeroCatFiche($NumeroCatFiche2){
         $this->$FK_NumeroCatFiche = $NumeroCatFiche2;
     }
 
-	public function __construct($NumeroFiche = NULL, $NomFiche = NULL, $NbreCouverts = NULL, $NomAuteur = NULL, $CoutFluide = NULL, $FK_NumeroCatFiche) {
+	public function __construct($NumeroFiche = NULL, $NomFiche = NULL, $NbreCouverts = NULL, $NomAuteur = NULL, $CoutFluide = NULL, $FK_NumeroCatFiche = NULL) {
   	if (!is_null($NumeroFiche)) {
 	    $this->NumeroFiche = $NumeroFiche;
         $this->NomFiche = $NomFiche;
