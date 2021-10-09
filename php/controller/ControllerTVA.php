@@ -1,20 +1,20 @@
 <?php
-require_once File::build_path(array("model", "ModelCategorie.php"));
-class ControllerCategorie{
+require_once File::build_path(array("model", "ModelTVA.php"));
+class ControllerTVA{
 
-	protected static $object='categorie';
+	protected static $object='tva';
 
 	public static function readAll() {
-        $tab_u = ModelCategorie::selectAll();     //appel au modèle pour gerer la BD  //"redirige" vers la vue
+        $tab_u = ModelTVA::selectAll();     //appel au modèle pour gerer la BD  //"redirige" vers la vue
         $view='list';
-        $pagetitle='Liste des catégories';
+        $pagetitle='Liste des TVA';
         require_once File::build_path(array("view", "view.php"));
     }
 
     public static function read(){
-    	if(!is_null(myGet('idC'))){
-	    	$idC = myGet('idC');
-	    	$u = ModelCategorie::select($idCategorie);
+    	if(!is_null(myGet('idTVA'))){
+	    	$idTVA = myGet('idTVA');
+	    	$u = ModelTVA::select($idTVA);
 	    	if($u==false){
         		$view='error';
         		$pagetitle='Page 404';
@@ -22,7 +22,7 @@ class ControllerCategorie{
 	    	}
 	    	else{
         		$view='detail';
-        		$pagetitle='Catégorie ' . $idC;
+        		$pagetitle='TVA' . $idTVA;
 	    		require_once File::build_path(array("view", "view.php"));
 	    	}
     	}
@@ -34,25 +34,25 @@ class ControllerCategorie{
 	}
 
 	public static function delete(){
-		if(!is_null(myGet('idC'))){
+		if(!is_null(myGet('idTVA'))){
         	$view='error';
         	$pagetitle='Page 404';
 	    	require_once File::build_path(array("view", "view.php"));
 		}
 		else{
-			$idC = myGet('idC');
-			ModelCategorie::delete($idCategorie);
-			$tab_u = ModelCategorie::selectAll();
+			$idTVA = myGet('idTVA');
+			ModelTVA::delete($idTVA);
+			$tab_u = ModelTVA::selectAll();
 	        $view='deleted';
-	        $pagetitle='Catégorie supprimé';
+	        $pagetitle='TVA supprimée';
 		    require_once File::build_path(array("view", "view.php"));
 		}
 	}
 
-	public static function create($nomC){
-        $v1 = new ModelCategorie($nomC);
+	public static function create($nomTVA, $coefTVA){
+        $v1 = new ModelTVA($nomTVA, $coefTVA);
 		$v1->save();
-		return $v1->getIdCategorie();
+		return $v1->getIdTVA();
 	}
 }
 ?>
