@@ -18,7 +18,7 @@ echo '<div class=" container mt-5 bg-dark bg-gradient" align=center style="color
                             <i class="bi bi-search"></i>
                     </div>
                     <div class="flex-grow-1 ms-3 ">
-                        <input class="form-control" list="datalistOptions" id="exampleDataList" placeholder="Chercher..." type="text">
+                        <input class="form-control" list="datalistOptions" id="chercherFiche" onkeyup="recherche()" placeholder="Chercher..." type="text">
                         <datalist id="datalistOptions">';
                         foreach ($tab_u as $element){
                             $NomFiche = $element->getNomFiche();
@@ -38,16 +38,17 @@ echo '<div class=" container mt-5 bg-dark bg-gradient" align=center style="color
                     </button>
                     <ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
                       <li><button class="dropdown-item" type="button">Catégorie</button></li>
-                      <li><button class="dropdown-item" type="button">a--z</button></li>
-                      <li><button class="dropdown-item" type="button">z--a</button></li>
+                      <li><button class="dropdown-item" type="button" onClick="TrierNomAZ()" >a--z</button></li>
+                      <li><button class="dropdown-item" type="button" onClick="TrierNomZA()" >z--a</button></li>
                     </ul>
                 </div>
             </div>
             <!--3eme colonne colonne-->
             <div class="col-4">
                 <button type="button" class="btn btn-dark">
+                    <a class="" href="index.php?controller=ficheTechnique&action=update" style="color:white; text-decoration:none">
                     <i class="bi bi-plus-square"></i>
-                    <a class="" href="index.php?controller=ficheTechnique&action=update" style="color:white; text-decoration:none">Créer une ficher technique</a>
+                    Créer une ficher technique</a>
                 </button>
             </div>
         </div>
@@ -57,7 +58,7 @@ echo '<div class=" container mt-5 bg-dark bg-gradient" align=center style="color
 
       <div class="container-fluid pt-5 ps-5 pe-5">
         <!------LA TABLE QUI CONTIENT LES FICHES TECHNIQUES--------->
-        <table class="table table-striped table-hover align-middle">
+        <table class="table table-striped table-hover align-middle" id="TableFiche">
             <thead class = "table-dark">
             <tr>
                 <th scope="col">NomFiche</th>
@@ -80,33 +81,130 @@ foreach ($tab_u as $u)
     $NumCategorieFiche = $u->getFK_NumeroCatFiche();
   
 
-    echo '<tr>
-        <td>'.$NomFiche.'</td>
-        <td>'.$NbreCouverts.'</td>
-        <td>'. $NomAuteur.'</td>
-        <td>'. $NumCategorieFiche.'</td>
-        <td>
-            <div class="d-grid gap-2 d-md-block">
-                <button class="btn btn-success" type="button">
-                    <a href="index.php?controller=ficheTechnique&action=update&NumeroFiche=' . $NumeroFiche . '">
-                    <i class="bi bi-pencil" style="font-size: 1rem; color:black;" ></i>
-                    </a>
-                </button>
-                <button class="btn btn-danger" type="button">
-                    <a href="index.php?controller=ficheTechnique&action=delete&NumeroFiche=' . $NumeroFiche . ' ">
-                    <i class="bi bi-trash" style="font-size: 1rem; color:black;" ></i>
-                    </a>                    
-                </button>
-                <button class="btn btn-primary" type="button">
-                <a href="index.php?controller=ficheTechnique&action=test&controller=ingredient&action=test">
-                    <i class="bi bi-eye" style="font-size: 1rem; color:black;" ></i>    
-                </a>                
-                </button>
-            </div>
-        </td>
-    </tr>';
+        echo '<tr>
+                <td>'.$NomFiche.'</td>
+                <td>'.$NbreCouverts.'</td>
+                <td>'. $NomAuteur.'</td>
+                <td>'. $NumCategorieFiche.'</td>
+                <td>
+                    <div class="d-grid gap-2 d-md-block">
+                        <button class="btn btn-success" type="button">
+                            <a href="index.php?controller=ficheTechnique&action=update&NumeroFiche=' . $NumeroFiche . '">
+                            <i class="bi bi-pencil" style="font-size: 1rem; color:black;" ></i>
+                            </a>
+                        </button>
+                        <button class="btn btn-danger" type="button">
+                            <a href="index.php?controller=ficheTechnique&action=delete&NumeroFiche=' . $NumeroFiche . ' ">
+                            <i class="bi bi-trash" style="font-size: 1rem; color:black;" ></i>
+                            </a>                    
+                        </button>
+                        <button class="btn btn-primary" type="button">
+                        <a href="index.php?controller=ficheTechnique&action=test&controller=ingredient&action=test">
+                            <i class="bi bi-eye" style="font-size: 1rem; color:black;" ></i>    
+                        </a>                
+                        </button>
+                    </div>
+                </td>
+            </tr>';
 }
-echo "</tbody>
-</table>
-</div>";
+    echo "</tbody>
+        </table>
+        </div>";
 ?>
+
+<script>
+    // chercher les fiches par nom de la fiche
+    function recherche() {
+        // Declare variables
+        var input, filter, table, tr, td, i, txtValue;
+        input = document.getElementById("chercherFiche");
+        filter = input.value.toUpperCase();
+        table = document.getElementById("TableFiche");
+        tr = table.getElementsByTagName("tr");
+
+        // Loop through all table rows, and hide those who don't match the search query
+        for (i = 0; i < tr.length; i++) {
+            td = tr[i].getElementsByTagName("td")[0];
+            if (td) {
+            txtValue = td.textContent || td.innerText;
+            if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                tr[i].style.display = "";
+            } else {
+                tr[i].style.display = "none";
+            }
+            }
+        }
+    }
+
+    // trier les fiches par ordre alphabétique
+    function TrierNomAZ() {
+        var table, rows, switching, i, x, y, shouldSwitch;
+        table = document.getElementById("TableFiche");
+        switching = true;
+        /* Make a loop that will continue until
+        no switching has been done: */
+        while (switching) {
+            // Start by saying: no switching is done:
+            switching = false;
+            rows = table.rows;
+            /* Loop through all table rows (except the
+            first, which contains table headers): */
+            for (i = 1; i < (rows.length - 1); i++) {
+                // Start by saying there should be no switching:
+                shouldSwitch = false;
+                /* Get the two elements you want to compare,
+                one from current row and one from the next: */
+                x = rows[i].getElementsByTagName("td")[0];
+                y = rows[i + 1].getElementsByTagName("td")[0];
+                // Check if the two rows should switch place:
+                if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+                    // If so, mark as a switch and break the loop:
+                    shouldSwitch = true;
+                    break;
+                }
+            }
+            if (shouldSwitch) {
+            /* If a switch has been marked, make the switch
+            and mark that a switch has been done: */
+            rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+            switching = true;
+            }
+        }
+    }
+
+    // trier les fiches par ordre alphabétique
+    function TrierNomZA() {
+        var table, rows, switching, i, x, y, shouldSwitch;
+        table = document.getElementById("TableFiche");
+        switching = true;
+        /* Make a loop that will continue until
+        no switching has been done: */
+        while (switching) {
+            // Start by saying: no switching is done:
+            switching = false;
+            rows = table.rows;
+            /* Loop through all table rows (except the
+            first, which contains table headers): */
+            for (i = 1; i < (rows.length - 1); i++) {
+                // Start by saying there should be no switching:
+                shouldSwitch = false;
+                /* Get the two elements you want to compare,
+                one from current row and one from the next: */
+                x = rows[i].getElementsByTagName("td")[0];
+                y = rows[i + 1].getElementsByTagName("td")[0];
+                // Check if the two rows should switch place:
+                if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
+                    // If so, mark as a switch and break the loop:
+                    shouldSwitch = true;
+                    break;
+                }
+            }
+            if (shouldSwitch) {
+            /* If a switch has been marked, make the switch
+            and mark that a switch has been done: */
+            rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+            switching = true;
+            }
+        }
+    }
+</script>
