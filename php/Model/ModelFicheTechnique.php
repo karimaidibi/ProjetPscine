@@ -95,7 +95,7 @@ class ModelFicheTechnique extends Model{
 
     public function save() {
         try {
-            $sql = "INSERT INTO FicheTechnique VALUES (:NomFiche, :NbreCouverts, :NomAuteur, :CoutFluide, :FK_NumeroCatFiche)";
+            $sql = "INSERT INTO FicheTechnique (NomFiche, NbreCouverts, NomAuteur, CoutFluide, FK_NumeroCatFiche) VALUES (:NomFiche, :NbreCouverts, :NomAuteur, :CoutFluide, :FK_NumeroCatFiche)";
             // Préparation de la requête
             $req_prep = Model::$pdo->prepare($sql);
 
@@ -106,7 +106,6 @@ class ModelFicheTechnique extends Model{
                 "CoutFluide" => $this->CoutFluide,
                 "FK_NumeroCatFiche" => $this->FK_NumeroCatFiche,
             );
-            print_r($values);
             // On donne les valeurs et on exécute la requête     
             $req_prep->execute($values);
         } catch (PDOException $e) {
