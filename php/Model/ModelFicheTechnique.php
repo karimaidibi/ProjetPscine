@@ -32,8 +32,8 @@ class ModelFicheTechnique extends Model{
         return $this->CoutFluide;
     }
 
-    public function getNumeroCatFiche(){
-        return $this->$FK_NumeroCatFiche;
+    public function getFK_NumeroCatFiche(){
+        return $this->FK_NumeroCatFiche;
     }
 
 	public function setNumeroFiche($NumeroFiche2){
@@ -56,7 +56,7 @@ class ModelFicheTechnique extends Model{
         $this->CoutFluide = $CoutFluide2;
     }
 
-    public function setNumeroCatFiche($NumeroCatFiche2){
+    public function setFK_NumeroCatFiche($NumeroCatFiche2){
         $this->$FK_NumeroCatFiche = $NumeroCatFiche2;
     }
 

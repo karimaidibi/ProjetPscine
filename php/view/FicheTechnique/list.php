@@ -88,15 +88,19 @@ foreach ($tab_u as $u)
         <td>
             <div class="d-grid gap-2 d-md-block">
                 <button class="btn btn-success" type="button">
-                    <i class="bi bi-pencil" style="font-size: 1rem;" ></i>
-                </button>
-                <button class="btn btn-danger" type="button">
-                    <a href="index.php?controller=ficheTechnique&action=delete&NumeroFiche=' . $NumeroFiche . '">
-                    <i class="bi bi-trash" style="font-size: 1rem;" ></i>
+                    <a href="index.php?controller=ficheTechnique&action=update&NumeroFiche=' . $NumeroFiche . '">
+                    <i class="bi bi-pencil" style="font-size: 1rem; color:black;" ></i>
                     </a>
                 </button>
+                <button class="btn btn-danger" type="button">
+                    <a href="index.php?controller=ficheTechnique&action=delete&NumeroFiche=' . $NumeroFiche . ' ">
+                    <i class="bi bi-trash" style="font-size: 1rem; color:black;" ></i>
+                    </a>                    
+                </button>
                 <button class="btn btn-primary" type="button">
-                    <i class="bi bi-eye" style="font-size: 1rem;" ></i>                        
+                <a href="index.php?controller=ficheTechnique&action=test&controller=ingredient&action=test">
+                    <i class="bi bi-eye" style="font-size: 1rem; color:black;" ></i>    
+                </a>                
                 </button>
             </div>
         </td>

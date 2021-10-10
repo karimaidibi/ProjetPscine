@@ -48,7 +48,30 @@ class Model{
         	return false;
     	}
     	return $tab_voit[0];
+    	print_r($tab_voit[0]);
 	}
+
+	public static function update($data){
+        $table_name = ucfirst(static::$object);
+        $primary_key = static::$primary;
+        $sql = "UPDATE " . $table_name ." SET";
+        foreach ($data as $cle => $valeur){
+            if ($cle != "primary"){
+                $sql = $sql." $cle =:$cle,";
+            }
+        }
+        try{
+            $sql = rtrim($sql, ",");
+            $sql = $sql
+                    . " WHERE $primary_key=:primary";
+            
+            $req_prep = Model::$pdo->prepare($sql);
+            $req_prep->execute($data);
+            
+        } catch (Exception $ex) {
+            echo $ex->getMessage();
+        }
+    }
 
 	public static function selectV2($primary_value1, $primary_value2) {
   		$table_name = static::$object;

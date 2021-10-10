@@ -33,14 +33,38 @@ class ControllerFicheTechnique{
     	}
 	}
 
-	public static function update(){
-        $view='update';
-        $pagetitle='Création d\'une fiche technique';
-	    require_once File::build_path(array("view", "view.php"));
-	}
-
 	public static function updated(){
-		echo "c'est bon !!!";
+		if(!is_null(myGet('NumeroFiche'))){
+			$NumeroFiche=myGet('NumeroFiche');
+		}
+		if(!is_null(myGet('NomFiche'))){
+			$NomFiche=myGet('NomFiche');
+		}
+		if(!is_null(myGet('NbreCouverts'))){
+			$NbreCouverts=myGet('NbreCouverts');
+		}
+		if(!is_null(myGet('NomAuteur'))){
+			$NomAuteur=myGet('NomAuteur');
+		}
+		if(!is_null(myGet('FK_NumeroCatFiche'))){
+			$FK_NumeroCatFiche=myGet('FK_NumeroCatFiche');
+		}
+		if(!is_null(myGet('CoutFluide'))){
+			$CoutFluide=myGet('CoutFluide');
+		}
+		$data = array(
+			"primary" => $NumeroFiche,
+			"NomFiche" => $NomFiche,
+			"NbreCouverts" => $NbreCouverts,
+			"NomAuteur" => $NomAuteur,
+			"CoutFluide" => $CoutFluide,
+			"FK_NumeroCatFiche" => $FK_NumeroCatFiche
+		);
+		ModelFicheTechnique::update($data);
+	    $view='list';
+	    $pagetitle='Mise à jour de la recette';
+	    $tab_u = ModelFicheTechnique::selectAll();
+		require_once File::build_path(array("view", "view.php"));
 	}
 
 	public static function delete(){
@@ -51,13 +75,32 @@ class ControllerFicheTechnique{
 		}
 		else{
 			$NumeroFiche = myGet('NumeroFiche');
+			$Fiche = ModelFicheTechnique::select($NumeroFiche);
+			$NomFiche = $Fiche->GetNomFiche();
 			ModelFicheTechnique::delete($NumeroFiche);
-			echo "ici";
 			$tab_u = ModelFicheTechnique::selectAll();
-			$NomFiche = ModelFicheTechnique::select('NomFiche');
 	        $view='deleted';
 	        $pagetitle='FicheTechnique supprimée';
 		    require_once File::build_path(array("view", "view.php"));
+		}
+	}
+
+	public static function update(){
+		if(is_null(myGet('NumeroFiche'))){
+        	$view='update';
+        	$pagetitle='Création d\'une Recette';
+        	$type = '';
+        	$action='created';
+	    	require_once File::build_path(array("view", "view.php"));
+		}
+		else{
+			$NumeroFiche = myGet('NumeroFiche');
+	    	$fiche = ModelFicheTechnique::select($NumeroFiche);
+	        $view='update';
+	        $pagetitle='Modification de la recette';
+	        $type = 'readonly';
+	        $action = 'updated';
+	    	require_once File::build_path(array("view", "view.php"));
 		}
 	}
 
