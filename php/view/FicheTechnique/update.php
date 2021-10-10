@@ -1,5 +1,13 @@
 <?php
 
+if($type=='readonly'){
+  $NomFiche = $fiche->getNomFiche();
+  $NbreCouverts = $fiche->getNbreCouverts();
+  $NomAuteur = $fiche->getNomAuteur();
+  $CoutFluide = $fiche->getCoutFluide();
+  $FK_NumeroCatFiche = $fiche->getFK_NumeroCatFiche();
+}
+
 echo '<!--Titré création de fiche technique -->
       <div class="container mt-5 bg-dark bg-gradient" align=center>
           <p class="fs-2" style="color:white;"> Création d\'une fiche technique </p>
@@ -22,14 +30,20 @@ echo '<!--Titré création de fiche technique -->
                             <div class="row g-2 align-items-center">
                                 <!-- première sous colonne -->
                                 <div class="col-auto">
-                                    <label for="NumeroFiche_id" class="col-form-label">
+                                    <label for="NomFiche_id" class="col-form-label">
                                     Nom de la fiche  
                                     </label>
                                 </div>
                                 <!-- Deuxième sous colonne -->
-                                <div class="col-auto">
-                                    <input type="text" id="NumeroFiche_id" name="NumeroFiche" class="form-control" placeholder="Ajoutez un nom" required/>                
-                                </div>
+                                <div class="col-auto">';
+                                if($type=='readonly'){
+                                  echo '<input type="hidden" id="NumeroFiche_id" name="NumeroFiche" class="form-control" value="'. $NumeroFiche . '" required/>';
+                                    echo '<input type="text" id="NomFiche_id" name="NomFiche" class="form-control" value="' . $NomFiche . '">';
+                                }
+                                else{
+                                  echo '<input type="text" id="NomFiche_id" name="NomFiche" class="form-control" placeholder="Ajoutez un nom" required/>';
+                                }
+                                echo '</div>
                             </div>
                         </li>
                         <!-- Input nombre de couverts-->
@@ -43,9 +57,14 @@ echo '<!--Titré création de fiche technique -->
                                     </label>
                                 </div>
                                 <!-- Deuxième sous colonne -->
-                                <div class="col-auto">
-                                    <input type="number" id="NbreCouverts_id" name="NbreCouverts" class="form-control" placeholder="Ajoutez un nombre de couverts" required/>                
-                                </div>
+                                <div class="col-auto">';
+                                if($type=='readonly'){
+                                    echo '<input type="number" id="NbreCouverts_id" name="NbreCouverts" class="form-control" value="' . $NbreCouverts . '">';
+                                  }
+                                  else{
+                                    echo '<input type="number" id="NbreCouverts_id" name="NbreCouverts" class="form-control" placeholder="Ajoutez un nombre de couverts" required/>';
+                                  }
+                                echo '</div>
                             </div>   
                         </li>
                         <!-- Input auteur-->
@@ -59,9 +78,14 @@ echo '<!--Titré création de fiche technique -->
                               </label>
                             </div>
                             <!-- Deuxième sous colonne -->
-                            <div class="col-auto">
-                              <input type="text" id="NomAuteur_id" name="NomAuteur" class="form-control" placeholder="Ajoutez le nom de l\'auteur" required/>                
-                            </div>
+                            <div class="col-auto">';
+                            if($type=='readonly'){
+                              echo '<input type="text" id="NomAuteur_id" name="NomAuteur" class="form-control" value="' . $NomAuteur . '">';
+                            }
+                            else{
+                              echo '<input type="text" id="NomAuteur_id" name="NomAuteur" class="form-control" placeholder="Ajoutez le nom de l\'auteur" required/>';
+                            }
+                            echo '</div>
                           </div>
                        </li>
                        <!-- Input Catégorie-->
@@ -75,9 +99,14 @@ echo '<!--Titré création de fiche technique -->
                               </label>
                             </div>
                             <!-- Deuxième sous colonne -->
-                            <div class="col-auto">
-                              <input type="text" id="FK_NumeroCatFiche_id" name="FK_NumeroCatFiche" class="form-control" list="ListeDesCatégories" placeholder="Ajoutez une catégorie" required/>
-                              <datalist id="ListeDesCatégories">
+                            <div class="col-auto">';
+                            if($type=='readonly'){
+                              echo '<input type="text" id="FK_NumeroCatFiche_id" name="FK_NumeroCatFiche" class="form-control" list="ListeDesCatégories" value="' . $FK_NumeroCatFiche . '">';
+                            }
+                            else{
+                              echo '<input type="text" id="FK_NumeroCatFiche_id" name="FK_NumeroCatFiche" class="form-control" list="ListeDesCatégories" placeholder="Ajoutez une catégorie" required/>';
+                            }
+                              echo '<datalist id="ListeDesCatégories">
                                 <option value="Dessert">
                                 <option value="Diner">
                                 <option value="Entrée">
@@ -145,9 +174,14 @@ echo '<!--Titré création de fiche technique -->
                                 </label>
                               </div>
                               <!-- Deuxième sous colonne -->
-                              <div class="col-auto">
-                                <input type="number" id="CoutFluide_id" name="CoutFluide" class="form-control" placeholder="Ajoutez un coût fluide" required/>              
-                              </div>
+                              <div class="col-auto">';
+                              if($type=='readonly'){
+                                echo '<input type="number" id="CoutFluide_id" name="CoutFluide" class="form-control" value="' . $CoutFluide . '">';   
+                              }
+                              else{
+                                echo '<input type="number" id="CoutFluide_id" name="CoutFluide" class="form-control" placeholder="Ajoutez un coût fluide" required/>';
+                              }
+                              echo '</div>
                             </div> 
                         </li>
                     </ul>
@@ -473,10 +507,16 @@ echo '<!--Titré création de fiche technique -->
           <div class="mt-3 mb-5 " align=center>
             <button class="btn btn-dark" type="button">
               <i class="bi bi-folder-plus"></i>
-              <input type=\'hidden\' name=\'controller\' value=\'ficheTechnique\'>
-              <input type=\'hidden\' name=\'action\' value=\'updated\'>
-              <input class="btn btn-dark" type="submit" value="Créer la fiche technique" />
-            </button>
+              <input type=\'hidden\' name=\'controller\' value=\'ficheTechnique\'>';
+              if($type=='readonly'){
+                echo '<input type=\'hidden\' name=\'action\' value=\'updated\'>';
+                echo '<input class="btn btn-dark" type="submit" value="Modifier la fiche technique" />';
+              }
+              else{
+                echo '<input type=\'hidden\' name=\'action\' value=\'created\'>';
+                echo '<input class="btn btn-dark" type="submit" value="Créer la fiche technique" />';
+              }
+            echo '</button>
             <button class="btn btn-dark" type="button">
               <i class="bi bi-emoji-heart-eyes"></i>
               Aperçu fiche 

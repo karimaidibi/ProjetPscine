@@ -32,8 +32,8 @@ class ModelFicheTechnique extends Model{
         return $this->CoutFluide;
     }
 
-    public function getNumeroCatFiche(){
-        return $this->$FK_NumeroCatFiche;
+    public function getFK_NumeroCatFiche(){
+        return $this->FK_NumeroCatFiche;
     }
 
 	public function setNumeroFiche($NumeroFiche2){
@@ -56,13 +56,12 @@ class ModelFicheTechnique extends Model{
         $this->CoutFluide = $CoutFluide2;
     }
 
-    public function setNumeroCatFiche($NumeroCatFiche2){
+    public function setFK_NumeroCatFiche($NumeroCatFiche2){
         $this->$FK_NumeroCatFiche = $NumeroCatFiche2;
     }
 
-	public function __construct($NumeroFiche = NULL, $NomFiche = NULL, $NbreCouverts = NULL, $NomAuteur = NULL, $CoutFluide = NULL, $FK_NumeroCatFiche = NULL) {
-  	if (!is_null($NumeroFiche)) {
-	    $this->NumeroFiche = $NumeroFiche;
+	public function __construct($NomFiche = NULL, $NbreCouverts = NULL, $NomAuteur = NULL, $CoutFluide = NULL, $FK_NumeroCatFiche = NULL) {
+  	if (!is_null($NomFiche)) {
         $this->NomFiche = $NomFiche;
         $this->NbreCouverts = $NbreCouverts;
         $this->NomAuteur = $NomAuteur;
@@ -96,12 +95,11 @@ class ModelFicheTechnique extends Model{
 
     public function save() {
         try {
-            $sql = "INSERT INTO FicheTechnique VALUES (:NumeroFiche, :NomFiche, :NbreCouverts, :NomAuteur, :CoutFluide, :FK_NumeroCatFiche)";
+            $sql = "INSERT INTO FicheTechnique (NomFiche, NbreCouverts, NomAuteur, CoutFluide, FK_NumeroCatFiche) VALUES (:NomFiche, :NbreCouverts, :NomAuteur, :CoutFluide, :FK_NumeroCatFiche)";
             // Préparation de la requête
             $req_prep = Model::$pdo->prepare($sql);
 
             $values = array(
-                "NumeroFiche" => self::configNumeroFiche()+1,
                 "NomFiche" => $this->NomFiche,
                 "NbreCouverts" => $this->NbreCouverts,
                 "NomAuteur" => $this->NomAuteur,
@@ -110,7 +108,6 @@ class ModelFicheTechnique extends Model{
             );
             // On donne les valeurs et on exécute la requête     
             $req_prep->execute($values);
-            // echo $sql;
         } catch (PDOException $e) {
             if (Conf::getDebug()) {
                 echo $e->getMessage(); // affiche un message d'erreur

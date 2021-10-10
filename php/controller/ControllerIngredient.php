@@ -1,6 +1,7 @@
 <?php
 ini_set('display_errors', 'on'); 
 require_once File::build_path(array("model", "ModelIngredient.php"));
+require_once File::build_path(array("controller", "ControllerFicheTechnique.php"));
 class ControllerIngredient{
 
 	protected static $object='ingredient';
