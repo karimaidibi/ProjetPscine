@@ -1,6 +1,6 @@
 <?php
 require_once File::build_path(array("model", "Model.php"));
-class ModelCategorie extends Model{
+class ModelCategorie_Fiche extends Model{
 
 	protected static $object = 'Categorie_Fiche';
 	protected static $primary='NumeroCatFiche';
