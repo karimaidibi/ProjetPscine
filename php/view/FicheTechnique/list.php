@@ -47,7 +47,7 @@ echo '<div class=" container mt-5 bg-dark bg-gradient" align=center style="color
             <div class="col-4">
                 <button type="button" class="btn btn-dark">
                     <i class="bi bi-plus-square"></i>
-                    <a class="" href="index.php?controller=ficheTechnique&action=update">Créer une ficher technique</a>
+                    <a class="" href="index.php?controller=ficheTechnique&action=update" style="color:white; text-decoration:none">Créer une ficher technique</a>
                 </button>
             </div>
         </div>
@@ -77,14 +77,14 @@ foreach ($tab_u as $u)
     $NbreCouverts = $u->getNbreCouverts();
     $NomAuteur = $u->getNomAuteur();
     $CoutFluide = $u->getCoutFluide();
-    
+    $NumCategorieFiche = $u->getFK_NumeroCatFiche();
   
 
     echo '<tr>
         <td>'.$NomFiche.'</td>
         <td>'.$NbreCouverts.'</td>
         <td>'. $NomAuteur.'</td>
-        <td>@mdo</td>
+        <td>'. $NumCategorieFiche.'</td>
         <td>
             <div class="d-grid gap-2 d-md-block">
                 <button class="btn btn-success" type="button">
