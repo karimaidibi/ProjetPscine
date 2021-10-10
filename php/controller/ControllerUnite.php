@@ -1,20 +1,20 @@
 <?php
-require_once File::build_path(array("model", "ModelCategorie.php"));
-class ControllerCategorie{
+require_once File::build_path(array("model", "ModelUnite.php"));
+class ControllerUnite{
 
-	protected static $object='categorie';
+	protected static $object='unite';
 
 	public static function readAll() {
-        $tab_u = ModelCategorie::selectAll();     //appel au modèle pour gerer la BD  //"redirige" vers la vue
+        $tab_u = ModelUnite::selectAll();     //appel au modèle pour gerer la BD  //"redirige" vers la vue
         $view='list';
-        $pagetitle='Liste des catégories';
+        $pagetitle='Liste des unités';
         require_once File::build_path(array("view", "view.php"));
     }
 
     public static function read(){
-    	if(!is_null(myGet('idC'))){
-	    	$idC = myGet('idC');
-	    	$u = ModelCategorie::select($idCategorie);
+    	if(!is_null(myGet('idU'))){
+	    	$idU = myGet('idU');
+	    	$u = ModelUnite::select($idUnite);
 	    	if($u==false){
         		$view='error';
         		$pagetitle='Page 404';
@@ -22,7 +22,7 @@ class ControllerCategorie{
 	    	}
 	    	else{
         		$view='detail';
-        		$pagetitle='Catégorie ' . $idC;
+        		$pagetitle='Catégorie ' . $idU;
 	    		require_once File::build_path(array("view", "view.php"));
 	    	}
     	}
@@ -34,25 +34,25 @@ class ControllerCategorie{
 	}
 
 	public static function delete(){
-		if(!is_null(myGet('idC'))){
+		if(!is_null(myGet('idU'))){
         	$view='error';
         	$pagetitle='Page 404';
 	    	require_once File::build_path(array("view", "view.php"));
 		}
 		else{
-			$idC = myGet('idC');
-			ModelCategorie::delete($idCategorie);
-			$tab_u = ModelCategorie::selectAll();
+			$idU = myGet('idU');
+			ModelUnite::delete($idUnite);
+			$tab_u = ModelUnite::selectAll();
 	        $view='deleted';
 	        $pagetitle='Catégorie supprimé';
 		    require_once File::build_path(array("view", "view.php"));
 		}
 	}
 
-	public static function create($nomC){
-        $v1 = new ModelCategorie($nomC);
+	public static function create($nomU){
+        $v1 = new ModelUnite($nomU);
 		$v1->save();
-		return $v1->getIdCategorie();
+		return $v1->getIdUnite();
 	}
 }
 ?>

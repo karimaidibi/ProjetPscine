@@ -1,20 +1,21 @@
 <?php
-require_once File::build_path(array("model", "ModelCategorie.php"));
-class ControllerCategorie{
+ini_set('display_errors', 'on'); 
+require_once File::build_path(array("model", "ModelIngredient.php"));
+class ControllerIngredient{
 
-	protected static $object='categorie';
+	protected static $object='ingredient';
 
 	public static function readAll() {
-        $tab_u = ModelCategorie::selectAll();     //appel au modèle pour gerer la BD  //"redirige" vers la vue
+        $tab_u = ModelIngredient::selectAll();     //appel au modèle pour gerer la BD  //"redirige" vers la vue
         $view='list';
         $pagetitle='Liste des catégories';
         require_once File::build_path(array("view", "view.php"));
     }
 
     public static function read(){
-    	if(!is_null(myGet('idC'))){
-	    	$idC = myGet('idC');
-	    	$u = ModelCategorie::select($idCategorie);
+    	if(!is_null(myGet('idI'))){
+	    	$idI = myGet('idI');
+	    	$u = ModelIngredient::select($idIngredient);
 	    	if($u==false){
         		$view='error';
         		$pagetitle='Page 404';
@@ -22,7 +23,7 @@ class ControllerCategorie{
 	    	}
 	    	else{
         		$view='detail';
-        		$pagetitle='Catégorie ' . $idC;
+        		$pagetitle='Catégorie ' . $idI;
 	    		require_once File::build_path(array("view", "view.php"));
 	    	}
     	}
@@ -34,25 +35,25 @@ class ControllerCategorie{
 	}
 
 	public static function delete(){
-		if(!is_null(myGet('idC'))){
+		if(!is_null(myGet('idI'))){
         	$view='error';
         	$pagetitle='Page 404';
 	    	require_once File::build_path(array("view", "view.php"));
 		}
 		else{
-			$idC = myGet('idC');
-			ModelCategorie::delete($idCategorie);
-			$tab_u = ModelCategorie::selectAll();
+			$idI = myGet('idI');
+			ModelIngredient::delete($idIngredient);
+			$tab_u = ModelIngredient::selectAll();
 	        $view='deleted';
 	        $pagetitle='Catégorie supprimé';
 		    require_once File::build_path(array("view", "view.php"));
 		}
 	}
 
-	public static function create($nomC){
-        $v1 = new ModelCategorie($nomC);
+	public static function create($nomI,$prixI){
+        $v1 = new ModelIngredient($nomI,$prixI);
 		$v1->save();
-		return $v1->getIdCategorie();
+		return $v1->getIdIngredient();
 	}
 }
 ?>

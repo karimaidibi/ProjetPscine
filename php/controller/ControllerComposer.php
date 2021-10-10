@@ -11,9 +11,10 @@ class ControllerComposer{
     }
 
     public static function read(){
-    	if(!is_null(myGet('NumIngredient'))){
+    	if(!is_null(myGet('NumIngredient')) && !is_null(myGet('NumeroFiche'))){
 	    	$NumIngredient = myGet('NumIngredient');
-	    	$u = ModelComposer::select($NumIngredient);
+	    	$NumeroFiche = myGet('NumeroFiche');
+	    	$u = ModelComposer::selectV2($NumIngredient,$NumeroFiche);
 	    	if($u==false){
         		$view='error';
         		$pagetitle='Page 404';
@@ -21,7 +22,7 @@ class ControllerComposer{
 	    	}
 	    	else{
         		$view='detail';
-        		$pagetitle='Composer ' . $NumIngredient;
+        		$pagetitle='Composition ' . $NumIngredient;
 	    		require_once File::build_path(array("view", "view.php"));
 	    	}
     	}
@@ -33,14 +34,15 @@ class ControllerComposer{
 	}
 
 	public static function delete(){
-		if(!is_null(myGet('NumIngredient'))){
+		if(!is_null(myGet('NumIngredient')) && !is_null(myGet('NumeroFiche'))){
         	$view='error';
         	$pagetitle='Page 404';
 	    	require_once File::build_path(array("view", "view.php"));
 		}
 		else{
 			$NumIngredient = myGet('NumIngredient');
-			ModelComposer::delete($NumIngredient);
+			$NumeroFiche = myGet('NumeroFiche');
+			ModelComposer::deleteV2($NumIngredient,$NumeroFiche);
 			$tab_u = ModelComposer::selectAll();
 	        $view='deleted';
 	        $pagetitle='Composition supprimée';
@@ -48,8 +50,8 @@ class ControllerComposer{
 		}
 	}
 
-	public static function create($NumeroFiche,$QuantiteIngredient){
-        $v1 = new ModelComposer($NumeroFiche,$QuantiteIngredient);
+	public static function create($NumIngredient,$NumeroFiche,$QuantiteIngredient){
+        $v1 = new ModelComposer($NumIngredient,$NumeroFiche,$QuantiteIngredient);
 		$v1->save();
 		return $v1->getNumIngredient();
 	}

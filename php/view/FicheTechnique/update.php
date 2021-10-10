@@ -1,0 +1,498 @@
+<?php
+
+echo '<!--Titré création de fiche technique -->
+      <div class="container mt-5 bg-dark bg-gradient" align=center>
+          <p class="fs-2" style="color:white;"> Création d\'une fiche technique </p>
+      </div>
+
+      <!---la division qui  contient tout le form de création de la fiche technique
+            - en appuyant sur submit, tout le contenu de ce form va etre validé en meme temps-->
+      <div class="container-fluid mt-5 ps-4 pe-3 bg-light bg-gradient">
+        <form>
+            <!--liste d input des  Descriptifs et des coeff -->
+            <div class="row row-cols-2 justify-content-around pt-4">
+                <!-- la liste d inpput des descriptifs dans une colonne-->
+                <div class="col-6 bg-dark" >
+                    <ul class="list-group list-group-flush">
+                        <!-- Descriptifs-->
+                        <li class="list-group-item"><strong>Descriptifs</strong></li>
+                        <!-- Input Nom de la fiche -->
+                        <li class="list-group-item list-group-item-dark">
+                            <!-- Ligne contenante deux colonnes  -->
+                            <div class="row g-2 align-items-center">
+                                <!-- première sous colonne -->
+                                <div class="col-auto">
+                                    <label for="NumeroFiche_id" class="col-form-label">
+                                    Nom de la fiche  
+                                    </label>
+                                </div>
+                                <!-- Deuxième sous colonne -->
+                                <div class="col-auto">
+                                    <input type="text" id="NumeroFiche_id" name="NumeroFiche" class="form-control" placeholder="Ajoutez un nom" required/>                
+                                </div>
+                            </div>
+                        </li>
+                        <!-- Input nombre de couverts-->
+                        <li class="list-group-item">
+                            <!-- Ligne dans la colonne -->
+                            <div class="row g-2 align-items-center">
+                                <!-- première sous colonne -->
+                                <div class="col-auto">
+                                    <label for="NbreCouverts_id" class="col-form-label">
+                                        Nombre de couverts  
+                                    </label>
+                                </div>
+                                <!-- Deuxième sous colonne -->
+                                <div class="col-auto">
+                                    <input type="number" id="NbreCouverts_id" name="NbreCouverts" class="form-control" placeholder="Ajoutez un nombre de couverts" required/>                
+                                </div>
+                            </div>   
+                        </li>
+                        <!-- Input auteur-->
+                        <li class="list-group-item list-group-item-dark">
+                          <!-- Ligne dans la liste, contenante deux colonnes, une label et un input--->
+                          <div class="row g-2 align-items-center">
+                            <!-- première sous colonne -->
+                            <div class="col-auto">
+                              <label for="NomAuteur_id" class="col-form-label">
+                                Nom de l\'auteur  
+                              </label>
+                            </div>
+                            <!-- Deuxième sous colonne -->
+                            <div class="col-auto">
+                              <input type="text" id="NomAuteur_id" name="NomAuteur" class="form-control" placeholder="Ajoutez le nom de l\'auteur" required/>                
+                            </div>
+                          </div>
+                       </li>
+                       <!-- Input Catégorie-->
+                       <li class="list-group-item">
+                          <!-- Ligne contenante deux colonnes, un label et un input -->
+                          <div class="row g-2 align-items-center">
+                            <!-- première sous colonne -->
+                            <div class="col-auto">
+                              <label for="FK_NumeroCatFiche_id" class="col-form-label">
+                                Catégorie de la fiche  
+                              </label>
+                            </div>
+                            <!-- Deuxième sous colonne -->
+                            <div class="col-auto">
+                              <input type="text" id="FK_NumeroCatFiche_id" name="FK_NumeroCatFiche" class="form-control" list="ListeDesCatégories" placeholder="Ajoutez une catégorie" required/>
+                              <datalist id="ListeDesCatégories">
+                                <option value="Dessert">
+                                <option value="Diner">
+                                <option value="Entrée">
+                              </datalist>               
+                            </div>
+                          </div>
+                        </li>
+                    </ul>
+                </div>
+                <!-- La liste d input des coefficients utilisés dans la fiche technique dans une colonne-->
+                <div class="col-6">
+                    <ul class="list-group list-group-flush">
+                        <!-- La liste d input des Coefficients utilisés-->
+                        <li class="list-group-item"><strong>Couts et Coefficients utlisés</strong></li>
+                        <!-- input Coeff Ass -->
+                        <li class="list-group-item list-group-item-dark">
+                            <!-- Ligne contenante deux colonnes, un label et un input pour le coeff Ass -->
+                            <div class="row g-2 align-items-center">
+                              <!-- première sous colonne -->
+                              <div class="col-auto">
+                                <label for="CoeffAss" class="col-form-label">
+                                  Coefficient Ass  
+                                </label>
+                              </div>
+                              <!-- Deuxième sous colonne -->
+                              <div class="col-auto">
+                                <input type="number" id="CoeffAss" class="form-control" list="ListeDesCoeff" placeholder="Ajouter un Coeff...">
+                                <datalist id="ListeDesCoeff">
+                                  <option value="0.5">
+                                  <option value="7">
+                                  <option value="5">
+                                </datalist>               
+                              </div>
+                            </div>    
+                        </li>
+                        <!--input Coeff cout personnel-->
+                        <li class="list-group-item">
+                            <!-- Ligne contenante deux colonnes, un label et un input pour le coeff Ass -->
+                            <div class="row g-2 align-items-center">
+                              <!-- première sous colonne -->
+                              <div class="col-auto">
+                                <label for="CoeffPersonnel" class="col-form-label">
+                                  Coefficient cout personnel  
+                                </label>
+                              </div>
+                              <!-- Deuxième sous colonne -->
+                              <div class="col-auto">
+                                <input type="number" id="CoeffPersonnel" class="form-control" list="ListeDesCoeff" placeholder="Ajouter un Coeff...">
+                                <datalist id="ListeDesCoeff">
+                                  <option value="0.5">
+                                  <option value="7">
+                                  <option value="5">
+                                </datalist>               
+                              </div>
+                            </div> 
+                        </li>
+                        <!-- input Cout de fluide -->
+                        <li class="list-group-item list-group-item-dark">
+                            <!-- Ligne contenante deux colonnes, un label et un input pour le coeff Ass -->
+                            <div class="row g-2 align-items-center">
+                              <!-- première sous colonne -->
+                              <div class="col-auto">
+                                <label for="CoutFluide_id" class="col-form-label">
+                                  Cout de fluide  
+                                </label>
+                              </div>
+                              <!-- Deuxième sous colonne -->
+                              <div class="col-auto">
+                                <input type="number" id="CoutFluide_id" name="CoutFluide" class="form-control" placeholder="Ajoutez un coût fluide" required/>              
+                              </div>
+                            </div> 
+                        </li>
+                    </ul>
+                </div>
+            </div>
+          <!-- Une ligne qui contient :
+                - une colonne pour ajouter des progressions dans la table de progression
+                - une colonne pour ajouter des ingrédients dans la table Ingrédients avec les prix etc -->
+            <div class="row row-cols-2 justify-content-around pt-4">
+              <!-- 1ère colonne (colonne des progressions ) -->
+              <div class ="col-4 pt-4 ">
+                  <!-- Area text pour une nouvelle progression-->
+                  <!-- Premier group d input -->
+                  <label for="progression" class="form-label">J\'ajoute une nouvelle progression : </label>
+                  <div class="input-group">
+                    <button class="btn btn-dark" type="button">
+                      <i class="bi bi-plus-square"></i>
+                    </button>
+                    <textarea class="form-control" id="progression" rows="3"></textarea>
+                  </div>
+                  <!-- Barre de recherche pour une progression existante -->
+                  <!-- Deuxième group d\'input -->
+                  <p class ="mt-3">Ou je choisis une progression que j\'ai déjà créée : </p>
+                  <div class="input-group">
+                    <button class="btn btn-dark" type="button">
+                      <i class="bi bi-plus-square"></i>
+                    </button>
+                    <input class="form-control" list="listeDeProgressions" placeholder="Chercher une progression..">
+                    <datalist id="listeDeProgressions" >
+                      <option value="verser le lait">
+                      <option value="mettre du sucre">
+                    </datalist>
+                  </div>
+                  <!-- Les progressions de la fiche sous forme d\'une table-->
+                  <div class="container-fluid mt-3">
+                    <table class="table table-striped table-hover">
+                      <thead class="table-dark">
+                        <tr>
+                          <th scope="col"></th>
+                          <th scope="col"> Progressions </th>
+                          <th scope="col"></th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <th scope="row">1</th>
+                          <td>Verser 3ml du lait puis chauffer à feu douce</td>
+                          <td>
+                            <button class="btn btn-danger" type="button">
+                              <i class="bi bi-trash" style="font-size: 1rem;" ></i>
+                            </button>                            
+                          </td>
+                        </tr>
+                        <tr>
+                          <th scope="row">2</th>
+                          <td>Couper la viande en morceaux </td>
+                          <td>
+                            <button class="btn btn-danger" type="button">
+                              <i class="bi bi-trash" style="font-size: 1rem;" ></i>
+                            </button>                            
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+              </div>
+              <!-- Deuxème colonne (colonne des ingrédients ) -->
+              <div class ="col-8 pt-4">
+                  <!-- Barre de recherche des ingrédients pour rajouter un ingrédient-->
+                  <div class="ps-5 ms-2">
+                    <label for="AjouterIngrédient" class="form-label"> J\'ajoute un ingrédient : </label>
+                  </div>
+                  <!-- Flex pour regrouper licon recherche avec la barre de recherche -->
+                  <div class="container d-inline-flex bd-highlight">
+                    <!-- L\'icon de recherche -->
+                    <div class="flex-shrink-0 mt-1">
+                            <i class="bi bi-search"></i>
+                    </div>
+                    <!-- La barre de recherche -->
+                    <div class="flex-grow-1 ms-3 ">
+                      <!-- Input group qui rassemble le bouton d\'ajout a la barre de recherche -->
+                      <div class="input-group">
+                        <button class="btn btn-dark" type="button">
+                          <i class="bi bi-plus-square"></i>
+                        </button>
+                        <input class="form-control" list="listeDesIngrédients" id="AjouterIngrédient" placeholder="Chercher un ingrédient..">
+                        <datalist id="listeDesIngrédients">
+                            <option value="choco framboise">
+                            <option value="coeur choco">
+                            <option value="malakoff">
+                            <option value="arrancini pesto">
+                            <option value="arrancini boeuf">
+                            <option value="choco framboise">
+                            <option value="coeur choco">
+                            <option value="malakoff">
+                            <option value="arrancini pesto">
+                            <option value="arrancini boeuf">
+                            <option value="choco framboise">
+                            <option value="coeur choco">
+                            <option value="malakoff">
+                            <option value="arrancini pesto">
+                            <option value="arrancini boeuf">
+                            <option value="choco framboise">
+                            <option value="coeur choco">
+                            <option value="malakoff">
+                            <option value="arrancini pesto">
+                            <option value="arrancini boeuf">
+                            <option value="choco framboise">
+                            <option value="coeur choco">
+                            <option value="malakoff">
+                            <option value="arrancini pesto">
+                            <option value="arrancini boeuf">
+                            <option value="choco framboise">
+                            <option value="coeur choco">
+                            <option value="malakoff">
+                            <option value="arrancini pesto">
+                            <option value="arrancini boeuf">
+                        </datalist>
+                      </div> 
+                    </div>                   
+                  </div>
+                  <!-- Les Ingrédients de la fiche sous forme d une table, en colonne
+                      - Dénomination : 
+                          -  Code | Ingrédient | Unité 
+                      - Valorisation :
+                          -  Quantité | PrixU | PTHT-->
+                  <div class="pt-4 ms-4">
+                    <table class="table table-striped table-hover align-middle">
+                      <thead class="table-dark">
+                          <!-- Prémière ligne-->
+                          <tr>
+                            <!-- première colonne-->
+                          <th scope="col" colspan="3">DENOMINATION</th>
+                          <!-- Deuxième colonne -->
+                          <th scope="col" colspan="3">VALORISATION</th>
+                          </tr>
+                          <!-- Deuxième ligne-->
+                          <tr>
+                            <!-- première colonne-->
+                            <th scope="col">CODE</th>
+                            <!-- deuxième colonne-->
+                            <th scope="col">Ingrédient</th>
+                            <!-- 3ème colonne-->
+                            <th scope="col">UNITE</th>
+                            <!-- 4ème colonne-->
+                            <th scope="col">QUANTITE</th>
+                            <!-- 5ème colonne-->
+                            <th scope="col">PRIXU</th>
+                            <!-- 6ème colonne-->
+                            <th scope="col">PTHT</th>
+                            <!-- 7ème colonne-->
+                            <th scope="col"></th> 
+                          </tr>
+                      </thead>
+                      <tbody>
+                          <!-- 3ème  ligne-->
+                          <tr>
+                            <!-- Première colonne (code) -->
+                            <th scope="row">1</th>
+                            <!-- deuxième colonne (ingrédient)-->
+                            <td>Tomate</td>
+                            <!-- 3ème colonne (Unitairé)-->
+                            <td>Kg</td>
+                            <!-- 4èmme colonne (Qté_Ing)-->
+                            <td>
+                                <input type="number" class="form-control w-50" placeholder="Qté...">
+                            </td>
+                            <!-- 5ème colonne (PrixU)-->
+                            <td>5€</td>
+                            <!-- 6èmme colonne(PTHT)-->
+                            <td>0.2€</td>
+                            <!-- 7ème colonne (le bouton supprimer une ligne de la table)-->
+                            <td>
+                              <button class="btn btn-danger" type="button">
+                                <i class="bi bi-trash" style="font-size: 1rem;" ></i>
+                              </button>               
+                            </td>
+                          </tr>
+                          <!--4ème lignne-->
+                            <!-- 3ème  ligne-->
+                            <tr>
+                              <!-- Première colonne (code) -->
+                              <th scope="row">1</th>
+                              <!-- deuxième colonne (ingrédient)-->
+                              <td>Tomate</td>
+                              <!-- 3ème colonne (Unitairé)-->
+                              <td>Kg</td>
+                              <!-- 4èmme colonne (Qté_Ing)-->
+                              <td>
+                                  <input type="number" class="form-control w-50" placeholder="Qté...">
+                              </td>
+                              <!-- 5ème colonne (PrixU)-->
+                              <td>5€</td>
+                              <!-- 6èmme colonne(PTHT)-->
+                              <td>0.2€</td>
+                              <!-- 7ème colonne (le bouton supprimer une ligne de la table)-->
+                              <td>
+                                <button class="btn btn-danger" type="button">
+                                  <i class="bi bi-trash" style="font-size: 1rem;" ></i>
+                                </button>               
+                              </td>
+                            </tr>
+                      </tbody>
+                    </table>
+                  </div>
+              </div>
+            </div>
+            <!-- une ligne contenante un input pour rajouter des fiches techniques  -->
+            <div class="row row-cols-2 pt-4">
+                <!-- Les prix de la fichetechniques -->
+                <div class="col-4">
+                  <table class="table table-striped table-hover">
+                    <thead class="table-dark">
+                        <tr>
+                        <th scope="col" colspan="2"> Prix </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                        <th scope="row">Total Denrées</th>
+                        <td>197,8 €</td>
+                        </tr>
+                        <tr>
+                        <th scope="row">ASS 5%</th>
+                        <td>9,8 €</td>
+                        </tr>
+                        <tr>
+                        <th scope="row">Cout Matières</th>
+                        <td>197,8 €</td>
+                        </tr>
+                        <tr>
+                        <th scope="row">Cout Personnel</th>
+                        <td>197,8 €</td>
+                        </tr>
+                        <tr>
+                        <th scope="row">Cout Fluide</th>
+                        <td>197,8 €</td>
+                        </tr>
+                        <tr>
+                        <th scope="row">Cout de production Total</th>
+                        <td>197,8 €</td>
+                        </tr>
+                        <tr>
+                        <th scope="row">Cout de production portion</th>
+                        <td>197,8 €</td>
+                        </tr>
+                    </tbody>
+                  </table> 
+                </div> 
+                <!-- les fiches techniques -->
+                <div class="col-8">
+                  <!-- Barre de recherche pour une fiche technique existante -->
+                  <!--  group d input -->
+                  <lable class="form-label" for="FichesTechniques">
+                    Je rajoute une autre fiche technique à ma fiche technique : 
+                  </lable>
+                  <div class="input-group pt-4">
+                    <button class="btn btn-dark" type="button">
+                      <i class="bi bi-plus-square"></i>
+                    </button>
+                    <input id="FichesTechniques" class="form-control" list="listeDesFichesTechniques" placeholder="Chercher une fiche..">
+                    <datalist id="listeDesFichesTechniques" >
+                      <option value="malakoff">
+                      <option value="arranci pesto ">
+                    </datalist>
+                  </div>
+                  <div class="pt-4">
+                      <!------LA TABLE QUI CONTIENT LES FICHES TECHNIQUES--------->
+                      <table class="table table-striped table-hover align-middle">
+                        <thead class = "table-dark">
+                        <tr>
+                            <th scope="col">Code</th>
+                            <th scope="col">NomFiche</th>
+                            <th scope="col">NbreCouverts</th>
+                            <th scope="col">NomAuteur</th>
+                            <th scope="col">Catégorie</th>
+                            <th scope="col"></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                              <th scope="row">1</th>
+                              <td>Malakoff</td>
+                              <td>4</td>
+                              <td>karim</td>
+                              <td>Dessert</td>
+                              <td>
+                                <button class="btn btn-danger" type="button">
+                                    <i class="bi bi-trash" style="font-size: 1rem;" ></i>
+                                </button>
+                              </td>
+                          </tr>
+                          <tr>
+                              <th scope="row">1</th>
+                              <td>Malakoff</td>
+                              <td>4</td>
+                              <td>karim</td>
+                              <td>Dessert</td>
+                              <td>
+                                <button class="btn btn-danger" type="button">
+                                    <i class="bi bi-trash" style="font-size: 1rem;" ></i>
+                                </button>
+                              </td>
+                          </tr>
+                          <tr>
+                              <th scope="row">1</th>
+                              <td>Malakoff</td>
+                              <td>4</td>
+                              <td>karim</td>
+                              <td>Dessert</td>
+                              <td>
+                                <button class="btn btn-danger" type="button">
+                                    <i class="bi bi-trash" style="font-size: 1rem;" ></i>
+                                </button>
+                              </td>
+                          </tr>
+                        </tbody>
+                    </table>
+                  </div>
+                </div>
+            </div>
+          <!-- validation -->
+          <div class="mt-3 mb-5 " align=center>
+            <button class="btn btn-dark" type="button">
+              <i class="bi bi-folder-plus"></i>
+              <input type=\'hidden\' name=\'controller\' value=\'ficheTechnique\'>
+              <input type=\'hidden\' name=\'action\' value=\'updated\'>
+              <input class="btn btn-dark" type="submit" value="Créer la fiche technique" />
+            </button>
+            <button class="btn btn-dark" type="button">
+              <i class="bi bi-emoji-heart-eyes"></i>
+              Aperçu fiche 
+            </button>             
+          </div>
+        </form>
+      </div>
+      <!-- Optional JavaScript; choose one of the two! -->
+
+      <!-- Option 1: Bootstrap Bundle with Popper -->
+      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+
+      <!-- Option 2: Separate Popper and Bootstrap JS -->
+      <!--
+      <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
+      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
+      -->'
+
+?>

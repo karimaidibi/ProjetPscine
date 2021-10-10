@@ -3,36 +3,46 @@ require_once File::build_path(array("model", "Model.php"));
 class ModelInclure extends Model{
 
 	protected static $object = 'Inclure';
-	protected static $primary='NumeroFiche';
+	protected static $primary='FK_NumeroFiche';
 
-	private $NumeroFiche;
-	private $NumeroSousFiche;
+	private $FK_NumeroFiche;
+	private $FK_NumeroSousFiche;
+    private $Ordre;
 
-    public function getNumeroFiche(){
-        return $this->NumeroFiche;
+    public function getFK_NumeroFiche(){
+        return $this->FK_NumeroFiche;
     }
 
-	public function getNumeroSousFiche(){
-		return $this->NumeroSousFiche;
+	public function getFK_NumeroSousFiche(){
+		return $this->FK_NumeroSousFiche;
 	}
 
-	public function setNumeroFiche($NumeroFiche2){
-		$this->NumeroFiche = $NumeroFiche2;
+    public function getOrdre(){
+        return $this->Ordre;
+    }
+
+	public function setFK_NumeroFiche($FK_NumeroFiche2){
+		$this->FK_NumeroFiche = $FK_NumeroFiche2;
 	}
 
-	public function setNumeroSousFiche($NumeroSousFiche2){
-		$this->NumeroSousFiche = $NumeroSousFiche2;
+	public function setFK_NumeroSousFiche($FK_NumeroSousFiche2){
+		$this->FK_NumeroSousFiche = $FK_NumeroSousFiche2;
 	}
 
-	public function __construct($NumeroFiche = NULL, $NumeroSousFiche = NULL) {
-  	if (!is_null($NumeroFiche)) {
-	    $this->NumeroFiche = $NumeroFiche;
-        $this->NumeroSousFiche = $NumeroSousFiche;
+    public function setOrdre($Ordre2){
+        $this->Ordre = $Ordre2;
+    }
+
+	public function __construct($FK_NumeroFiche = NULL, $FK_NumeroSousFiche = NULL, $Ordre = NULL) {
+  	if (!is_null($FK_NumeroFiche) && !is_null($FK_NumeroSousFiche) && !is_null($Ordre)) {
+	    $this->FK_NumeroFiche = $FK_NumeroFiche;
+        $this->FK_NumeroSousFiche = $FK_NumeroSousFiche;
+        $this->Ordre = $Ordre;
         }
   	}
 
-  	public function NumeroFicheExiste($NumA) {
-      $sql = "SELECT COUNT(*) FROM Inclure WHERE NumeroFiche = $NumA";
+  	public function FK_NumeroFicheExiste($NumA) {
+      $sql = "SELECT COUNT(*) FROM Inclure WHERE FK_NumeroFiche = $NumA";
       $rep = Model::$pdo->query($sql);  
       $rep->setFetchMode(PDO::FETCH_CLASS, 'Inclure');
      
@@ -45,8 +55,8 @@ class ModelInclure extends Model{
       }
     }
 
-    public function configNumeroFiche() {
-      $sql = "SELECT MAX(NumeroFiche) FROM Inclure";
+    public function configOrdre() {
+      $sql = "SELECT MAX(Ordre) FROM Inclure";
       $rep = Model::$pdo->query($sql);  
       $rep->setFetchMode(PDO::FETCH_CLASS, 'Inclure');
      
@@ -54,15 +64,16 @@ class ModelInclure extends Model{
       return $resultat[0][0];
     }
 
-    public function save() {
+    public function save() {  //A revoir pour la sauvegarde de l'ordre !!!
         try {
-            $sql = "INSERT INTO Inclure VALUES (:NumeroFiche, :NumeroSousFiche)";
+            $sql = "INSERT INTO Inclure VALUES (:FK_NumeroFiche, :FK_NumeroSousFiche, :Ordre)";
             // Préparation de la requête
             $req_prep = Model::$pdo->prepare($sql);
 
             $values = array(
-                "NumeroFiche" => self::configNumeroFiche()+1,
-                "NumeroSousFiche" => $this->NumeroSousFiche
+                "FK_NumeroFiche" => $this->FK_NumeroFiche,
+                "FK_NumeroSousFiche" => $this->FK_NumeroSousFiche,
+                "Ordre" => self::configOrdre()+1,
             );
             // On donne les valeurs et on exécute la requête     
             $req_prep->execute($values);

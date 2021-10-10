@@ -13,12 +13,12 @@
               <!-- div qui contient les margin-->
               <div class ="me-5 mt-2 mb-3 ">
                 <!-- Division qui contient le flex et définit son shadow-->
-                <div class="d-inline-flex p-2 bd-highlight shadow p-3 rounded"> <p class="fs-4"> <a class="nav-link" href="#">Ingrédients</a> </p> </div>
+                <div class="d-inline-flex p-2 bd-highlight shadow p-3 rounded"> <p class="fs-4"> <a class="nav-link" href="index.php?controller=ingredient&action=readAll">Ingrédients</a> </p> </div>
               </div>
               <!-- div qui contient les margin-->
               <div class="mb-3">
                 <!-- Division qui contient le flex et définit son shadow-->
-                <div class="d-inline-flex p-2 bd-highlight shadow p-3 rounded rounded-pill"> <p class ="fs-2"> <a class="nav-link active" aria-current="page" href="#">Accueil</a> </p> </div>
+                <div class="d-inline-flex p-2 bd-highlight shadow p-3 rounded rounded-pill"> <p class ="fs-2"> <a class="nav-link active" aria-current="page" href="index.php?controller=ficheTechnique&action=readAll">Accueil</a> </p> </div>
               </div>
               <!-- div qui contient les margin-->
               <div class ="ms-5 mt-2 mb-3">

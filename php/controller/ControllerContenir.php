@@ -11,9 +11,10 @@ class ControllerContenir{
     }
 
     public static function read(){
-    	if(!is_null(myGet('NumEtape'))){
+    	if(!is_null(myGet('NumEtape')) && !is_null(myGet('NumeroFiche'))){
 	    	$NumEtape = myGet('NumEtape');
-	    	$u = ModelContenir::select($NumEtape);
+	    	$NumeroFiche = myGet('NumeroFiche');
+	    	$u = ModelContenir::selectV2($NumEtape, $NumeroFiche);
 	    	if($u==false){
         		$view='error';
         		$pagetitle='Page 404';
@@ -33,14 +34,15 @@ class ControllerContenir{
 	}
 
 	public static function delete(){
-		if(!is_null(myGet('NumEtape'))){
+		if(!is_null(myGet('NumEtape')) && !is_null(myGet('NumeroFiche'))){
         	$view='error';
         	$pagetitle='Page 404';
 	    	require_once File::build_path(array("view", "view.php"));
 		}
 		else{
 			$NumEtape = myGet('NumEtape');
-			ModelContenir::delete($NumEtape);
+			$NumeroFiche = myGet('NumeroFiche');
+			ModelContenir::delete($NumEtape, $NumeroFiche, $Ordre);
 			$tab_u = ModelContenir::selectAll();
 	        $view='deleted';
 	        $pagetitle='Contenu supprimé';
@@ -48,10 +50,9 @@ class ControllerContenir{
 		}
 	}
 
-	public static function create($NumeroFiche){
-        $v1 = new ModelContenir($NumeroFiche);
+	public static function create($NumEtape, $NumeroFiche){
+        $v1 = new ModelContenir($NumEtape, $NumeroFiche);
 		$v1->save();
-		return $v1->getNumEtape();
 	}
 }
 ?>

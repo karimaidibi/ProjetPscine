@@ -20,7 +20,6 @@ class ModelEtape extends Model{
 		$this->NumEtape = $NumEtape2;
 	}
 
-
     public function setDescriptionEtape($DescriptionEtape2){
         $this->DescriptionEtape = $DescriptionEtape2;
     }
@@ -57,7 +56,7 @@ class ModelEtape extends Model{
 
     public function save() {
         try {
-            $sql = "INSERT INTO Etape VALUES (:nomEtape, :NumEtape, :DescriptionEtape)";
+            $sql = "INSERT INTO Etape VALUES (:NumEtape, :DescriptionEtape)";
             // Préparation de la requête
             $req_prep = Model::$pdo->prepare($sql);
 
