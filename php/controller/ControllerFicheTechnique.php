@@ -67,6 +67,16 @@ class ControllerFicheTechnique{
 		require_once File::build_path(array("view", "view.php"));
 	}
 
+	public static function created(){
+		$NomFiche=myGet('NomFiche');
+		$NbreCouverts=myGet('NbreCouverts');
+		$NomAuteur=myGet('NomAuteur');
+		$FK_NumeroCatFiche=myGet('FK_NumeroCatFiche');
+		$CoutFluide=myGet('CoutFluide');
+		$Fiche = new ModelFicheTechnique($NomFiche,$NbreCouverts,$NomAuteur,$FK_NumeroCatFiche,$CoutFluide);
+		$Fiche->save();
+	}
+
 	public static function delete(){
 		if(is_null(myGet('NumeroFiche'))){
         	$view='error';
