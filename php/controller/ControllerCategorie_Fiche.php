@@ -1,20 +1,20 @@
 <?php
-require_once File::build_path(array("model", "ModelCategorie.php"));
-class ControllerCategorie{
+require_once File::build_path(array("model","ModelCategorie_Fiche.php"));
+class ControllerCoefficient{
 
-	protected static $object='categorie';
+	protected static $object='Categorie_Fiche';
 
 	public static function readAll() {
-        $tab_u = ModelCategorie::selectAll();     //appel au modèle pour gerer la BD  //"redirige" vers la vue
+        $tab_u = ModelCategorie_Fiche::selectAll();     
         $view='list';
-        $pagetitle='Liste des produits';
+        $pagetitle='Liste des categories fiches';
         require_once File::build_path(array("view", "view.php"));
     }
 
     public static function read(){
-    	if(!is_null(myGet('idC'))){
-	    	$idC = myGet('idC');
-	    	$u = ModelCategorie::select($idCactegorie);
+    	if(!is_null(myGet('NumeroCatFiche'))){
+	    	$NumeroCatFiche = myGet('NumeroCatFiche');
+	    	$u = ModelCategorie_Fiche::select($NumeroCatFiche);
 	    	if($u==false){
         		$view='error';
         		$pagetitle='Page 404';
@@ -22,7 +22,7 @@ class ControllerCategorie{
 	    	}
 	    	else{
         		$view='detail';
-        		$pagetitle='Catégorie ' . $idC;
+        		$pagetitle='Categorie_Fiche ' . $NumeroCatFiche;
 	    		require_once File::build_path(array("view", "view.php"));
 	    	}
     	}
@@ -34,25 +34,25 @@ class ControllerCategorie{
 	}
 
 	public static function delete(){
-		if(!is_null(myGet('idC'))){
+		if(!is_null(myGet('NumeroCatFiche'))){
         	$view='error';
         	$pagetitle='Page 404';
 	    	require_once File::build_path(array("view", "view.php"));
 		}
 		else{
-			$idC = myGet('idC');
-			ModelCategorie::delete($idCactegorie);
-			$tab_u = ModelCategorie::selectAll();
+			$NumeroCatFiche = myGet('NumeroCatFiche');
+			ModelCategorie_Fiche::delete($NumeroCatFiche);
+			$tab_u = ModelCategorie_Fiche::selectAll();
 	        $view='deleted';
-	        $pagetitle='Catégorie supprimé';
+	        $pagetitle='Categorie_Fiche supprimé';
 		    require_once File::build_path(array("view", "view.php"));
 		}
 	}
 
-	public static function create($nomC){
-        $v1 = new ModelCategorie($nomC);
+	public static function create($NomCatFiche){
+        $v1 = new ModelCategorie_Fiche($NomCatFiche);
 		$v1->save();
-		return $v1->getIdCategorie();
+		return $v1->getNomCatFiche();
 	}
 }
 ?>

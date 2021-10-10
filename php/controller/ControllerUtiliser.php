@@ -1,20 +1,20 @@
 <?php
-require_once File::build_path(array("model", "ModelCategorie.php"));
-class ControllerCategorie{
+require_once File::build_path(array("model", "ModelUtiliser.php"));
+class ControllerComposer{
 
-	protected static $object='categorie';
+	protected static $object='Utiliser';
 
 	public static function readAll() {
-        $tab_u = ModelCategorie::selectAll();     //appel au modèle pour gerer la BD  //"redirige" vers la vue
+        $tab_u = ModelUtiliser::selectAll();     //appel au modèle pour gerer la BD  //"redirige" vers la vue
         $view='list';
-        $pagetitle='Liste des produits';
+        $pagetitle='Liste des coefficients pour chaque fiche';
         require_once File::build_path(array("view", "view.php"));
     }
 
     public static function read(){
-    	if(!is_null(myGet('idC'))){
-	    	$idC = myGet('idC');
-	    	$u = ModelCategorie::select($idCactegorie);
+    	if(!is_null(myGet('NumeroFiche'))){
+	    	$NumeroFiche = myGet('NumeroFiche');
+	    	$u = ModelUtiliser::select($NumeroFiche);
 	    	if($u==false){
         		$view='error';
         		$pagetitle='Page 404';
@@ -22,7 +22,7 @@ class ControllerCategorie{
 	    	}
 	    	else{
         		$view='detail';
-        		$pagetitle='Catégorie ' . $idC;
+        		$pagetitle='Utiliser ' . $NumeroFiche;
 	    		require_once File::build_path(array("view", "view.php"));
 	    	}
     	}
@@ -34,25 +34,25 @@ class ControllerCategorie{
 	}
 
 	public static function delete(){
-		if(!is_null(myGet('idC'))){
+		if(!is_null(myGet('NumeroFiche'))){
         	$view='error';
         	$pagetitle='Page 404';
 	    	require_once File::build_path(array("view", "view.php"));
 		}
 		else{
-			$idC = myGet('idC');
-			ModelCategorie::delete($idCactegorie);
-			$tab_u = ModelCategorie::selectAll();
+			$NumeroFiche = myGet('NumeroFiche');
+			ModelUtiliser::delete($NumeroFiche);
+			$tab_u = ModelUtiliser::selectAll();
 	        $view='deleted';
-	        $pagetitle='Catégorie supprimé';
+	        $pagetitle='les coeeficients de cette fiche sont supprimés';
 		    require_once File::build_path(array("view", "view.php"));
 		}
 	}
 
-	public static function create($nomC){
-        $v1 = new ModelCategorie($nomC);
+	public static function create($CodeCoeff,$NumeroFiche){
+        $v1 = new ModelUtiliser($CodeCoeff,$NumeroFiche);
 		$v1->save();
-		return $v1->getIdCategorie();
+		return $v1->getNumeroFiche();
 	}
 }
 ?>

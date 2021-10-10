@@ -48,8 +48,8 @@ class ControllerEtape{
 		}
 	}
 
-	public static function create($nomEtape,$DescriptionEtape){
-        $v1 = new ModelEtape($nomEtape,$DescriptionEtape);
+	public static function create($DescriptionEtape){
+        $v1 = new ModelEtape($DescriptionEtape);
 		$v1->save();
 		return $v1->getNumEtape();
 	}

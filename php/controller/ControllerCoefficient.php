@@ -1,20 +1,20 @@
 <?php
-require_once File::build_path(array("model", "ModelCategorie.php"));
-class ControllerCategorie{
+require_once File::build_path(array("model","ModelCoefficient.php"));
+class ControllerCoefficient{
 
-	protected static $object='categorie';
+	protected static $object='Coefficient';
 
 	public static function readAll() {
-        $tab_u = ModelCategorie::selectAll();     //appel au modèle pour gerer la BD  //"redirige" vers la vue
+        $tab_u = ModelCoefficient::selectAll();     
         $view='list';
-        $pagetitle='Liste des produits';
+        $pagetitle='Liste des coefficients';
         require_once File::build_path(array("view", "view.php"));
     }
 
     public static function read(){
-    	if(!is_null(myGet('idC'))){
-	    	$idC = myGet('idC');
-	    	$u = ModelCategorie::select($idCactegorie);
+    	if(!is_null(myGet('CodeCoeff'))){
+	    	$CodeCoeff = myGet('CodeCoeff');
+	    	$u = ModelCoefficient::select($CodeCoeff);
 	    	if($u==false){
         		$view='error';
         		$pagetitle='Page 404';
@@ -22,7 +22,7 @@ class ControllerCategorie{
 	    	}
 	    	else{
         		$view='detail';
-        		$pagetitle='Catégorie ' . $idC;
+        		$pagetitle='Coefficient ' . $CodeCoeff;
 	    		require_once File::build_path(array("view", "view.php"));
 	    	}
     	}
@@ -34,25 +34,25 @@ class ControllerCategorie{
 	}
 
 	public static function delete(){
-		if(!is_null(myGet('idC'))){
+		if(!is_null(myGet('CodeCoeff'))){
         	$view='error';
         	$pagetitle='Page 404';
 	    	require_once File::build_path(array("view", "view.php"));
 		}
 		else{
-			$idC = myGet('idC');
-			ModelCategorie::delete($idCactegorie);
-			$tab_u = ModelCategorie::selectAll();
+			$CodeCoeff = myGet('CodeCoeff');
+			ModelCoefficient::delete($CodeCoeff);
+			$tab_u = ModelCoefficient::selectAll();
 	        $view='deleted';
-	        $pagetitle='Catégorie supprimé';
+	        $pagetitle='Coefficient supprimé';
 		    require_once File::build_path(array("view", "view.php"));
 		}
 	}
 
-	public static function create($nomC){
-        $v1 = new ModelCategorie($nomC);
+	public static function create($valeurCoefficient){
+        $v1 = new ModelCoefficient($valeurCoefficient);
 		$v1->save();
-		return $v1->getIdCategorie();
+		return $v1->getCodeCoeff();
 	}
 }
 ?>

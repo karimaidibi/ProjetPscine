@@ -3,7 +3,7 @@ require_once File::build_path(array("model", "Model.php"));
 class ModelComposer extends Model{
 
 	protected static $object = 'Composer';
-	protected static $primary='NumeroIngredient';
+	protected static $primary='NumIngredient';
 
 	private $NumIngredient;
 	private $NumeroFiche;
