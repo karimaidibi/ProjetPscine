@@ -38,8 +38,7 @@ echo '<div class=" container mt-5 bg-dark bg-gradient" align=center style="color
                     </button>
                     <ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
                       <li><button class="dropdown-item" type="button">Catégorie</button></li>
-                      <li><a href="index.php?controller=ficheTechnique&action=triCroissant"<button class="dropdown-item" type="button">a--z</button></a></li>
-                      <li><button class="dropdown-item" type="button">z--a</button></li>
+
                       <li><button class="dropdown-item" type="button" onClick="TrierNomAZ()" >a--z</button></li>
                       <li><button class="dropdown-item" type="button" onClick="TrierNomZA()" >z--a</button></li>
                     </ul>
@@ -82,12 +81,14 @@ foreach ($tab_u as $u)
     $CoutFluide = $u->getCoutFluide();
     $NumCategorieFiche = $u->getFK_NumeroCatFiche();
 
+    $NomCategorieFiche = ModelCategorie_Fiche::select($NumCategorieFiche) -> getNomCatFiche(); //une ligne = objet
+
   
         echo '<tr>
                 <td>'.$NomFiche.'</td>
                 <td>'.$NbreCouverts.'</td>
                 <td>'. $NomAuteur.'</td>
-                <td>'. $NumCategorieFiche.'</td>
+                <td>'. $NomCategorieFiche.'</td>
                 <td>
                     <div class="d-grid gap-2 d-md-block">
                         <button class="btn btn-success" type="button">

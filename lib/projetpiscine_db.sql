@@ -105,7 +105,7 @@ DROP TABLE IF EXISTS `contenir`;
 CREATE TABLE IF NOT EXISTS `contenir` (
   `FK_NumeroFiche` int(11) NOT NULL,
   `FK_NumEtape` int(11) NOT NULL,
-  `ordre` int(11), NOT NULL
+  `ordre` int(11) NOT NULL,
   PRIMARY KEY (`FK_NumeroFiche`,`FK_NumEtape`,`ordre`),
   key `FK_contenir_FK_NumeroFiche` (`FK_NumeroFiche`),
   key `FK_contenir_FK_NumEtape` (`FK_NumEtape`)
