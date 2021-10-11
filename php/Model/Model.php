@@ -30,7 +30,27 @@ class Model{
 	    return $rep->fetchAll();
   	}
 
-  	public static function select($primary_value) {
+  	public static function select2($primary_value) {
+  		$table_name = static::$object;
+  		$class_name = 'Model' . ucfirst($table_name);
+  		$primary_key = static::$primary2;
+	    $sql = "SELECT * from " . $table_name . " WHERE " . $primary_key . "=:nom_tag";
+	    $req_prep = Model::$pdo->prepare($sql);
+
+	    $values = array(
+	        "nom_tag" => $primary_value,
+	    );	 
+	    $req_prep->execute($values);
+	    $req_prep->setFetchMode(PDO::FETCH_CLASS, $class_name);
+	    $tab_voit = $req_prep->fetchAll();
+	    // Attention, si il n'y a pas de résultats, on renvoie false
+    	if (empty($tab_voit)){
+        	return false;
+    	}
+    	return $tab_voit;
+	}
+
+	public static function select($primary_value) {
   		$table_name = static::$object;
   		$class_name = 'Model' . ucfirst($table_name);
   		$primary_key = static::$primary;

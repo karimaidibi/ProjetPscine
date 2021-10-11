@@ -3,11 +3,11 @@ require_once File::build_path(array("model", "Model.php"));
 class ModelComposer extends Model{
 
 	protected static $object = 'Composer';
-	protected static $primary='NumIngredient';
-    protected static $primary2='NumeroFiche';
+	protected static $primary='FK_NumIngredient';
+    protected static $primary2='FK_NumeroFiche';
 
-	private $NumIngredient;
-	private $NumeroFiche;
+	private $FK_NumIngredient;
+	private $FK_NumeroFiche;
     private $QuantiteIngredient;
 
 	public function getNumIngredient(){

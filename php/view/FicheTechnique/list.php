@@ -30,7 +30,7 @@ echo '<div class=" container mt-5 bg-dark bg-gradient" align=center style="color
             </div>
             <!--deuxieme colonne-->
             <div class="col-3">
-                <!--- Bouton pour trier les fiches d ingrédients-->
+                <!--- Bouton pour trier les fiches techniques-->
                 <div class="dropdown">
                     <button class="btn btn-dark dropdown-toggle" type="button" id="dropdownMenu2" data-bs-toggle="dropdown" aria-expanded="false">
                         <i class="bi bi-sort-alpha-down"></i>
@@ -38,7 +38,7 @@ echo '<div class=" container mt-5 bg-dark bg-gradient" align=center style="color
                     </button>
                     <ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
                       <li><button class="dropdown-item" type="button">Catégorie</button></li>
-                      <li><button class="dropdown-item" type="button">a--z</button></li>
+                      <li><a href="index.php?controller=ficheTechnique&action=triCroissant"<button class="dropdown-item" type="button">a--z</button></a></li>
                       <li><button class="dropdown-item" type="button">z--a</button></li>
                     </ul>
                 </div>

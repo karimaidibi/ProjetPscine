@@ -1,6 +1,7 @@
 <?php
 require_once File::build_path(array("model","ModelFicheTechnique.php"));
 require_once File::build_path(array("model","ModelCategorie_Fiche.php"));
+require_once File::build_path(array("model","ModelComposer.php"));
 class ControllerFicheTechnique{
 
 	protected static $object='FicheTechnique';
@@ -9,6 +10,14 @@ class ControllerFicheTechnique{
         $tab_u = ModelFicheTechnique::selectAll();     //appel au modèle pour gerer la BD  //"redirige" vers la vue
 		$categoriefiches = ModelCategorie_Fiche::selectAll();
         $view='list';
+        $pagetitle='Liste des fiches techniques';
+        require_once File::build_path(array("view", "view.php"));
+    }
+
+    public static function triCroissant(){
+    	$tab_u = ModelFicheTechnique::selectAll();
+    	asort($tab_u);
+    	$view='list';
         $pagetitle='Liste des fiches techniques';
         require_once File::build_path(array("view", "view.php"));
     }
@@ -108,7 +117,15 @@ class ControllerFicheTechnique{
 		}
 		else{
 			$NumeroFiche = myGet('NumeroFiche');
-	    	$fiche = ModelFicheTechnique::select($NumeroFiche);
+	    	$fiche = ModelFicheTechnique::select($NumeroFiche); //Fiche à update
+	    	$compositions = ModelComposer::select2($NumeroFiche);  //lignes de la table Composer pour le Numéro de fiche concerné
+	    	$ingredients = array();
+	    	print_r($compositions);
+	    	foreach ($compositions as $key) {
+	    		echo('qsdsdqqdqd');
+	    		echo($key);
+	    		array_push($ingredients, ModelIngredient::select($key));
+	    	}
 	        $view='update';
 	        $pagetitle='Modification de la recette';
 	        $type = 'readonly';
