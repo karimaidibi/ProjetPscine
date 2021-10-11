@@ -47,8 +47,29 @@ class Model{
     	if (empty($tab_voit)){
         	return false;
     	}
-    	return $tab_voit[0];
+    	return $tab_voit[0]; // renvoie la case d'index 0 du resultat, ce qui notre clé primaire
     	print_r($tab_voit[0]);
+	}
+
+	// pouvoir recuperer un objet (une ligne de resultat complète d'une table)
+	public static function selectLigne($primary_value) {
+		$table_name = static::$object;
+		$class_name = 'Model' . ucfirst($table_name);
+		$primary_key = static::$primary;
+		$sql = "SELECT * from " . $table_name . " WHERE " . $primary_key . "=:nom_tag";
+		$req_prep = Model::$pdo->prepare($sql);
+
+		$values = array(
+			"nom_tag" => $primary_value,
+		);	 
+		$req_prep->execute($values);
+		$req_prep->setFetchMode(PDO::FETCH_CLASS, $class_name);
+		$tab_voit = $req_prep->fetchAll();
+		// Attention, si il n'y a pas de résultats, on renvoie false
+		if (empty($tab_voit)){
+			return false;
+		}
+		return $tab_voit; //la ligne de la table correspondante à la clé primaire
 	}
 
 	public static function update($data){

@@ -79,8 +79,8 @@ foreach ($tab_u as $u)
     $NomAuteur = $u->getNomAuteur();
     $CoutFluide = $u->getCoutFluide();
     $NumCategorieFiche = $u->getFK_NumeroCatFiche();
-  
 
+  
         echo '<tr>
                 <td>'.$NomFiche.'</td>
                 <td>'.$NbreCouverts.'</td>
