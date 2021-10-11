@@ -10,6 +10,7 @@ class ControllerComposer{
         require_once File::build_path(array("view", "view.php"));
     }
 
+	
     public static function read(){
     	if(!is_null(myGet('NumIngredient')) && !is_null(myGet('NumeroFiche'))){
 	    	$NumIngredient = myGet('NumIngredient');

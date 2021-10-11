@@ -1,6 +1,6 @@
 <?php
 require_once File::build_path(array("model", "Model.php"));
-class ModelContenir extends Model{
+class ModelUtiliser extends Model{
 
 	protected static $object = 'Utiliser';
 	protected static $primary= array('CodeCoeff','NumeroFiche');

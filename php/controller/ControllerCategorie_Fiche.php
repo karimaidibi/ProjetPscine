@@ -33,6 +33,7 @@ class ControllerCoefficient{
     	}
 	}
 
+
 	public static function delete(){
 		if(!is_null(myGet('NumeroCatFiche'))){
         	$view='error';

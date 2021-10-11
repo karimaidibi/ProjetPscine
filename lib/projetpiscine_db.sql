@@ -105,7 +105,8 @@ DROP TABLE IF EXISTS `contenir`;
 CREATE TABLE IF NOT EXISTS `contenir` (
   `FK_NumeroFiche` int(11) NOT NULL,
   `FK_NumEtape` int(11) NOT NULL,
-  PRIMARY KEY (`FK_NumeroFiche`,`FK_NumEtape`),
+  `ordre` int(11), NOT NULL
+  PRIMARY KEY (`FK_NumeroFiche`,`FK_NumEtape`,`ordre`),
   key `FK_contenir_FK_NumeroFiche` (`FK_NumeroFiche`),
   key `FK_contenir_FK_NumEtape` (`FK_NumEtape`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
@@ -158,7 +159,8 @@ DROP TABLE IF EXISTS `inclure`;
 CREATE TABLE IF NOT EXISTS `inclure` (
   `FK_NumeroFiche` int(11) NOT NULL,
   `FK_NumeroSousFiche` int(11) NOT NULL,
-  PRIMARY KEY (`FK_NumeroFiche`,`FK_NumeroSousFiche`),
+  `ordre` int(11) NOT NULL AUTO_INCREMENT,
+  PRIMARY KEY (`FK_NumeroFiche`,`FK_NumeroSousFiche`,`ordre`),
   key `FK_inclure_FK_NumeroFiche` (`FK_NumeroFiche`),
   key `FK_inclure_FK_NumeroSousFiche` (`FK_NumeroSousFiche`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;

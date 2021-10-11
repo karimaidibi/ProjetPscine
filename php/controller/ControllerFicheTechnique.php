@@ -8,7 +8,6 @@ class ControllerFicheTechnique{
 
 	public static function readAll() {
         $tab_u = ModelFicheTechnique::selectAll();     //appel au modèle pour gerer la BD  //"redirige" vers la vue
-		$categoriefiches = ModelCategorie_Fiche::selectAll();
         $view='list';
         $pagetitle='Liste des fiches techniques';
         require_once File::build_path(array("view", "view.php"));
@@ -82,9 +81,9 @@ class ControllerFicheTechnique{
 		$NomFiche=myGet('NomFiche');
 		$NbreCouverts=myGet('NbreCouverts');
 		$NomAuteur=myGet('NomAuteur');
-		$FK_NumeroCatFiche=myGet('FK_NumeroCatFiche');
 		$CoutFluide=myGet('CoutFluide');
-		$Fiche = new ModelFicheTechnique($NomFiche,$NbreCouverts,$NomAuteur,$FK_NumeroCatFiche,$CoutFluide);
+		$FK_NumeroCatFiche=myGet('FK_NumeroCatFiche');
+		$Fiche = new ModelFicheTechnique($NomFiche,$NbreCouverts,$NomAuteur,$CoutFluide,$FK_NumeroCatFiche);
 		$Fiche->save();
 		self::readAll();
 	}
