@@ -3,46 +3,46 @@ require_once File::build_path(array("model", "Model.php"));
 class ModelTVA extends Model{
 
 	protected static $object = 'TVA';
-	protected static $primary='idTVA';
+	protected static $primary='CodeTVA';
 
-	private $idTVA;
-	private $nomTVA;
-    private $coefTVA;
+	private $CodeTVA;
+	private $NomTVA;
+    private $CoefTVA;
 
-	public function getIdTVA(){
-		return $this->idTVA;
+	public function getCodeTVA(){
+		return $this->CodeTVA;
 	}
 
 	public function getNomTVA(){
-		return $this->nomTVA;
+		return $this->NomTVA;
 	}
 
     public function getCoefTVA(){
-        return $this->coefTVA;
+        return $this->CoefTVA;
     }
 
-	public function setIdTVA($idTVA2){
-		$this->idTVA = $idTVA2;
+	public function setCodeTVA($CodeTVA2){
+		$this->CodeTVA = $CodeTVA2;
 	}
 
-	public function setNomTVA($nomTVA2){
-		$this->nomTVA = $nomTVA2;
+	public function setNomTVA($NomTVA2){
+		$this->NomTVA = $NomTVA2;
 	}
     
-    public function setCoefTVA($coefTVA2){
-        $this->coefTVA = $coefTVA2;
+    public function setCoefTVA($CoefTVA2){
+        $this->CoefTVA = $CoefTVA2;
     }
 
-	public function __construct($nom = NULL, $idTVA = NULL, $coef = NULL) {
+	public function __construct($nom = NULL, $CodeTVA = NULL, $coef = NULL) {
   	if (!is_null($nom)) {
-	    $this->nomTVA = $nom;
-        $this->idTVA = $idTVA;
-        $this->coefTVA = $coef;
+	    $this->NomTVA = $nom;
+        $this->CodeTVA = $CodeTVA;
+        $this->CoefTVA = $coef;
     	}
   	}
 
-  	public function idTVAExiste($idTVA3) {
-      $sql = "SELECT COUNT(*) FROM TVA WHERE idTVA = $idTVA3";
+  	public function CodeTVAExiste($CodeTVA3) {
+      $sql = "SELECT COUNT(*) FROM TVA WHERE CodeTVA = $CodeTVA3";
       $rep = Model::$pdo->query($sql);  
       $rep->setFetchMode(PDO::FETCH_CLASS, 'TVA');
      
@@ -55,8 +55,8 @@ class ModelTVA extends Model{
       }
     }
 
-    public function configIdTVA() {
-      $sql = "SELECT MAX(idTVA) FROM TVA";
+    public function configCodeTVA() {
+      $sql = "SELECT MAX(CodeTVA) FROM TVA";
       $rep = Model::$pdo->query($sql);  
       $rep->setFetchMode(PDO::FETCH_CLASS, 'TVA');
      
@@ -66,14 +66,14 @@ class ModelTVA extends Model{
 
     public function save() {
         try {
-            $sql = "INSERT INTO TVA VALUES (:nomTVA, :idTVA, :coefTVA)";
+            $sql = "INSERT INTO TVA VALUES (:NomTVA, :CodeTVA, :CoefTVA)";
             // Préparation de la requête
             $req_prep = Model::$pdo->prepare($sql);
 
             $values = array(
-                "idTVA" => self::configIdTVA()+1,
-                "nomTVA" => $this->nomTVA,
-                "coefTVA" => $this->coefTVA,
+                "CodeTVA" => self::configCodeTVA()+1,
+                "NomTVA" => $this->NomTVA,
+                "CoefTVA" => $this->CoefTVA,
             );
             // On donne les valeurs et on exécute la requête     
             $req_prep->execute($values);

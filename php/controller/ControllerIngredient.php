@@ -2,6 +2,10 @@
 ini_set('display_errors', 'on'); 
 require_once File::build_path(array("model", "ModelIngredient.php"));
 require_once File::build_path(array("controller", "ControllerFicheTechnique.php"));
+require_once File::build_path(array("model","ModelUnite.php"));
+require_once File::build_path(array("model","ModelTVA.php"));
+require_once File::build_path(array("model","ModelAllergene.php"));
+require_once File::build_path(array("model","ModelCategorie_Ingredient.php"));
 class ControllerIngredient{
 
 	protected static $object='ingredient';
