@@ -140,7 +140,7 @@ function DeleteRow(o) {
     var progressiontrouver = false;
     var NomChoisi = document.getElementById('inputProgressionInDB').value;
     while(i<options.length && !progressiontrouver){
-    if(options[i].value === NomChoisi || NomChoisi ==""){
+    if(options[i].value === NomChoisi || NomChoisi ===""){
         progressiontrouver = true;
     }
     i = i + 1;

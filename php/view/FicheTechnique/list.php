@@ -1,7 +1,7 @@
 <?php
 
 echo '<div class=" container mt-5 bg-dark bg-gradient" align=center style="color:whitesmoke;">
-        <p class="fs-5"> Chercher par catégorie, par fiche ou par ingrédient ! </p>
+        <p class="fs-5"> Chercher par catégorie, par fiche ou par auteur ! </p>
       </div>
 
       <!---La barre de recherche, trier les fiches et bouton ajouter une fiches-->
@@ -19,20 +19,18 @@ echo '<div class=" container mt-5 bg-dark bg-gradient" align=center style="color
                     </div>
                     <div class="flex-fill ms-3 ">
                         <div class="input-group">
-                            <input class="form-control" list="datalistOptions" id="chercherFiche" onkeyup="recherche()" placeholder="Chercher..." type="text">
-                            <datalist id="datalistOptions">';
-                            foreach ($tab_u as $element){
-                                $NomFiche = $element->getNomFiche();
-                                echo '<option value= "'.$NomFiche.'" >';
-                            }
-                    echo '</datalist> 
-                            <select class="form-select" id="chercherpar" >
-                                <option selected >Chercher par</option>
+                        </datalist>
+                            <select class="form-select btn btn-dark" type="button" id="chercherpar" >
+                                <option selected >Chercher par : </option>
                                 <option>Nom fiche</option>
                                 <option>Auteur</option>
                                 <option>Categorie</option>
                                 <option>Nombre de couverts</option>
                             </select>
+                            <input class="form-control" list="datalistOptions" id="chercherFiche" onkeyup="recherche()" placeholder="Chercher..." type="text">
+                            <datalist id="datalistOptions">
+                                $NomFiche = $element->getNomFiche();
+                                <option>
                         </div>
                     </div>                   
                 </div>
@@ -46,8 +44,6 @@ echo '<div class=" container mt-5 bg-dark bg-gradient" align=center style="color
                       Trier par
                     </button>
                     <ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
-                      <li><button class="dropdown-item" type="button">Catégorie</button></li>
-
                       <li><button class="dropdown-item" type="button" onClick="TrierNomAZ()" >a--z</button></li>
                       <li><button class="dropdown-item" type="button" onClick="TrierNomZA()" >z--a</button></li>
                     </ul>
