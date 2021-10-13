@@ -17,14 +17,23 @@ echo '<div class=" container mt-5 bg-dark bg-gradient" align=center style="color
                     <div class="flex-shrink-0 mt-1">
                             <i class="bi bi-search"></i>
                     </div>
-                    <div class="flex-grow-1 ms-3 ">
-                        <input class="form-control" list="datalistOptions" id="chercherFiche" onkeyup="recherche()" placeholder="Chercher..." type="text">
-                        <datalist id="datalistOptions">';
-                        foreach ($tab_u as $element){
-                            $NomFiche = $element->getNomFiche();
-                             echo '<option value=' .$NomFiche. '>';
-                        }
-                  echo '</datalist> 
+                    <div class="flex-fill ms-3 ">
+                        <div class="input-group">
+                            <input class="form-control" list="datalistOptions" id="chercherFiche" onkeyup="recherche()" placeholder="Chercher..." type="text">
+                            <datalist id="datalistOptions">';
+                            foreach ($tab_u as $element){
+                                $NomFiche = $element->getNomFiche();
+                                echo '<option value= "'.$NomFiche.'" >';
+                            }
+                    echo '</datalist> 
+                            <select class="form-select" id="chercherpar" >
+                                <option selected >Chercher par</option>
+                                <option>Nom fiche</option>
+                                <option>Auteur</option>
+                                <option>Categorie</option>
+                                <option>Nombre de couverts</option>
+                            </select>
+                        </div>
                     </div>                   
                 </div>
             </div>
@@ -115,99 +124,4 @@ foreach ($tab_u as $u)
         </div>";
 ?>
 
-<script>
-    // chercher les fiches par nom de la fiche
-    function recherche() {
-        // Declare variables
-        var input, filter, table, tr, td, i, txtValue;
-        input = document.getElementById("chercherFiche");
-        filter = input.value.toUpperCase();
-        table = document.getElementById("TableFiche");
-        tr = table.getElementsByTagName("tr");
-
-        // Loop through all table rows, and hide those who don't match the search query
-        for (i = 0; i < tr.length; i++) {
-            td = tr[i].getElementsByTagName("td")[0];
-            if (td) {
-            txtValue = td.textContent || td.innerText;
-            if (txtValue.toUpperCase().indexOf(filter) > -1) {
-                tr[i].style.display = "";
-            } else {
-                tr[i].style.display = "none";
-            }
-            }
-        }
-    }
-
-    // trier les fiches par ordre alphabétique
-    function TrierNomAZ() {
-        var table, rows, switching, i, x, y, shouldSwitch;
-        table = document.getElementById("TableFiche");
-        switching = true;
-        /* Make a loop that will continue until
-        no switching has been done: */
-        while (switching) {
-            // Start by saying: no switching is done:
-            switching = false;
-            rows = table.rows;
-            /* Loop through all table rows (except the
-            first, which contains table headers): */
-            for (i = 1; i < (rows.length - 1); i++) {
-                // Start by saying there should be no switching:
-                shouldSwitch = false;
-                /* Get the two elements you want to compare,
-                one from current row and one from the next: */
-                x = rows[i].getElementsByTagName("td")[0];
-                y = rows[i + 1].getElementsByTagName("td")[0];
-                // Check if the two rows should switch place:
-                if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
-                    // If so, mark as a switch and break the loop:
-                    shouldSwitch = true;
-                    break;
-                }
-            }
-            if (shouldSwitch) {
-            /* If a switch has been marked, make the switch
-            and mark that a switch has been done: */
-            rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
-            switching = true;
-            }
-        }
-    }
-
-    // trier les fiches par ordre alphabétique
-    function TrierNomZA() {
-        var table, rows, switching, i, x, y, shouldSwitch;
-        table = document.getElementById("TableFiche");
-        switching = true;
-        /* Make a loop that will continue until
-        no switching has been done: */
-        while (switching) {
-            // Start by saying: no switching is done:
-            switching = false;
-            rows = table.rows;
-            /* Loop through all table rows (except the
-            first, which contains table headers): */
-            for (i = 1; i < (rows.length - 1); i++) {
-                // Start by saying there should be no switching:
-                shouldSwitch = false;
-                /* Get the two elements you want to compare,
-                one from current row and one from the next: */
-                x = rows[i].getElementsByTagName("td")[0];
-                y = rows[i + 1].getElementsByTagName("td")[0];
-                // Check if the two rows should switch place:
-                if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
-                    // If so, mark as a switch and break the loop:
-                    shouldSwitch = true;
-                    break;
-                }
-            }
-            if (shouldSwitch) {
-            /* If a switch has been marked, make the switch
-            and mark that a switch has been done: */
-            rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
-            switching = true;
-            }
-        }
-    }
-</script>
+<script src="../../../javascript/AffichageFiches.js"></script>

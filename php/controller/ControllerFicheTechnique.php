@@ -107,6 +107,7 @@ class ControllerFicheTechnique{
 	}
 
 	public static function update(){
+		$tab_u = ModelFicheTechnique::selectAll();
 		if(is_null(myGet('NumeroFiche'))){
         	$view='update';
         	$pagetitle='Création d\'une Recette';

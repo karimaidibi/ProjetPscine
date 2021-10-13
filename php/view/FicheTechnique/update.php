@@ -195,24 +195,24 @@ echo '<!--Titré création de fiche technique -->
               <div class ="col-4 pt-4 ">
                   <!-- Area text pour une nouvelle progression-->
                   <!-- Premier group d input -->
-                  <label for="progression" class="form-label">J\'ajoute une nouvelle progression : </label>
+                  <label for="inputProgressionInDB" class="form-label">J\'ajoute une nouvelle progression : </label>
                   <div class="input-group">
-                    <button class="btn btn-dark" type="button">
+                    <button class="btn btn-dark" type="button" onclick="CreateLigneProgressionInDB()">
                       <i class="bi bi-plus-square"></i>
                     </button>
-                    <textarea class="form-control" id="progression" rows="3"></textarea>
+                    <textarea class="form-control" id="inputProgressionInDB" rows="3"></textarea>
                   </div>
                   <!-- Barre de recherche pour une progression existante -->
                   <!-- Deuxième group d\'input -->
                   <p class ="mt-3">Ou je choisis une progression que j\'ai déjà créée : </p>
                   <div class="input-group">
-                    <button class="btn btn-dark" type="button">
+                    <button class="btn btn-dark" type="button" onclick="CreateLigneProgressionExistante()">
                       <i class="bi bi-plus-square"></i>
                     </button>
-                    <input class="form-control" list="listeDeProgressions" placeholder="Chercher une progression..">
-                    <datalist id="listeDeProgressions" >
-                      <option value="verser le lait">
-                      <option value="mettre du sucre">
+                    <input class="form-control" list="listeDesProgressions" id="inputProgressionExistante" placeholder="Chercher une progression..">
+                    <datalist id="listeDesProgressions" >
+                      <option value="verser le lait" class="nomProgression">
+                      <option value="mettre du sucre" class="nomProgression">
                     </datalist>
                   </div>
                   <!-- Les progressions de la fiche sous forme d\'une table-->
@@ -225,25 +225,8 @@ echo '<!--Titré création de fiche technique -->
                           <th scope="col"></th>
                         </tr>
                       </thead>
-                      <tbody>
-                        <tr>
-                          <th scope="row">1</th>
-                          <td>Verser 3ml du lait puis chauffer à feu douce</td>
-                          <td>
-                            <button class="btn btn-danger" type="button">
-                              <i class="bi bi-trash" style="font-size: 1rem;" ></i>
-                            </button>                            
-                          </td>
-                        </tr>
-                        <tr>
-                          <th scope="row">2</th>
-                          <td>Couper la viande en morceaux </td>
-                          <td>
-                            <button class="btn btn-danger" type="button">
-                              <i class="bi bi-trash" style="font-size: 1rem;" ></i>
-                            </button>                            
-                          </td>
-                        </tr>
+                      <!- gerer avec javascript et php->
+                      <tbody id="bodyProgressions">
                       </tbody>
                     </table>
                   </div>
@@ -252,7 +235,7 @@ echo '<!--Titré création de fiche technique -->
               <div class ="col-8 pt-4">
                   <!-- Barre de recherche des ingrédients pour rajouter un ingrédient-->
                   <div class="ps-5 ms-2">
-                    <label for="AjouterIngrédient" class="form-label"> J\'ajoute un ingrédient : </label>
+                    <label for="inputIngredient" class="form-label"> J\'ajoute un ingrédient : </label>
                   </div>
                   <!-- Flex pour regrouper licon recherche avec la barre de recherche -->
                   <div class="container d-inline-flex bd-highlight">
@@ -264,42 +247,16 @@ echo '<!--Titré création de fiche technique -->
                     <div class="flex-grow-1 ms-3 ">
                       <!-- Input group qui rassemble le bouton d\'ajout a la barre de recherche -->
                       <div class="input-group">
-                        <button class="btn btn-dark" type="button">
+                        <button class="btn btn-dark" type="button" onclick="CreateLigneIngredient()">
                           <i class="bi bi-plus-square"></i>
                         </button>
-                        <input class="form-control" list="listeDesIngrédients" id="AjouterIngrédient" placeholder="Chercher un ingrédient..">
-                        <datalist id="listeDesIngrédients">
-                            <option value="choco framboise">
-                            <option value="coeur choco">
-                            <option value="malakoff">
-                            <option value="arrancini pesto">
-                            <option value="arrancini boeuf">
-                            <option value="choco framboise">
-                            <option value="coeur choco">
-                            <option value="malakoff">
-                            <option value="arrancini pesto">
-                            <option value="arrancini boeuf">
-                            <option value="choco framboise">
-                            <option value="coeur choco">
-                            <option value="malakoff">
-                            <option value="arrancini pesto">
-                            <option value="arrancini boeuf">
-                            <option value="choco framboise">
-                            <option value="coeur choco">
-                            <option value="malakoff">
-                            <option value="arrancini pesto">
-                            <option value="arrancini boeuf">
-                            <option value="choco framboise">
-                            <option value="coeur choco">
-                            <option value="malakoff">
-                            <option value="arrancini pesto">
-                            <option value="arrancini boeuf">
-                            <option value="choco framboise">
-                            <option value="coeur choco">
-                            <option value="malakoff">
-                            <option value="arrancini pesto">
-                            <option value="arrancini boeuf">
-                        </datalist>
+                        <input class="form-control" list="listeDesIngredients" id="inputIngredient" placeholder="Chercher un ingrédient..">
+                        <datalist id="listeDesIngredients">';
+                        foreach($tab_i as $i){
+                          $NomIng = $i -> getNomIng();
+                          echo '<option value="'.$NomIng.'" class="nomIngredient">';
+                        }
+                  echo' </datalist>
                       </div> 
                     </div>                   
                   </div>
@@ -336,54 +293,8 @@ echo '<!--Titré création de fiche technique -->
                             <th scope="col"></th> 
                           </tr>
                       </thead>
-                      <tbody>
-                          <!-- 3ème  ligne-->
-                          <tr>
-                            <!-- Première colonne (code) -->
-                            <th scope="row">1</th>
-                            <!-- deuxième colonne (ingrédient)-->
-                            <td>Tomate</td>
-                            <!-- 3ème colonne (Unitairé)-->
-                            <td>Kg</td>
-                            <!-- 4èmme colonne (Qté_Ing)-->
-                            <td>
-                                <input type="number" class="form-control w-50" placeholder="Qté...">
-                            </td>
-                            <!-- 5ème colonne (PrixU)-->
-                            <td>5€</td>
-                            <!-- 6èmme colonne(PTHT)-->
-                            <td>0.2€</td>
-                            <!-- 7ème colonne (le bouton supprimer une ligne de la table)-->
-                            <td>
-                              <button class="btn btn-danger" type="button">
-                                <i class="bi bi-trash" style="font-size: 1rem;" ></i>
-                              </button>               
-                            </td>
-                          </tr>
-                          <!--4ème lignne-->
-                            <!-- 3ème  ligne-->
-                            <tr>
-                              <!-- Première colonne (code) -->
-                              <th scope="row">1</th>
-                              <!-- deuxième colonne (ingrédient)-->
-                              <td>Tomate</td>
-                              <!-- 3ème colonne (Unitairé)-->
-                              <td>Kg</td>
-                              <!-- 4èmme colonne (Qté_Ing)-->
-                              <td>
-                                  <input type="number" class="form-control w-50" placeholder="Qté...">
-                              </td>
-                              <!-- 5ème colonne (PrixU)-->
-                              <td>5€</td>
-                              <!-- 6èmme colonne(PTHT)-->
-                              <td>0.2€</td>
-                              <!-- 7ème colonne (le bouton supprimer une ligne de la table)-->
-                              <td>
-                                <button class="btn btn-danger" type="button">
-                                  <i class="bi bi-trash" style="font-size: 1rem;" ></i>
-                                </button>               
-                              </td>
-                            </tr>
+                      <!- gerer avec javascript et php->
+                      <tbody id="bodyIngredients">
                       </tbody>
                     </table>
                   </div>
@@ -439,14 +350,16 @@ echo '<!--Titré création de fiche technique -->
                     Je rajoute une autre fiche technique à ma fiche technique : 
                   </lable>
                   <div class="input-group pt-4">
-                    <button class="btn btn-dark" type="button">
+                    <button class="btn btn-dark" type="button" onclick="CreateLigneFiche()">
                       <i class="bi bi-plus-square"></i>
                     </button>
-                    <input id="FichesTechniques" class="form-control" list="listeDesFichesTechniques" placeholder="Chercher une fiche..">
-                    <datalist id="listeDesFichesTechniques" >
-                      <option value="malakoff">
-                      <option value="arranci pesto ">
-                    </datalist>
+                    <input id="inputFiches" class="form-control" list="listeDesFichesTechniques" placeholder="Chercher une fiche..">
+                    <datalist id="listeDesFichesTechniques" >';
+                    foreach($tab_u as $u){
+                      $NomFiche = $u->getNomFiche();
+                  echo '<option value= "'.$NomFiche.'" class="nomFiche">';
+                    }
+              echo  '</datalist>
                   </div>
                   <div class="pt-4">
                       <!------LA TABLE QUI CONTIENT LES FICHES TECHNIQUES--------->
@@ -461,43 +374,8 @@ echo '<!--Titré création de fiche technique -->
                             <th scope="col"></th>
                         </tr>
                         </thead>
-                        <tbody>
-                          <tr>
-                              <th scope="row">1</th>
-                              <td>Malakoff</td>
-                              <td>4</td>
-                              <td>karim</td>
-                              <td>Dessert</td>
-                              <td>
-                                <button class="btn btn-danger" type="button">
-                                    <i class="bi bi-trash" style="font-size: 1rem;" ></i>
-                                </button>
-                              </td>
-                          </tr>
-                          <tr>
-                              <th scope="row">1</th>
-                              <td>Malakoff</td>
-                              <td>4</td>
-                              <td>karim</td>
-                              <td>Dessert</td>
-                              <td>
-                                <button class="btn btn-danger" type="button">
-                                    <i class="bi bi-trash" style="font-size: 1rem;" ></i>
-                                </button>
-                              </td>
-                          </tr>
-                          <tr>
-                              <th scope="row">1</th>
-                              <td>Malakoff</td>
-                              <td>4</td>
-                              <td>karim</td>
-                              <td>Dessert</td>
-                              <td>
-                                <button class="btn btn-danger" type="button">
-                                    <i class="bi bi-trash" style="font-size: 1rem;" ></i>
-                                </button>
-                              </td>
-                          </tr>
+                        <!- gerer avec javascript et php->
+                        <tbody id="bodyFiche">
                         </tbody>
                     </table>
                   </div>
@@ -536,3 +414,5 @@ echo '<!--Titré création de fiche technique -->
       -->'
 
 ?>
+
+<script src="../../../javascript/CreationFiches.js" ></script>
