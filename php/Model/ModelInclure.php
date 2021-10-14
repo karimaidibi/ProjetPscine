@@ -7,7 +7,7 @@ class ModelInclure extends Model{
 
 	private $FK_NumeroFiche;
 	private $FK_NumeroSousFiche;
-    private $Ordre;
+    private $ordre;
 
     public function getFK_NumeroFiche(){
         return $this->FK_NumeroFiche;
@@ -17,8 +17,8 @@ class ModelInclure extends Model{
 		return $this->FK_NumeroSousFiche;
 	}
 
-    public function getOrdre(){
-        return $this->Ordre;
+    public function getordre(){
+        return $this->ordre;
     }
 
 	public function setFK_NumeroFiche($FK_NumeroFiche2){
@@ -29,15 +29,15 @@ class ModelInclure extends Model{
 		$this->FK_NumeroSousFiche = $FK_NumeroSousFiche2;
 	}
 
-    public function setOrdre($Ordre2){
-        $this->Ordre = $Ordre2;
+    public function setordre($ordre2){
+        $this->ordre = $ordre2;
     }
 
-	public function __construct($FK_NumeroFiche = NULL, $FK_NumeroSousFiche = NULL, $Ordre = NULL) {
-  	if (!is_null($FK_NumeroFiche) && !is_null($FK_NumeroSousFiche) && !is_null($Ordre)) {
+	public function __construct($FK_NumeroFiche = NULL, $FK_NumeroSousFiche = NULL, $ordre = NULL) {
+  	if (!is_null($FK_NumeroFiche) && !is_null($FK_NumeroSousFiche) && !is_null($ordre)) {
 	    $this->FK_NumeroFiche = $FK_NumeroFiche;
         $this->FK_NumeroSousFiche = $FK_NumeroSousFiche;
-        $this->Ordre = $Ordre;
+        $this->ordre = $ordre;
         }
   	}
 
@@ -55,8 +55,8 @@ class ModelInclure extends Model{
       }
     }
 
-    public function configOrdre() {
-      $sql = "SELECT MAX(Ordre) FROM Inclure";
+    public function configordre() {
+      $sql = "SELECT MAX(ordre) FROM Inclure";
       $rep = Model::$pdo->query($sql);  
       $rep->setFetchMode(PDO::FETCH_CLASS, 'Inclure');
      
@@ -66,14 +66,14 @@ class ModelInclure extends Model{
 
     public function save() {  //A revoir pour la sauvegarde de l'ordre !!!
         try {
-            $sql = "INSERT INTO Inclure VALUES (:FK_NumeroFiche, :FK_NumeroSousFiche, :Ordre)";
+            $sql = "INSERT INTO Inclure VALUES (:FK_NumeroFiche, :FK_NumeroSousFiche, :ordre)";
             // Préparation de la requête
             $req_prep = Model::$pdo->prepare($sql);
 
             $values = array(
                 "FK_NumeroFiche" => $this->FK_NumeroFiche,
                 "FK_NumeroSousFiche" => $this->FK_NumeroSousFiche,
-                "Ordre" => self::configOrdre()+1,
+                "ordre" => self::configordre()+1,
             );
             // On donne les valeurs et on exécute la requête     
             $req_prep->execute($values);
