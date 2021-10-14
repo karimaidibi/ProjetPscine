@@ -33,11 +33,10 @@ class ModelInclure extends Model{
         $this->ordre = $ordre2;
     }
 
-	public function __construct($FK_NumeroFiche = NULL, $FK_NumeroSousFiche = NULL, $ordre = NULL) {
+	public function __construct($FK_NumeroFiche = NULL, $FK_NumeroSousFiche = NULL) {
   	if (!is_null($FK_NumeroFiche) && !is_null($FK_NumeroSousFiche) && !is_null($ordre)) {
 	    $this->FK_NumeroFiche = $FK_NumeroFiche;
         $this->FK_NumeroSousFiche = $FK_NumeroSousFiche;
-        $this->ordre = $ordre;
         }
   	}
 
@@ -69,12 +68,14 @@ class ModelInclure extends Model{
             $sql = "INSERT INTO Inclure VALUES (:FK_NumeroFiche, :FK_NumeroSousFiche, :ordre)";
             // Préparation de la requête
             $req_prep = Model::$pdo->prepare($sql);
+            $ordre = self::configordre()+1;
 
             $values = array(
                 "FK_NumeroFiche" => $this->FK_NumeroFiche,
                 "FK_NumeroSousFiche" => $this->FK_NumeroSousFiche,
-                "ordre" => self::configordre()+1,
+                "ordre" => $ordre
             );
+            self::setordre($ordre);
             // On donne les valeurs et on exécute la requête     
             $req_prep->execute($values);
             // echo $sql;

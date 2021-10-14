@@ -24,9 +24,8 @@ class ModelCoefficient extends Model{
 		$this->valeurCoefficient = $valeurCoefficient2;
 	}
 
-	public function __construct($CodeCoeff = NULL, $valeurCoefficient = NULL) {
+	public function __construct($valeurCoefficient = NULL) {
   	if (!is_null($valeurCoefficient)) {
-        $this->CodeCoeff = $CodeCoeff;
         $this->valeurCoefficient = $valeurCoefficient;
     	}
   	}
@@ -64,6 +63,7 @@ class ModelCoefficient extends Model{
                 "CodeCoeff" => self::configCodeCoeff()+1,
                 "valeurCoefficient" => $this->valeurCoefficient
             );
+            self::setCodeCoeff(self::configCodeCoeff() + 1);
             // On donne les valeurs et on exécute la requête     
             $req_prep->execute($values);
             // echo $sql;

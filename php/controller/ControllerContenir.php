@@ -11,10 +11,11 @@ class ControllerContenir{
     }
 
     public static function read(){
-    	if(!is_null(myGet('NumEtape')) && !is_null(myGet('NumeroFiche'))){
-	    	$NumEtape = myGet('NumEtape');
-	    	$NumeroFiche = myGet('NumeroFiche');
-	    	$u = ModelContenir::selectV2($NumEtape, $NumeroFiche);
+    	if(!is_null(!is_null(myGet('FK_NumeroFiche')) && myGet('FK_NumEtape')) && !is_null(myGet('Ordre')) ){
+	    	$FK_NumEtape = myGet('FK_NumEtape');
+	    	$FK_NumeroFiche = myGet('FK_NumeroFiche');
+			$Ordre = myGet('Ordre');
+	    	$u = ModelContenir::selectV3($FK_NumEtape, $FK_NumeroFiche,$Ordre);
 	    	if($u==false){
         		$view='error';
         		$pagetitle='Page 404';
@@ -22,7 +23,7 @@ class ControllerContenir{
 	    	}
 	    	else{
         		$view='detail';
-        		$pagetitle='Contenir ' . $NumEtape;
+        		$pagetitle='Contenir ' . $FK_NumeroFiche;
 	    		require_once File::build_path(array("view", "view.php"));
 	    	}
     	}
@@ -34,15 +35,16 @@ class ControllerContenir{
 	}
 
 	public static function delete(){
-		if(!is_null(myGet('NumEtape')) && !is_null(myGet('NumeroFiche'))){
+		if(!is_null(myGet('FK_NumeroFiche')) && !is_null(myGet('FK_NumEtape')) && !is_null(myGet('Ordre')) ){
         	$view='error';
         	$pagetitle='Page 404';
 	    	require_once File::build_path(array("view", "view.php"));
 		}
 		else{
-			$NumEtape = myGet('NumEtape');
-			$NumeroFiche = myGet('NumeroFiche');
-			ModelContenir::delete($NumEtape, $NumeroFiche, $Ordre);
+			$FK_NumeroFiche = myGet('FK_NumeroFiche');
+			$FK_NumEtape = myGet('FK_NumEtape');
+			$Ordre = myGet('Ordre');
+			ModelContenir::deleteV3($FK_NumeroFiche, $FK_NumEtape, $Ordre);
 			$tab_u = ModelContenir::selectAll();
 	        $view='deleted';
 	        $pagetitle='Contenu supprimé';
@@ -50,8 +52,8 @@ class ControllerContenir{
 		}
 	}
 
-	public static function create($NumEtape, $NumeroFiche){
-        $v1 = new ModelContenir($NumEtape, $NumeroFiche);
+	public static function create($FK_NumeroFiche, $FK_NumEtape){
+        $v1 = new ModelContenir($FK_NumeroFiche, $FK_NumEtape);
 		$v1->save();
 	}
 }

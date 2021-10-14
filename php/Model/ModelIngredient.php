@@ -78,10 +78,9 @@ class ModelIngredient extends Model{
         $this->FK_NumCategorie = $NumCategorie2;
     }
 
-	public function __construct($nom = NULL, $NumIngredient = NULL, $prixU = NULL, $qteStock = NULL, $NumUnite = NULL, $NumAllergene = NULL, $CodeTVA = NULL, $NumCategorie = NULL) {
+	public function __construct($nom = NULL, $prixU = NULL, $qteStock = NULL, $NumUnite = NULL, $NumAllergene = NULL, $CodeTVA = NULL, $NumCategorie = NULL) {
   	if (!is_null($nom)) {
 	    $this->NomIng = $nom;
-        $this->NumIngredient = $NumIngredient;
         $this->prixUnitaireIng = $prixU;
         $this->QteStockIngredient = $qteStock;
         $this->$FK_NumUnite = $NumUnite;
@@ -116,11 +115,12 @@ class ModelIngredient extends Model{
 
     public function save() {
         try {
-            $sql = "INSERT INTO Ingredient VALUES (:NomIng, :NumIngredient, :prixUnitaireIng, :QteStockIngredient)";
+            $sql = "INSERT INTO Ingredient VALUES (:NumIngredient, :NomIng, :prixUnitaireIng, :QteStockIngredient, :FK_NumUnite, :FK_NumAllergene, :FK_CodeTVA, :FK_NumCategorie)";
             // Préparation de la requête
             $req_prep = Model::$pdo->prepare($sql);
-
+            $NumIngredient = self::configNumIngredient() + 1;
             $values = array(
+                "NumIngredient" => $NumIngredient,
                 "NomIng" => $this->NomIng,
                 "prixUnitaireIng" => $this->prixUnitaireIng,
                 "QteStockIngredient" => $this->QteStockIngredient,
@@ -129,6 +129,7 @@ class ModelIngredient extends Model{
                 "FK_CodeTVA" => $this->$FK_CodeTVA,
                 "FK_NumCategorie" => $this->$FK_NumCategorie,
             );
+            self::setNumIngredient($NumIngredient);
             // On donne les valeurs et on exécute la requête     
             $req_prep->execute($values);
             // echo $sql;

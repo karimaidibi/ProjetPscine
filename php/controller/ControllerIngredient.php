@@ -18,8 +18,8 @@ class ControllerIngredient{
     }
 
     public static function read(){
-    	if(!is_null(myGet('idI'))){
-	    	$idI = myGet('idI');
+    	if(!is_null(myGet('NumIngredient'))){
+	    	$NumIngredient = myGet('NumIngredient');
 	    	$u = ModelIngredient::select($idIngredient);
 	    	if($u==false){
         		$view='error';
@@ -28,7 +28,7 @@ class ControllerIngredient{
 	    	}
 	    	else{
         		$view='detail';
-        		$pagetitle='Catégorie ' . $idI;
+        		$pagetitle='Catégorie ' . $NumIngredient;
 	    		require_once File::build_path(array("view", "view.php"));
 	    	}
     	}
@@ -40,13 +40,13 @@ class ControllerIngredient{
 	}
 
 	public static function delete(){
-		if(!is_null(myGet('idI'))){
+		if(!is_null(myGet('NumIngredient'))){
         	$view='error';
         	$pagetitle='Page 404';
 	    	require_once File::build_path(array("view", "view.php"));
 		}
 		else{
-			$idI = myGet('idI');
+			$NumIngredient = myGet('NumIngredient');
 			ModelIngredient::delete($idIngredient);
 			$tab_u = ModelIngredient::selectAll();
 	        $view='deleted';
@@ -55,6 +55,7 @@ class ControllerIngredient{
 		}
 	}
 
+	// faut changer ça
 	public static function create($nomI,$prixI){
         $v1 = new ModelIngredient($nomI,$prixI);
 		$v1->save();

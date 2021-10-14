@@ -58,13 +58,13 @@ class ModelComposer extends Model{
 
     public function save() {
         try {
-            $sql = "INSERT INTO Composer VALUES (:NumIngredient, :NumeroFiche, :QuantiteIngredient)";
+            $sql = "INSERT INTO Composer VALUES (:NumeroFiche, :NumIngredient, :QuantiteIngredient)";
             // Préparation de la requête
             $req_prep = Model::$pdo->prepare($sql);
 
             $values = array(
-                "NumIngredient" => $this->NumIngredient,
-                "NumeroFiche" => $this->NumeroFiche,
+                "NumeroFiche" => $this->FK_NumeroFiche,
+                "NumIngredient" => $this->FK_NumIngredient,
                 "QuantiteIngredient" => $this->QuantiteIngredient,
             );
             // On donne les valeurs et on exécute la requête     

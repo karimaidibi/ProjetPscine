@@ -24,10 +24,9 @@ class ModelAllergene extends Model{
 		$this->NomAllergene = $NomAllergene2;
 	}
 
-	public function __construct($nom = NULL, $NumAllergene = NULL) {
+	public function __construct($nom = NULL) {
   	if (!is_null($nom)) {
 	    $this->NomAllergene = $nom;
-        $this->NumAllergene = $NumAllergene;
     	}
   	}
 
@@ -56,7 +55,7 @@ class ModelAllergene extends Model{
 
     public function save() {
         try {
-            $sql = "INSERT INTO Allergene VALUES (:NomAllergene, :NumAllergene)";
+            $sql = "INSERT INTO Allergene VALUES (:NumAllergene, :NomAllergene)";
             // Préparation de la requête
             $req_prep = Model::$pdo->prepare($sql);
 

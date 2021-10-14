@@ -23,7 +23,7 @@ class ControllerInclure{
 	    	}
 	    	else{
         		$view='detail';
-        		$pagetitle='Inclure ' . $NumeroFiche;
+        		$pagetitle='Inclure ' . $FK_NumeroFiche;
 	    		require_once File::build_path(array("view", "view.php"));
 	    	}
     	}
@@ -34,7 +34,7 @@ class ControllerInclure{
     	}
 	}
 
-	public static function deleteV3(){
+	public static function delete(){
 		if(!is_null(myGet('FK_NumeroFiche')) && !is_null(myGet('FK_NumeroSousFiche')) && !is_null(myGet('Ordre'))){
         	$view='error';
         	$pagetitle='Page 404';
@@ -44,7 +44,7 @@ class ControllerInclure{
 			$FK_NumeroFiche = myGet('FK_NumeroFiche');
 	    	$FK_NumeroSousFiche = myGet('FK_NumeroSousFiche');
 	    	$Ordre = myGet('Ordre');
-			ModelInclure::delete($NumeroFiche);
+			ModelInclure::deleteV3($FK_NumeroFiche, $FK_NumeroSousFiche, $ordre);
 			$tab_u = ModelInclure::selectAll();
 	        $view='deleted';
 	        $pagetitle='Inclusion supprimée';
@@ -52,8 +52,8 @@ class ControllerInclure{
 		}
 	}
 
-	public static function create($NumeroSousFiche){
-        $v1 = new ModelInclure($FK_NumeroFiche,$FK_NumeroSousFiche,$Ordre);
+	public static function create($FK_NumeroFiche, $FK_NumeroSousFiche){
+        $v1 = new ModelInclure($FK_NumeroFiche,$FK_NumeroSousFiche);
 		$v1->save();
 	}
 }

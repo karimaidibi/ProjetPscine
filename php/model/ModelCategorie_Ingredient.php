@@ -25,12 +25,9 @@ class ModelCategorie_Ingredient extends Model{
 		$this->NomCategorie = $NomCategorie2;
 	}
 
-	public function __construct($nom = NULL, $NumCategorie = NULL) {
+	public function __construct($nom = NULL) {
   	if (!is_null($nom)) {
 	    $this->NomCategorie = $nom;
-        $this->NumCategorie
- = $NumCategorie
-;
     	}
   	}
 

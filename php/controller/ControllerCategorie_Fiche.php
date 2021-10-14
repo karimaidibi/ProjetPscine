@@ -1,6 +1,6 @@
 <?php
 require_once File::build_path(array("model","ModelCategorie_Fiche.php"));
-class ControllerCoefficient{
+class ControllerCategorie_Fiche{
 
 	protected static $object='Categorie_Fiche';
 

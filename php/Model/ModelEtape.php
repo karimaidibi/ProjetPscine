@@ -24,9 +24,8 @@ class ModelEtape extends Model{
         $this->DescriptionEtape = $DescriptionEtape2;
     }
 
-	public function __construct($NumEtape = NULL, $DescriptionEtape = NULL) {
+	public function __construct($DescriptionEtape = NULL){
   	if (!is_null($DescriptionEtape)) {
-        $this->NumEtape = $NumEtape;
         $this->DescriptionEtape = $DescriptionEtape;
     	}
   	}
@@ -59,9 +58,9 @@ class ModelEtape extends Model{
             $sql = "INSERT INTO Etape VALUES (:NumEtape, :DescriptionEtape)";
             // Préparation de la requête
             $req_prep = Model::$pdo->prepare($sql);
-
+            $NumEtape = self::configNumEtape()+1;
             $values = array(
-                "NumEtape" => self::configNumEtape()+1,
+                "NumEtape" => $NumEtape,
                 "DescriptionEtape" => $this->DescriptionEtape
             );
             // On donne les valeurs et on exécute la requête     
