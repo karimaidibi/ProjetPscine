@@ -19,9 +19,8 @@ echo '<div class=" container mt-5 bg-dark bg-gradient" align=center style="color
                     </div>
                     <div class="flex-fill ms-3 ">
                         <div class="input-group">
-                        </datalist>
-                            <select class="form-select btn btn-dark" type="button" id="chercherpar" >
-                                <option selected >Chercher par : </option>
+                            <select class="form-select btn btn-danger" type="button" id="chercherpar" >
+                                <option selected > Chercher par : </option>
                                 <option>Nom fiche</option>
                                 <option>Auteur</option>
                                 <option>Categorie</option>
@@ -29,8 +28,8 @@ echo '<div class=" container mt-5 bg-dark bg-gradient" align=center style="color
                             </select>
                             <input class="form-control" list="datalistOptions" id="chercherFiche" onkeyup="recherche()" placeholder="Chercher..." type="text">
                             <datalist id="datalistOptions">
-                                $NomFiche = $element->getNomFiche();
                                 <option>
+                            </datalist>
                         </div>
                     </div>                   
                 </div>
@@ -52,7 +51,7 @@ echo '<div class=" container mt-5 bg-dark bg-gradient" align=center style="color
             <!--3eme colonne colonne-->
             <div class="col-4">
                 <button type="button" class="btn btn-dark">
-                    <a class="" href="index.php?controller=ficheTechnique&action=update" style="color:white; text-decoration:none">
+                    <a href="index.php?controller=ficheTechnique&action=update" style="color:white; text-decoration:none">
                     <i class="bi bi-plus-square"></i>
                     Créer une ficher technique</a>
                 </button>
@@ -64,7 +63,7 @@ echo '<div class=" container mt-5 bg-dark bg-gradient" align=center style="color
 
       <div class="container-fluid pt-5 ps-5 pe-5">
         <!------LA TABLE QUI CONTIENT LES FICHES TECHNIQUES--------->
-        <table class="table table-striped table-hover align-middle" id="TableFiche">
+        <table class="table table-striped table-hover align-middle " id="TableFiche">
             <thead class = "table-dark">
             <tr>
                 <th scope="col">NomFiche</th>
@@ -107,7 +106,7 @@ foreach ($tab_u as $u)
                             </a>                    
                         </button>
                         <button class="btn btn-primary" type="button">
-                        <a href="index.php?controller=ficheTechnique&action=test&controller=ingredient&action=test">
+                        <a href="index.php?controller=ficheTechnique&action=apercu&NumeroFiche=' . $NumeroFiche . ' ">
                             <i class="bi bi-eye" style="font-size: 1rem; color:black;" ></i>    
                         </a>                
                         </button>

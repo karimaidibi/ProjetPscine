@@ -139,5 +139,17 @@ class ControllerFicheTechnique{
 		$v1->save();
 		return $v1->getNumeroFiche();
 	}
+
+	//apercu de la fiche 
+	public static function apercu(){
+		$view ='apercu';
+		$action ='apercu';
+		require_once File::build_path(array("view", "view.php"));
+	}
+
+	public static function apercuEtiquette(){
+		$view ='apercuEtiquette';
+		require_once File::build_path(array("view", "view.php"));
+	}
 }
 ?>

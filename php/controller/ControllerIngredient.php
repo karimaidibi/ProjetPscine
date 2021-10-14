@@ -61,5 +61,11 @@ class ControllerIngredient{
 		$v1->save();
 		return $v1->getIdIngredient();
 	}
+
+	//fonction pour modifier et créer des ingrédients
+	public static function update(){
+		$view='update';
+		require_once File::build_path(array("view", "view.php"));
+	}
 }
 ?>
