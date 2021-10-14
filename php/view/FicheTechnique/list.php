@@ -1,7 +1,7 @@
 <?php
 
 echo '<div class=" container mt-5 bg-dark bg-gradient" align=center style="color:whitesmoke;">
-        <p class="fs-5"> Chercher par catégorie, par fiche ou par ingrédient ! </p>
+        <p class="fs-5"> Chercher par catégorie, par fiche ou par auteur ! </p>
       </div>
 
       <!---La barre de recherche, trier les fiches et bouton ajouter une fiches-->
@@ -17,37 +17,44 @@ echo '<div class=" container mt-5 bg-dark bg-gradient" align=center style="color
                     <div class="flex-shrink-0 mt-1">
                             <i class="bi bi-search"></i>
                     </div>
-                    <div class="flex-grow-1 ms-3 ">
-                        <input class="form-control" list="datalistOptions" id="exampleDataList" placeholder="Chercher..." type="text">
-                        <datalist id="datalistOptions">';
-                        foreach ($tab_u as $element){
-                            $NomFiche = $element->getNomFiche();
-                             echo '<option value=' .$NomFiche. '>';
-                        }
-                  echo '</datalist> 
+                    <div class="flex-fill ms-3 ">
+                        <div class="input-group">
+                        </datalist>
+                            <select class="form-select btn btn-dark" type="button" id="chercherpar" >
+                                <option selected >Chercher par : </option>
+                                <option>Nom fiche</option>
+                                <option>Auteur</option>
+                                <option>Categorie</option>
+                                <option>Nombre de couverts</option>
+                            </select>
+                            <input class="form-control" list="datalistOptions" id="chercherFiche" onkeyup="recherche()" placeholder="Chercher..." type="text">
+                            <datalist id="datalistOptions">
+                                $NomFiche = $element->getNomFiche();
+                                <option>
+                        </div>
                     </div>                   
                 </div>
             </div>
             <!--deuxieme colonne-->
             <div class="col-3">
-                <!--- Bouton pour trier les fiches d ingrédients-->
+                <!--- Bouton pour trier les fiches techniques-->
                 <div class="dropdown">
                     <button class="btn btn-dark dropdown-toggle" type="button" id="dropdownMenu2" data-bs-toggle="dropdown" aria-expanded="false">
                         <i class="bi bi-sort-alpha-down"></i>
                       Trier par
                     </button>
                     <ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
-                      <li><button class="dropdown-item" type="button">Catégorie</button></li>
-                      <li><button class="dropdown-item" type="button">a--z</button></li>
-                      <li><button class="dropdown-item" type="button">z--a</button></li>
+                      <li><button class="dropdown-item" type="button" onClick="TrierNomAZ()" >a--z</button></li>
+                      <li><button class="dropdown-item" type="button" onClick="TrierNomZA()" >z--a</button></li>
                     </ul>
                 </div>
             </div>
             <!--3eme colonne colonne-->
             <div class="col-4">
                 <button type="button" class="btn btn-dark">
+                    <a class="" href="index.php?controller=ficheTechnique&action=update" style="color:white; text-decoration:none">
                     <i class="bi bi-plus-square"></i>
-                    Créer une ficher technique
+                    Créer une ficher technique</a>
                 </button>
             </div>
         </div>
@@ -57,7 +64,7 @@ echo '<div class=" container mt-5 bg-dark bg-gradient" align=center style="color
 
       <div class="container-fluid pt-5 ps-5 pe-5">
         <!------LA TABLE QUI CONTIENT LES FICHES TECHNIQUES--------->
-        <table class="table table-striped table-hover align-middle">
+        <table class="table table-striped table-hover align-middle" id="TableFiche">
             <thead class = "table-dark">
             <tr>
                 <th scope="col">NomFiche</th>
@@ -77,30 +84,40 @@ foreach ($tab_u as $u)
     $NbreCouverts = $u->getNbreCouverts();
     $NomAuteur = $u->getNomAuteur();
     $CoutFluide = $u->getCoutFluide();
-    
-  
+    $NumCategorieFiche = $u->getFK_NumeroCatFiche();
 
-    echo '<tr>
-        <td>'.$NomFiche.'</td>
-        <td>'.$NbreCouverts.'</td>
-        <td>'. $NomAuteur.'</td>
-        <td>@mdo</td>
-        <td>
-            <div class="d-grid gap-2 d-md-block">
-                <button class="btn btn-success" type="button">
-                    <i class="bi bi-pencil" style="font-size: 1rem;" ></i>
-                </button>
-                <button class="btn btn-danger" type="button">
-                    <i class="bi bi-trash" style="font-size: 1rem;" ></i>
-                </button>
-                <button class="btn btn-primary" type="button">
-                    <i class="bi bi-eye" style="font-size: 1rem;" ></i>                        
-                </button>
-            </div>
-        </td>
-    </tr>';
+    $NomCategorieFiche = ModelCategorie_Fiche::select($NumCategorieFiche) -> getNomCatFiche(); //une ligne = objet
+
+  
+        echo '<tr>
+                <td>'.$NomFiche.'</td>
+                <td>'.$NbreCouverts.'</td>
+                <td>'. $NomAuteur.'</td>
+                <td>'. $NomCategorieFiche.'</td>
+                <td>
+                    <div class="d-grid gap-2 d-md-block">
+                        <button class="btn btn-success" type="button">
+                            <a href="index.php?controller=ficheTechnique&action=update&NumeroFiche=' . $NumeroFiche . '">
+                            <i class="bi bi-pencil" style="font-size: 1rem; color:black;" ></i>
+                            </a>
+                        </button>
+                        <button class="btn btn-danger" type="button">
+                            <a href="index.php?controller=ficheTechnique&action=delete&NumeroFiche=' . $NumeroFiche . ' ">
+                            <i class="bi bi-trash" style="font-size: 1rem; color:black;" ></i>
+                            </a>                    
+                        </button>
+                        <button class="btn btn-primary" type="button">
+                        <a href="index.php?controller=ficheTechnique&action=test&controller=ingredient&action=test">
+                            <i class="bi bi-eye" style="font-size: 1rem; color:black;" ></i>    
+                        </a>                
+                        </button>
+                    </div>
+                </td>
+            </tr>';
 }
-echo "</tbody>
-</table>
-</div>";
+    echo "</tbody>
+        </table>
+        </div>";
 ?>
+
+<script src="../../../javascript/AffichageFiches.js"></script>

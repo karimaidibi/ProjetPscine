@@ -3,36 +3,36 @@ require_once File::build_path(array("model", "Model.php"));
 class ModelUnite extends Model{
 
 	protected static $object = 'Unite';
-	protected static $primary='idUnite';
+	protected static $primary='NumUnite';
 
-	private $idUnite;
-	private $nomUnite;
+	private $NumUnite;
+	private $NomUnite;
 
-	public function getIdUnite(){
-		return $this->idUnite;
+	public function getNumUnite(){
+		return $this->NumUnite;
 	}
 
 	public function getNomUnite(){
-		return $this->nomUnite;
+		return $this->NomUnite;
 	}
 
-	public function setIdUnite($idUnite2){
-		$this->idUnite = $idUnite2;
+	public function setNumUnite($NumUnite2){
+		$this->NumUnite = $NumUnite2;
 	}
 
-	public function setNomUnite($nomUnite2){
-		$this->nomUnite = $nomUnite2;
+	public function setNomUnite($NomUnite2){
+		$this->NomUnite = $NomUnite2;
 	}
 
-	public function __construct($nom = NULL, $idUnite = NULL) {
+	public function __construct($nom = NULL, $NumUnite = NULL) {
   	if (!is_null($nom)) {
-	    $this->nomUnite = $nom;
-        $this->idUnite = $idUnite;
+	    $this->NomUnite = $nom;
+        $this->NumUnite = $NumUnite;
     	}
   	}
 
-  	public function idUniteExiste($idU) {
-      $sql = "SELECT COUNT(*) FROM Unite WHERE idUnite = $idU";
+  	public function NumUniteExiste($idU) {
+      $sql = "SELECT COUNT(*) FROM Unite WHERE NumUnite = $idU";
       $rep = Model::$pdo->query($sql);  
       $rep->setFetchMode(PDO::FETCH_CLASS, 'Unite');
      
@@ -45,8 +45,8 @@ class ModelUnite extends Model{
       }
     }
 
-    public function configIdUnite() {
-      $sql = "SELECT MAX(idUnite) FROM Unite";
+    public function configNumUnite() {
+      $sql = "SELECT MAX(NumUnite) FROM Unite";
       $rep = Model::$pdo->query($sql);  
       $rep->setFetchMode(PDO::FETCH_CLASS, 'Unite');
      
@@ -56,13 +56,13 @@ class ModelUnite extends Model{
 
     public function save() {
         try {
-            $sql = "INSERT INTO Unite VALUES (:nomUnite, :idUnite)";
+            $sql = "INSERT INTO Unite VALUES (:NomUnite, :NumUnite)";
             // Préparation de la requête
             $req_prep = Model::$pdo->prepare($sql);
 
             $values = array(
-                "idUnite" => self::configIdUnite()+1,
-                "nomUnite" => $this->nomUnite,
+                "NumUnite" => self::configNumUnite()+1,
+                "NomUnite" => $this->NomUnite,
             );
             // On donne les valeurs et on exécute la requête     
             $req_prep->execute($values);

@@ -10,6 +10,7 @@ class ModelFicheTechnique extends Model{
     private $NbreCouverts;
     private $NomAuteur;
     private $CoutFluide;
+    private $FK_NumeroCatFiche;
 
 	public function getNumeroFiche(){
 		return $this->NumeroFiche;
@@ -29,6 +30,10 @@ class ModelFicheTechnique extends Model{
 
     public function getCoutFluide(){
         return $this->CoutFluide;
+    }
+
+    public function getFK_NumeroCatFiche(){
+        return $this->FK_NumeroCatFiche;
     }
 
 	public function setNumeroFiche($NumeroFiche2){
@@ -51,13 +56,17 @@ class ModelFicheTechnique extends Model{
         $this->CoutFluide = $CoutFluide2;
     }
 
-	public function __construct($NumeroFiche = NULL, $NomFiche = NULL, $NbreCouverts = NULL, $NomAuteur = NULL, $CoutFluide = NULL) {
-  	if (!is_null($NumeroFiche)) {
-	    $this->NumeroFiche = $NumeroFiche;
+    public function setFK_NumeroCatFiche($NumeroCatFiche2){
+        $this->$FK_NumeroCatFiche = $NumeroCatFiche2;
+    }
+
+	public function __construct($NomFiche = NULL, $NbreCouverts = NULL, $NomAuteur = NULL, $CoutFluide = NULL, $FK_NumeroCatFiche = NULL) {
+  	if (!is_null($NomFiche)) {
         $this->NomFiche = $NomFiche;
         $this->NbreCouverts = $NbreCouverts;
         $this->NomAuteur = $NomAuteur;
         $this->CoutFluide = $CoutFluide;
+        $this->FK_NumeroCatFiche = $FK_NumeroCatFiche;
         }
   	}
 
@@ -86,20 +95,19 @@ class ModelFicheTechnique extends Model{
 
     public function save() {
         try {
-            $sql = "INSERT INTO FicheTechnique VALUES (:NumeroFiche, :NomFiche, :NbreCouverts, :NomAuteur, :CoutFluide)";
+            $sql = "INSERT INTO FicheTechnique (NomFiche, NbreCouverts, NomAuteur, CoutFluide, FK_NumeroCatFiche) VALUES (:NomFiche, :NbreCouverts, :NomAuteur, :CoutFluide, :FK_NumeroCatFiche)";
             // Préparation de la requête
             $req_prep = Model::$pdo->prepare($sql);
 
             $values = array(
-                "NumeroFiche" => self::configNumeroFiche()+1,
                 "NomFiche" => $this->NomFiche,
                 "NbreCouverts" => $this->NbreCouverts,
                 "NomAuteur" => $this->NomAuteur,
                 "CoutFluide" => $this->CoutFluide,
+                "FK_NumeroCatFiche" => $this->FK_NumeroCatFiche,
             );
             // On donne les valeurs et on exécute la requête     
             $req_prep->execute($values);
-            // echo $sql;
         } catch (PDOException $e) {
             if (Conf::getDebug()) {
                 echo $e->getMessage(); // affiche un message d'erreur

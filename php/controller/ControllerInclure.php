@@ -11,9 +11,11 @@ class ControllerInclure{
     }
 
     public static function read(){
-    	if(!is_null(myGet('NumeroFiche'))){
-	    	$NumeroFiche = myGet('NumeroFiche');
-	    	$u = ModelInclure::select($NumeroFiche);
+    	if(!is_null(myGet('FK_NumeroFiche')) && !is_null(myGet('FK_NumeroSousFiche')) && !is_null(myGet('Ordre'))){
+	    	$FK_NumeroFiche = myGet('FK_NumeroFiche');
+	    	$FK_NumeroSousFiche = myGet('FK_NumeroSousFiche');
+	    	$Ordre = myGet('Ordre');
+	    	$u = ModelInclure::selectV3($FK_NumeroFiche,$FK_NumeroSousFiche,$Ordre);
 	    	if($u==false){
         		$view='error';
         		$pagetitle='Page 404';
@@ -32,14 +34,16 @@ class ControllerInclure{
     	}
 	}
 
-	public static function delete(){
-		if(!is_null(myGet('NumeroFiche'))){
+	public static function deleteV3(){
+		if(!is_null(myGet('FK_NumeroFiche')) && !is_null(myGet('FK_NumeroSousFiche')) && !is_null(myGet('Ordre'))){
         	$view='error';
         	$pagetitle='Page 404';
 	    	require_once File::build_path(array("view", "view.php"));
 		}
 		else{
-			$NumeroFiche = myGet('NumeroFiche');
+			$FK_NumeroFiche = myGet('FK_NumeroFiche');
+	    	$FK_NumeroSousFiche = myGet('FK_NumeroSousFiche');
+	    	$Ordre = myGet('Ordre');
 			ModelInclure::delete($NumeroFiche);
 			$tab_u = ModelInclure::selectAll();
 	        $view='deleted';
@@ -49,9 +53,8 @@ class ControllerInclure{
 	}
 
 	public static function create($NumeroSousFiche){
-        $v1 = new ModelInclure($NumeroSousFiche);
+        $v1 = new ModelInclure($FK_NumeroFiche,$FK_NumeroSousFiche,$Ordre);
 		$v1->save();
-		return $v1->getNumeroFiche();
 	}
 }
 ?>

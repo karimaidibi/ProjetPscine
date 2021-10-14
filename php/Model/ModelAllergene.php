@@ -3,36 +3,36 @@ require_once File::build_path(array("model", "Model.php"));
 class ModelAllergene extends Model{
 
 	protected static $object = 'Allergene';
-	protected static $primary='idAllergene';
+	protected static $primary='NumAllergene';
 
-	private $idAllergene;
-	private $nomAllergene;
+	private $NumAllergene;
+	private $NomAllergene;
 
-	public function getIdAllergene(){
-		return $this->idAllergene;
+	public function getNumAllergene(){
+		return $this->NumAllergene;
 	}
 
 	public function getNomAllergene(){
-		return $this->nomAllergene;
+		return $this->NomAllergene;
 	}
 
-	public function setIdAllergene($idAllergene2){
-		$this->idAllergene = $idAllergene2;
+	public function setNumAllergene($NumAllergene2){
+		$this->NumAllergene = $NumAllergene2;
 	}
 
-	public function setNomAllergene($nomAllergene2){
-		$this->nomAllergene = $nomAllergene2;
+	public function setNomAllergene($NomAllergene2){
+		$this->NomAllergene = $NomAllergene2;
 	}
 
-	public function __construct($nom = NULL, $idAllergene = NULL) {
+	public function __construct($nom = NULL, $NumAllergene = NULL) {
   	if (!is_null($nom)) {
-	    $this->nomAllergene = $nom;
-        $this->idAllergene = $idAllergene;
+	    $this->NomAllergene = $nom;
+        $this->NumAllergene = $NumAllergene;
     	}
   	}
 
-  	public function idAllergeneExiste($idA) {
-      $sql = "SELECT COUNT(*) FROM Allergene WHERE idAllergene = $idA";
+  	public function NumAllergeneExiste($idA) {
+      $sql = "SELECT COUNT(*) FROM Allergene WHERE NumAllergene = $idA";
       $rep = Model::$pdo->query($sql);  
       $rep->setFetchMode(PDO::FETCH_CLASS, 'Allergene');
      
@@ -45,8 +45,8 @@ class ModelAllergene extends Model{
       }
     }
 
-    public function configIdAllergene() {
-      $sql = "SELECT MAX(idAllergene) FROM Allergene";
+    public function configNumAllergene() {
+      $sql = "SELECT MAX(NumAllergene) FROM Allergene";
       $rep = Model::$pdo->query($sql);  
       $rep->setFetchMode(PDO::FETCH_CLASS, 'Allergene');
      
@@ -56,13 +56,13 @@ class ModelAllergene extends Model{
 
     public function save() {
         try {
-            $sql = "INSERT INTO Allergene VALUES (:nomAllergene, :idAllergene)";
+            $sql = "INSERT INTO Allergene VALUES (:NomAllergene, :NumAllergene)";
             // Préparation de la requête
             $req_prep = Model::$pdo->prepare($sql);
 
             $values = array(
-                "idAllergene" => self::configIdAllergene()+1,
-                "nomAllergene" => $this->nomAllergene,
+                "NumAllergene" => self::configNumAllergene()+1,
+                "NomAllergene" => $this->NomAllergene,
             );
             // On donne les valeurs et on exécute la requête     
             $req_prep->execute($values);

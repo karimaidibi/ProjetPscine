@@ -6,15 +6,10 @@ class ModelEtape extends Model{
 	protected static $primary='NumEtape';
 
 	private $NumEtape;
-	private $nomEtape;
     private $DescriptionEtape;
 
 	public function getNumEtape(){
 		return $this->NumEtape;
-	}
-
-	public function getNomEtape(){
-		return $this->nomEtape;
 	}
 
     public function getDescriptionEtape(){
@@ -25,17 +20,12 @@ class ModelEtape extends Model{
 		$this->NumEtape = $NumEtape2;
 	}
 
-	public function setNomEtape($nomEtape2){
-		$this->nomEtape = $nomEtape2;
-	}
-
     public function setDescriptionEtape($DescriptionEtape2){
         $this->DescriptionEtape = $DescriptionEtape2;
     }
 
-	public function __construct($nom = NULL, $NumEtape = NULL, $DescriptionEtape = NULL) {
-  	if (!is_null($nom)) {
-	    $this->nomEtape = $nom;
+	public function __construct($NumEtape = NULL, $DescriptionEtape = NULL) {
+  	if (!is_null($DescriptionEtape)) {
         $this->NumEtape = $NumEtape;
         $this->DescriptionEtape = $DescriptionEtape;
     	}
@@ -66,14 +56,13 @@ class ModelEtape extends Model{
 
     public function save() {
         try {
-            $sql = "INSERT INTO Etape VALUES (:nomEtape, :NumEtape, :DescriptionEtape)";
+            $sql = "INSERT INTO Etape VALUES (:NumEtape, :DescriptionEtape)";
             // Préparation de la requête
             $req_prep = Model::$pdo->prepare($sql);
 
             $values = array(
                 "NumEtape" => self::configNumEtape()+1,
-                "nomEtape" => $this->nomEtape
-                "DescriptionEtape" => $this->DescriptionEtape,
+                "DescriptionEtape" => $this->DescriptionEtape
             );
             // On donne les valeurs et on exécute la requête     
             $req_prep->execute($values);

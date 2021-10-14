@@ -30,7 +30,27 @@ class Model{
 	    return $rep->fetchAll();
   	}
 
-  	public static function select($primary_value) {
+  	public static function select2($primary_value) {
+  		$table_name = static::$object;
+  		$class_name = 'Model' . ucfirst($table_name);
+  		$primary_key = static::$primary2;
+	    $sql = "SELECT * from " . $table_name . " WHERE " . $primary_key . "=:nom_tag";
+	    $req_prep = Model::$pdo->prepare($sql);
+
+	    $values = array(
+	        "nom_tag" => $primary_value,
+	    );	 
+	    $req_prep->execute($values);
+	    $req_prep->setFetchMode(PDO::FETCH_CLASS, $class_name);
+	    $tab_voit = $req_prep->fetchAll();
+	    // Attention, si il n'y a pas de résultats, on renvoie false
+    	if (empty($tab_voit)){
+        	return false;
+    	}
+    	return $tab_voit;
+	}
+
+	public static function select($primary_value) {
   		$table_name = static::$object;
   		$class_name = 'Model' . ucfirst($table_name);
   		$primary_key = static::$primary;
@@ -39,6 +59,75 @@ class Model{
 
 	    $values = array(
 	        "nom_tag" => $primary_value,
+	    );	 
+	    $req_prep->execute($values);
+	    $req_prep->setFetchMode(PDO::FETCH_CLASS, $class_name);
+	    $tab_voit = $req_prep->fetchAll();
+	    // Attention, si il n'y a pas de résultats, on renvoie false
+    	if (empty($tab_voit)){
+        	return false;
+    	}
+    	return $tab_voit[0]; 
+    	print_r($tab_voit[0]);
+	}
+
+	public static function update($data){
+        $table_name = ucfirst(static::$object);
+        $primary_key = static::$primary;
+        $sql = "UPDATE " . $table_name ." SET";
+        foreach ($data as $cle => $valeur){
+            if ($cle != "primary"){
+                $sql = $sql." $cle =:$cle,";
+            }
+        }
+        try{
+            $sql = rtrim($sql, ",");
+            $sql = $sql
+                    . " WHERE $primary_key=:primary";
+            
+            $req_prep = Model::$pdo->prepare($sql);
+            $req_prep->execute($data);
+            
+        } catch (Exception $ex) {
+            echo $ex->getMessage();
+        }
+    }
+
+	public static function selectV2($primary_value1, $primary_value2) {
+  		$table_name = static::$object;
+  		$class_name = 'Model' . ucfirst($table_name);
+  		$primary_key = static::$primary;
+  		$primary_key2 = static::$primary2;
+	    $sql = "SELECT * from " . $table_name . " WHERE " . $primary_key . "=:nom_tag AND " . $primary_key2 . "=:nom_tag2";
+	    $req_prep = Model::$pdo->prepare($sql);
+
+	    $values = array(
+	        "nom_tag" => $primary_value,
+	        "nom_tag2" => $primary_value2,
+	    );	 
+	    $req_prep->execute($values);
+	    $req_prep->setFetchMode(PDO::FETCH_CLASS, $class_name);
+	    $tab_voit = $req_prep->fetchAll();
+	    // Attention, si il n'y a pas de résultats, on renvoie false
+    	if (empty($tab_voit)){
+        	return false;
+    	}
+    	return $tab_voit[0];
+	}
+
+	public static function selectV3($primary_value1, $primary_value2, $primary_value3) {
+  		$table_name = static::$object;
+  		$class_name = 'Model' . ucfirst($table_name);
+  		$primary_key = static::$primary;
+  		$primary_key2 = static::$primary2;
+  		$primary_key3 = static::$primary3;
+	    $sql = "SELECT * from " . $table_name . " WHERE " . $primary_key . "=:nom_tag AND " . $primary_key2 . "=:nom_tag2 AND " . $primary_key3 . "=:nom_tag3";
+	    $req_prep = Model::$pdo->prepare($sql);
+
+	    $values = array(
+	        "nom_tag" => $primary_value,
+	        "nom_tag2" => $primary_value2,
+	        "nom_tag3" => $primary_value3,
 	    );	 
 	    $req_prep->execute($values);
 	    $req_prep->setFetchMode(PDO::FETCH_CLASS, $class_name);
@@ -69,6 +158,34 @@ class Model{
     	$req_prep = Model::$pdo->prepare($sql);
     	$values = array(
     	   "nom_tag" => $primary,
+    	);
+    	$req_prep->execute($values);
+	}
+
+	public static function deleteV2($primary, $primary2){
+		$table_name = static::$object;
+		$primary_key = static::$primary;
+		$primary_key2 = static::$primary2;
+		$sql = "DELETE FROM " . $table_name . " WHERE " . $primary_key . "=:nom_tag AND " . $primary_key2 . "=:nom_tag2";
+    	$req_prep = Model::$pdo->prepare($sql);
+    	$values = array(
+    	   "nom_tag" => $primary,
+    	   "nom_tag2" => $primary2,
+    	);
+    	$req_prep->execute($values);
+	}
+
+	public static function deleteV3($primary, $primary2, $primary3){
+		$table_name = static::$object;
+		$primary_key = static::$primary;
+		$primary_key2 = static::$primary2;
+		$primary_key3 = static::$primary3;
+		$sql = "DELETE FROM " . $table_name . " WHERE " . $primary_key . "=:nom_tag AND " . $primary_key2 . "=:nom_tag2 AND " . $primary_key3 . "=:nom_tag3";
+    	$req_prep = Model::$pdo->prepare($sql);
+    	$values = array(
+    	   "nom_tag" => $primary,
+    	   "nom_tag2" => $primary2,
+    	   "nom_tag3" => $primary3,
     	);
     	$req_prep->execute($values);
 	}

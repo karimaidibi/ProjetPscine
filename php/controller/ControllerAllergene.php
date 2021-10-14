@@ -1,20 +1,20 @@
 <?php
-require_once File::build_path(array("model", "ModelCategorie.php"));
-class ControllerCategorie{
+require_once File::build_path(array("model", "ModelAllergene.php"));
+class ControllerAllergene{
 
-	protected static $object='categorie';
+	protected static $object='allergene';
 
 	public static function readAll() {
-        $tab_u = ModelCategorie::selectAll();     //appel au modèle pour gerer la BD  //"redirige" vers la vue
+        $tab_u = ModelAllergene::selectAll();     //appel au modèle pour gerer la BD  //"redirige" vers la vue
         $view='list';
-        $pagetitle='Liste des catégories';
+        $pagetitle='Liste des allergènes';
         require_once File::build_path(array("view", "view.php"));
     }
 
     public static function read(){
-    	if(!is_null(myGet('idC'))){
-	    	$idC = myGet('idC');
-	    	$u = ModelCategorie::select($idCategorie);
+    	if(!is_null(myGet('idA'))){
+	    	$idA = myGet('idA');
+	    	$u = ModelAllergene::select($idAllergene);
 	    	if($u==false){
         		$view='error';
         		$pagetitle='Page 404';
@@ -22,7 +22,7 @@ class ControllerCategorie{
 	    	}
 	    	else{
         		$view='detail';
-        		$pagetitle='Catégorie ' . $idC;
+        		$pagetitle='Catégorie ' . $idA;
 	    		require_once File::build_path(array("view", "view.php"));
 	    	}
     	}
@@ -34,25 +34,25 @@ class ControllerCategorie{
 	}
 
 	public static function delete(){
-		if(!is_null(myGet('idC'))){
+		if(!is_null(myGet('idA'))){
         	$view='error';
         	$pagetitle='Page 404';
 	    	require_once File::build_path(array("view", "view.php"));
 		}
 		else{
-			$idC = myGet('idC');
-			ModelCategorie::delete($idCategorie);
-			$tab_u = ModelCategorie::selectAll();
+			$idA = myGet('idA');
+			ModelAllergene::delete($idAllergene);
+			$tab_u = ModelAllergene::selectAll();
 	        $view='deleted';
 	        $pagetitle='Catégorie supprimé';
 		    require_once File::build_path(array("view", "view.php"));
 		}
 	}
 
-	public static function create($nomC){
-        $v1 = new ModelCategorie($nomC);
+	public static function create($nomA){
+        $v1 = new ModelAllergene($nomA);
 		$v1->save();
-		return $v1->getIdCategorie();
+		return $v1->getIdAllergene();
 	}
 }
 ?>
