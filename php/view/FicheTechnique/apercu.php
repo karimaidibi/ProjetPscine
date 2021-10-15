@@ -1,5 +1,35 @@
 <?php
-        echo '
+
+    $NumeroFiche = $cetteFiche -> getNumeroFiche();
+    $NomFiche = $cetteFiche ->getNomFiche();
+    $nbreCouverts = $cetteFiche -> getNbreCouverts();
+    $NomAuteur = $cetteFiche -> getNomAuteur();
+    $CoutFluide = $cetteFiche -> getCoutFluide();
+    $NumeroCategorie = $cetteFiche->getFK_NumeroCatFiche();
+
+    //objet categorie
+    $cetteCategorie = ModelCategorie_Fiche::select($NumeroCategorie);
+    $NomCategorie = $cetteCategorie -> getNomCatFiche();
+
+    //les progression ? on a besoin de savoir quelles sont les etapes appartenant a cette fiche et les afficher.
+    //select DescriptionEtape from contenir join Etape on FK_NumEtape = NumEtape where NumeroFiche = $NumeroFiche
+    // mais ou mettre cette requete? je vais la mettre dans une fonction dans le model fichetechnique et lappeler depuis le controller
+    /*echo '<pre>';
+    print_r($Progressions);
+    echo '</pre>';*/ 
+    //on récupère les progressions dans la variable $Progressions
+
+
+    //les coefficients?
+    //echo '<pre>';
+      //  print_r($Coefficients);
+    //echo '</pre>';
+    //les sousfiches?
+
+
+    //les ingrédients?
+
+        echo'
             <!--Bouton aperçu fiche avec prix, sans prix, ou etiquette -->
             <div class="container-fluid mt-5" align=center>
                 <div class="dropdown">
@@ -10,7 +40,7 @@
                         <li><button class="dropdown-item" type="button" >Fiche avec prix</button></li>
                         <li><button class="dropdown-item" type="button">Fiche sans prix</button></li>
                         <li>
-                            <a href="index.php?controller=ficheTechnique&action=apercuEtiquette&NumeroFiche=' . myGet('NumeroFiche') . ' " style="color:white; text-decoration:none">
+                            <a href="index.php?controller=ficheTechnique&action=apercuEtiquette&NumeroFiche=' .$NumeroFiche . ' " style="color:white; text-decoration:none">
                             <button class="dropdown-item" type="button">Etiquette</button>
                             </a>
                         </li>
@@ -26,18 +56,22 @@
                 <div class="col-6" >
                     <ul class="list-group list-group-flush">
                         <li class="list-group-item"><strong>Descriptifs</strong></li>
-                        <li class="list-group-item"><strong>Nom de la fiche : </strong>Malakoff</li>
-                        <li class="list-group-item"><strong>Nombre de couverts : </strong>4</li>
-                        <li class="list-group-item"><strong>Auteur : </strong>karim</li>
-                        <li class="list-group-item"><strong>Catégorie : </strong>Dessert</li>
+                        <li class="list-group-item"><strong>Nom de la fiche : </strong>' .$NomFiche.'</li>
+                        <li class="list-group-item"><strong>Nombre de couverts : </strong>' .$nbreCouverts. '</li>
+                        <li class="list-group-item"><strong>Auteur : </strong>' .$NomAuteur. '</li>
+                        <li class="list-group-item"><strong>Catégorie : </strong> ' .$NomCategorie. '</li>
                     </ul>
                 </div>
                 <!-- La liste des coefficients utilisés dans la fiche technique-->
                 <div class="col-6" >
                     <ul class="list-group list-group-flush">
-                        <li class="list-group-item"><strong>Coefficients utlisés</strong></li>
-                        <li class="list-group-item"><strong>Coeff Ass : </strong>0.5</li>
-                        <li class="list-group-item"><strong>Coeff cout personnel : </strong>7</li>
+                    <li class="list-group-item"><strong>Coefficients et couts utlisés</strong></li>';
+                foreach($Coefficients as $coeff){
+                    echo 
+                      ' <li class="list-group-item"><strong>Coeff : </strong> ' .$coeff["valeurCoefficient"]. '</li>';
+                }
+                    echo '
+                        <li class="list-group-item"><strong>Cout de fluide : </strong>' .$CoutFluide.'</li>
                     </ul>
                 </div>
             </div>
@@ -52,20 +86,19 @@
                     <table class="table table-hover table-striped align-middle">
                         <thead>
                         <tr>
-                            <th scope="col"></th>
+                            <th scope="col">ordre</th>
                             <th scope="col"> Progressions </th>
-                            <th scope="col"></th>
                         </tr>
                         </thead>
-                        <tbody>
-                        <tr>
-                            <th scope="row">1</th>
-                            <td>Verser 3ml du lait puis chauffer à feu douce</td>
-                        </tr>
-                        <tr>
-                            <th scope="row">2</th>
-                            <td>Couper la viande en morceaux </td>
-                        </tr>
+                        <tbody>';
+                foreach($Progressions as $p){
+            echo  
+                        '<tr>
+                            <th scope="row"> ' .$p["ordre"]. '</th>
+                            <td> ' .$p["DescriptionEtape"]. ' </td>
+                        </tr>';
+                }
+                echo '
                         </tbody>
                     </table>
                 </div>
@@ -88,7 +121,7 @@
                         <!-- Deuxième ligne-->
                         <tr>
                             <!-- première colonne-->
-                            <th scope="col">CODE</th>
+                            <th scope="col">ALLERGENE</th>
                             <!-- deuxième colonne-->
                             <th scope="col">Ingrédient</th>
                             <!-- 3ème colonne-->
@@ -102,37 +135,27 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <!-- 3ème  ligne-->
-                        <tr>
-                            <!-- Première colonne (code) -->
-                            <th scope="row">1</th>
-                            <!-- deuxième colonne (ingrédient)-->
-                            <td>Tomate</td>
-                            <!-- 3ème colonne (Unitairé)-->
-                            <td>Kg</td>
-                            <!-- 4èmme colonne (Qté_Ing)-->
-                            <td> 5</td>
-                            <!-- 5ème colonne (PrixU)-->
-                            <td>5€</td>
-                            <!-- 6èmme colonne(PTHT)-->
-                            <td>0.2€</td>
-                        </tr>
-                        <!--4ème lignne-->
-                            <!-- 3ème  ligne-->
-                            <tr>
-                            <!-- Première colonne (code) -->
-                            <th scope="row">1</th>
-                            <!-- deuxième colonne (ingrédient)-->
-                            <td>Tomate</td>
-                            <!-- 3ème colonne (Unitairé)-->
-                            <td>Kg</td>
-                            <!-- 4èmme colonne (Qté_Ing)-->
-                            <td> 5</td>
-                            <!-- 5ème colonne (PrixU)-->
-                            <td>5€</td>
-                            <!-- 6èmme colonne(PTHT)-->
-                            <td>0.2€</td>
-                            </tr>
+                        <!-- 3ème  ligne-->';
+                foreach($Ingredients as $Ing){
+                    $NomAllergene = ModelAllergene::select($Ing["FK_NumAllergene"]) -> getNomAllergene();
+                    $NomUnite = ModelUnite::select($Ing["FK_NumUnite"]) -> getNomUnite();
+                        echo 
+                            '<tr>
+                                <!-- Première colonne (code) -->
+                                <th scope="row"> ' .$NomAllergene. ' </th>
+                                <!-- deuxième colonne (ingrédient)-->
+                                <td>' .$Ing["NomIng"]. '</td>
+                                <!-- 3ème colonne (Unitairé)-->
+                                <td>' .$NomUnite. '</td>
+                                <!-- 4èmme colonne (Qté_Ing)-->
+                                <td> ' .$Ing["QuantiteIngredient"]. '</td>
+                                <!-- 5ème colonne (PrixU)-->
+                                <td> ' .$Ing["prixUnitaireIng"]. ' </td>
+                                <!-- 6èmme colonne(PTHT)-->
+                                <td> ptht calculé </td>
+                            </tr>';
+                }
+                echo ' 
                     </tbody>
                     </table>
                 </div>
@@ -189,35 +212,29 @@
                             <th scop="col" colspan="5"> Fiches techniques : </th>
                             </tr>
                             <tr>
-                                <th scope="col">Code</th>
+                                <th scope="col">ordre</th>
                                 <th scope="col">NomFiche</th>
                                 <th scope="col">NbreCouverts</th>
                                 <th scope="col">NomAuteur</th>
                                 <th scope="col">Catégorie</th>
                             </tr>
                             </thead>
-                            <tbody>
-                            <tr>
-                                <th scope="row">1</th>
-                                <td>Malakoff</td>
-                                <td>4</td>
-                                <td>karim</td>
-                                <td>Dessert</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">1</th>
-                                <td>Malakoff</td>
-                                <td>4</td>
-                                <td>karim</td>
-                                <td>Dessert</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">1</th>
-                                <td>Malakoff</td>
-                                <td>4</td>
-                                <td>karim</td>
-                                <td>Dessert</td>
-                            </tr>
+                            <tbody>';
+                    foreach($SousFiches as $sousfiche){
+                        //recuperer le nom de numero categorie de chaque sous fiche 
+                        $NumCatFiche = $sousfiche["FK_NumeroCatFiche"];
+                        $cetteCategorie = ModelCategorie_Fiche::select($NumCatFiche);
+                        $NomCategorie = $cetteCategorie -> getNomCatFiche();
+                        echo
+                           '<tr>
+                                <th scope="row">' .$sousfiche["ordre"].'</th>
+                                <td>' .$sousfiche["NomFiche"]. '</td>
+                                <td>' .$sousfiche["NbreCouverts"]. '</td>
+                                <td>' .$sousfiche["NomAuteur"]. '</td>
+                                <td>' .$NomCategorie. '</td>
+                            </tr>';
+                    }
+                    echo '
                             </tbody>
                         </table>
                     </div>

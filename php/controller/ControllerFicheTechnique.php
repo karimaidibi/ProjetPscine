@@ -140,16 +140,26 @@ class ControllerFicheTechnique{
 		return $v1->getNumeroFiche();
 	}
 
-	//apercu de la fiche 
+	//apercu de la fiche (page pour imprimer la fiche avec les prix)
 	public static function apercu(){
+		$NumeroFiche = myGet('NumeroFiche'); //recuperer le num de la fiche actuelle
+		$Progressions = ModelFicheTechnique::selectProgressionsOf($NumeroFiche);
+		$Coefficients = ModelFicheTechnique::selectCoefficientsOf($NumeroFiche);
+		$Ingredients = ModelFicheTechnique::selectIngredientsOf($NumeroFiche);
+		$SousFiches = ModelFicheTechnique::selectSousFichesOf($NumeroFiche);
 		$view ='apercu';
-		$action ='apercu';
+		$cetteFiche = ModelFicheTechnique::select($NumeroFiche); // recuperer lobjet fiche ayant ce numero 
 		require_once File::build_path(array("view", "view.php"));
 	}
 
+	//apercu de letiquette
 	public static function apercuEtiquette(){
+		$NumeroFiche = myGet('NumeroFiche'); //recuperer le num de la fiche actuelle
+		$Ingredients = ModelFicheTechnique::selectIngredientsOf($NumeroFiche);
 		$view ='apercuEtiquette';
 		require_once File::build_path(array("view", "view.php"));
 	}
+
+
 }
 ?>

@@ -1,4 +1,6 @@
 <?php
+ini_set('display_errors', 'on'); 
+require_once "lib/File.php";
 require_once File::build_path(array("model", "Model.php"));
 class ModelFicheTechnique extends Model{
 
@@ -119,5 +121,81 @@ class ModelFicheTechnique extends Model{
             die();
         }
     }
+
+    /*Requette pour recuperer toutes les progressions appartenant à une fiche donnée
+        - cette requette n'est pas generique à toute les tables, de ce fait j'ai choisit de la mettre ici */
+    public static function selectProgressionsOf($NumeroFiche){
+        try{
+            //select DescriptionEtape from contenir join Etape on FK_NumEtape = NumEtape where NumeroFiche = $NumeroFiche
+            $sql = "SELECT DescriptionEtape, ordre FROM etape e JOIN contenir c ON e.NumEtape = c.FK_NumEtape WHERE c.FK_NumeroFiche = $NumeroFiche ORDER BY ordre ASC";
+            $req_prep = Model::$pdo->prepare($sql);
+            $req_prep->execute();
+        } catch (PDOException $e){
+            if (Conf::getDebug()) {
+                echo $e->getMessage(); // affiche un message d'erreur
+            } else {
+                echo 'Une erreur est survenue <a href=""> retour a la page d\'accueil </a>';
+            }
+            die();
+        }
+	    return $req_prep->fetchAll();
+    }
+
+    /*Requette pour recuperer touts les coefficients appartenant à une fiche donnée
+        - cette requette n'est pas generique à toute les tables, de ce fait j'ai choisit de la mettre ici */
+        public static function selectCoefficientsOf($NumeroFiche){
+            try{
+                // select touts les coefficients dans la table coefficients ayant comme code un code utilisé par une fiche technique précise
+                $sql = "SELECT valeurCoefficient FROM coefficient c JOIN utiliser u ON c.CodeCoeff = u.FK_CodeCoeff WHERE u.FK_NumeroFiche = $NumeroFiche";
+                $req_prep = Model::$pdo->prepare($sql);
+                $req_prep->execute();
+            } catch (PDOException $e){
+                if (Conf::getDebug()) {
+                    echo $e->getMessage(); // affiche un message d'erreur
+                } else {
+                    echo 'Une erreur est survenue <a href=""> retour a la page d\'accueil </a>';
+                }
+                die();
+            }
+            return $req_prep->fetchAll();
+        }
+    /*Requette pour recuperer touts les ingredients appartenant à une fiche donnée
+        - cette requette n'est pas generique à toute les tables, de ce fait j'ai choisit de la mettre ici */
+        public static function selectIngredientsOf($NumeroFiche){
+            try{
+                // select touts les coefficients dans la table coefficients ayant comme code un code utilisé par une fiche technique précise
+                $sql = "SELECT * FROM ingredient i JOIN composer c ON i.NumIngredient = c.FK_NumIngredient WHERE c.FK_NumeroFiche = $NumeroFiche";
+                $req_prep = Model::$pdo->prepare($sql);
+                $req_prep->execute();
+            } catch (PDOException $e){
+                if (Conf::getDebug()) {
+                    echo $e->getMessage(); // affiche un message d'erreur
+                } else {
+                    echo 'Une erreur est survenue <a href=""> retour a la page d\'accueil </a>';
+                }
+                die();
+            }
+            return $req_prep->fetchAll();
+        }
+
+    /*Requette pour recuperer toutes les fiches appartenante à une fiche donnée
+        - cette requette n'est pas generique à toute les tables, de ce fait j'ai choisit de la mettre ici */
+        public static function selectSousFichesOf($NumeroFiche){
+            try{
+
+                $sql = "SELECT * FROM inclure i JOIN fichetechnique f ON i.FK_NumeroSousFiche = f.NumeroFiche WHERE i.FK_NumeroFiche = $NumeroFiche ORDER BY ordre ASC";
+                $req_prep = Model::$pdo->prepare($sql);
+                $req_prep->execute();
+            } catch (PDOException $e){
+                if (Conf::getDebug()) {
+                    echo $e->getMessage(); // affiche un message d'erreur
+                } else {
+                    echo 'Une erreur est survenue <a href=""> retour a la page d\'accueil </a>';
+                }
+                die();
+            }
+            return $req_prep->fetchAll();
+        }
+
 }
 ?>

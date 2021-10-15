@@ -51,8 +51,18 @@
                         </div>
 
                         <!-- division des ingrédients, ingrédients non allergènes en gras-->
-                        <div class="float-start">
-                            ingr"dient1, ingrédient2, ... ingr"dient1, ingrédient2, ... ingr"dient1, ingrédient2, ... ingr"dient1, ingrédient2, ... ingr"dient1, ingrédient2, ... ingr"dient1, ingrédient2, ... ingr"dient1, ingrédient2, ... ingr"dient1, ingrédient2, ... ingr"dient1, ingrédient2, ... ingr"dient1, ingrédient2,
+                        <div class="float-start">';
+                foreach($Ingredients as $Ing){
+                    $NomIngredient = $Ing["NomIng"];
+                    $NumAllergene = $Ing["FK_NumAllergene"];
+                    if(is_null($NumAllergene)){
+                        echo $NomIngredient. ', ';
+                    }else{
+                        echo ' <strong> ' .$NomIngredient. ' </strong>';
+                    }
+                }
+                echo '
+                            
                         </div>
                 </div>
             </div>
