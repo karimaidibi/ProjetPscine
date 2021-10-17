@@ -61,6 +61,28 @@ class ControllerIngredient{
 		return $v1->getNumIngredient();
 	}
 
+	public static function created(){
+		$NomIng=myGet('NomIng');
+		$prixUnitaireIng=myGet('prixUnitaireIng');
+		$QteStockIngredient=myGet('QteStockIngredient');
+		$FK_NumUnite=myGet('FK_NumUnite');
+		$FK_NumAllergene=myGet('FK_NumAllergene');
+		$FK_CodeTVA=myGet('FK_CodeTVA');
+		$FK_NumCategorie=myGet('FK_NumCategorie');
+		$Ingredient = new ModelIngredient($NomIng,$prixUnitaireIng,$QteStockIngredient,$FK_NumUnite,$FK_NumAllergene,$FK_CodeTVA,$FK_NumCategorie);
+		$Ingredient->save();
+		self::readAll();
+	}
+
+	/*private $NumIngredient;
+	private $NomIng;
+    private $prixUnitaireIng;
+    private $QteStockIngredient;
+    private $FK_NumUnite;
+    private $FK_NumAllergene;
+    private $FK_CodeTVA;
+    private $FK_NumCategorie;*/
+
 	//fonction pour modifier et créer des ingrédients
 	public static function update(){
 		$tab_u = ModelIngredient::selectAll();
