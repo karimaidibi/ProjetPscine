@@ -13,6 +13,8 @@ class ModelFicheTechnique extends Model{
     private $NomAuteur;
     private $CoutFluide;
     private $FK_NumeroCatFiche;
+    private $FK_CodeCoeffAss;
+    private $FK_CodeCoeffCoutPersonnel;
 
 	public function getNumeroFiche(){
 		return $this->NumeroFiche;
@@ -36,6 +38,14 @@ class ModelFicheTechnique extends Model{
 
     public function getFK_NumeroCatFiche(){
         return $this->FK_NumeroCatFiche;
+    }
+
+    public function getFK_CodeCoeffAss(){
+        return $this->FK_CodeCoeffAss;
+    }
+
+    public function getFK_CodeCoeffCoutPersonnel(){
+        return $this->FK_CodeCoeffCoutPersonnel;
     }
 
 	public function setNumeroFiche($NumeroFiche2){
@@ -62,13 +72,24 @@ class ModelFicheTechnique extends Model{
         $this->$FK_NumeroCatFiche = $NumeroCatFiche2;
     }
 
-	public function __construct($NomFiche = NULL, $NbreCouverts = NULL, $NomAuteur = NULL, $CoutFluide = NULL, $FK_NumeroCatFiche = NULL) {
+    public function setFK_CodeCoeffAss($CodeCoeffAss2){
+        $this->$FK_CodeCoeffAss = $CodeCoeffAss2;
+    }
+
+    public function setFK_CodeCoeffCoutPersonnel($CodeCoeffCoutPersonnel2){
+        $this->$FK_CodeCoeffCoutPersonnel = $CodeCoeffCoutPersonnel2;
+    }
+
+
+	public function __construct($NomFiche = NULL, $NbreCouverts = NULL, $NomAuteur = NULL, $CoutFluide = NULL, $FK_NumeroCatFiche = NULL, $FK_CodeCoeffAss = NULL, $FK_CodeCoeffCoutPersonnel = NULL) {
   	if (!is_null($NomFiche)) {
         $this->NomFiche = $NomFiche;
         $this->NbreCouverts = $NbreCouverts;
         $this->NomAuteur = $NomAuteur;
         $this->CoutFluide = $CoutFluide;
         $this->FK_NumeroCatFiche = $FK_NumeroCatFiche;
+        $this->FK_CodeCoeffAss = $FK_CodeCoeffAss;
+        $this->FK_CodeCoeffCoutPersonnel = $FK_CodeCoeffCoutPersonnel;
         }
   	}
 
@@ -97,7 +118,7 @@ class ModelFicheTechnique extends Model{
 
     public function save() {
         try {
-            $sql = "INSERT INTO FicheTechnique (NumeroFiche ,NomFiche, NbreCouverts, NomAuteur, CoutFluide, FK_NumeroCatFiche) VALUES (:NumeroFiche, :NomFiche, :NbreCouverts, :NomAuteur, :CoutFluide, :FK_NumeroCatFiche)";
+            $sql = "INSERT INTO FicheTechnique (NumeroFiche ,NomFiche, NbreCouverts, NomAuteur, CoutFluide, FK_NumeroCatFiche, FK_CodeCoeffAss, FK_CodeCoeffCoutPersonnel) VALUES (:NumeroFiche, :NomFiche, :NbreCouverts, :NomAuteur, :CoutFluide, :FK_NumeroCatFiche, :FK_CodeCoeffAss, :FK_CodeCoeffCoutPersonnel)";
             // Préparation de la requête
             $req_prep = Model::$pdo->prepare($sql);
             $NumeroFiche = self::configNumeroFicheTechnique() + 1;
@@ -108,6 +129,8 @@ class ModelFicheTechnique extends Model{
                 "NomAuteur" => $this->NomAuteur,
                 "CoutFluide" => $this->CoutFluide,
                 "FK_NumeroCatFiche" => $this->FK_NumeroCatFiche,
+                "FK_CodeCoeffAss" => $this->FK_CodeCoeffAss,
+                "FK_CodeCoeffCoutPersonnel" => $this->FK_CodeCoeffCoutPersonnel
             );
             self::setNumeroFiche($NumeroFiche);
             // On donne les valeurs et on exécute la requête     
@@ -141,24 +164,6 @@ class ModelFicheTechnique extends Model{
 	    return $req_prep->fetchAll();
     }
 
-    /*Requette pour recuperer touts les coefficients appartenant à une fiche donnée
-        - cette requette n'est pas generique à toute les tables, de ce fait j'ai choisit de la mettre ici */
-        public static function selectCoefficientsOf($NumeroFiche){
-            try{
-                // select touts les coefficients dans la table coefficients ayant comme code un code utilisé par une fiche technique précise
-                $sql = "SELECT * FROM coefficient c JOIN utiliser u ON c.CodeCoeff = u.FK_CodeCoeff WHERE u.FK_NumeroFiche = $NumeroFiche";
-                $req_prep = Model::$pdo->prepare($sql);
-                $req_prep->execute();
-            } catch (PDOException $e){
-                if (Conf::getDebug()) {
-                    echo $e->getMessage(); // affiche un message d'erreur
-                } else {
-                    echo 'Une erreur est survenue <a href=""> retour a la page d\'accueil </a>';
-                }
-                die();
-            }
-            return $req_prep->fetchAll();
-        }
     /*Requette pour recuperer touts les ingredients appartenant à une fiche donnée
         - cette requette n'est pas generique à toute les tables, de ce fait j'ai choisit de la mettre ici */
         public static function selectIngredientsOf($NumeroFiche){
@@ -184,42 +189,6 @@ class ModelFicheTechnique extends Model{
             try{
 
                 $sql = "SELECT * FROM inclure i JOIN fichetechnique f ON i.FK_NumeroSousFiche = f.NumeroFiche WHERE i.FK_NumeroFiche = $NumeroFiche ORDER BY ordre ASC";
-                $req_prep = Model::$pdo->prepare($sql);
-                $req_prep->execute();
-            } catch (PDOException $e){
-                if (Conf::getDebug()) {
-                    echo $e->getMessage(); // affiche un message d'erreur
-                } else {
-                    echo 'Une erreur est survenue <a href=""> retour a la page d\'accueil </a>';
-                }
-                die();
-            }
-            return $req_prep->fetchAll();
-        }
-
-    /*Requette pour recuperer le coefficient ASS appartenant à une fiche donnée
-        - cette requette n'est pas generique à toute les tables */
-        public static function selectCoefficientAssOf($NumeroFiche){
-            try{
-                $sql = "SELECT CodeCoeff FROM coefficient c JOIN utiliser u ON c.CodeCoeff = u.FK_CodeCoeff WHERE u.FK_NumeroFiche = $NumeroFiche AND c.NomCoeff = 'Ass' ";
-                $req_prep = Model::$pdo->prepare($sql);
-                $req_prep->execute();
-            } catch (PDOException $e){
-                if (Conf::getDebug()) {
-                    echo $e->getMessage(); // affiche un message d'erreur
-                } else {
-                    echo 'Une erreur est survenue <a href=""> retour a la page d\'accueil </a>';
-                }
-                die();
-            }
-            return $req_prep->fetchAll();
-        }
-
-    /*Requette pour recuperer le coefficient de cout personnel appartenant à une fiche donnée
-        - cette requette n'est pas generique à toute les tables */
-        public static function selectCoefficientCoutPersonnelOf($NumeroFiche){
-            try{
-                $sql = "SELECT CodeCoeff FROM coefficient c JOIN utiliser u ON c.CodeCoeff = u.FK_CodeCoeff WHERE u.FK_NumeroFiche = $NumeroFiche AND c.NomCoeff = 'cout personnel' ";
                 $req_prep = Model::$pdo->prepare($sql);
                 $req_prep->execute();
             } catch (PDOException $e){

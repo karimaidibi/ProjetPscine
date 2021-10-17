@@ -1,39 +1,39 @@
 <?php
 require_once File::build_path(array("model", "Model.php"));
-class ModelCoefficient extends Model{
+class ModelCoeffAss extends Model{
 
-	protected static $object = 'Coefficient';
-	protected static $primary='CodeCoeff';
+	protected static $object = 'CoeffAss';
+	protected static $primary='CodeCoeffAss';
 
-	private $CodeCoeff;
-    private $valeurCoefficient;
+	private $CodeCoeffAss;
+    private $valeurCoeffAss;
 
-	public function getCodeCoeff(){
-		return $this->CodeCoeff;
+	public function getCodeCoeffAss(){
+		return $this->CodeCoeffAss;
 	}
 
-    public function getvaleurCoefficient(){
-        return $this->valeurCoefficient;
+    public function getvaleurCoeffAss(){
+        return $this->valeurCoeffAss;
     }
 
 	public function setCodeCoeff($CodeCoeff2){
-		$this->CodeCoeff = $CodeCoeff2;
+		$this->CodeCoeffAss = $CodeCoeff2;
 	}
 
-	public function setvaleurCoefficient($valeurCoefficient2){
-		$this->valeurCoefficient = $valeurCoefficient2;
+	public function setvaleurCoeffAss($valeurCoeffAss2){
+		$this->valeurCoeffAss = $valeurCoeffAss2;
 	}
 
-	public function __construct($valeurCoefficient = NULL) {
-  	if (!is_null($valeurCoefficient)) {
-        $this->valeurCoefficient = $valeurCoefficient;
+	public function __construct($valeurCoeffAss = NULL) {
+  	if (!is_null($valeurCoeffAss)) {
+        $this->valeurCoeffAss = $valeurCoeffAss;
     	}
   	}
 
   	public function CodeCoeffExiste($CodeC) {
-      $sql = "SELECT COUNT(*) FROM Coefficient WHERE CodeCoeff = $CodeC";
+      $sql = "SELECT COUNT(*) FROM CoeffAss WHERE CodeCoeffAss = $CodeC";
       $rep = Model::$pdo->query($sql);  
-      $rep->setFetchMode(PDO::FETCH_CLASS, 'Coefficient');
+      $rep->setFetchMode(PDO::FETCH_CLASS, 'CoeffAss');
      
       $resultat = $rep->fetchAll();
       if($resultat[0][0]==1){
@@ -45,9 +45,9 @@ class ModelCoefficient extends Model{
     }
 
     public function configCodeCoeff() {
-      $sql = "SELECT MAX(CodeCoeff) FROM Coefficient";
+      $sql = "SELECT MAX(CodeCoeffAss) FROM CoeffAss";
       $rep = Model::$pdo->query($sql);  
-      $rep->setFetchMode(PDO::FETCH_CLASS, 'Coefficient');
+      $rep->setFetchMode(PDO::FETCH_CLASS, 'CoeffAss');
      
       $resultat = $rep->fetchAll();
       return $resultat[0][0];
@@ -55,13 +55,13 @@ class ModelCoefficient extends Model{
 
     public function save() {
         try {
-            $sql = "INSERT INTO Coefficient VALUES (:CodeCoeff, :valeurCoefficient)";
+            $sql = "INSERT INTO CoeffAss VALUES (:CodeCoeffAss, :valeurCoeffAss)";
             // Préparation de la requête
             $req_prep = Model::$pdo->prepare($sql);
 
             $values = array(
-                "CodeCoeff" => self::configCodeCoeff()+1,
-                "valeurCoefficient" => $this->valeurCoefficient
+                "CodeCoeffAss" => self::configCodeCoeff()+1,
+                "valeurCoeffAss" => $this->valeurCoeffAss
             );
             self::setCodeCoeff(self::configCodeCoeff() + 1);
             // On donne les valeurs et on exécute la requête     

@@ -6,10 +6,20 @@
     $NomAuteur = $cetteFiche -> getNomAuteur();
     $CoutFluide = $cetteFiche -> getCoutFluide();
     $NumeroCategorie = $cetteFiche->getFK_NumeroCatFiche();
+    $FK_CodeCoeffAss = $cetteFiche->getFK_CodeCoeffAss();
+    $FK_CodeCoeffCoutPersonnel = $cetteFiche->getFK_CodeCoeffCoutPersonnel();
 
     //objet categorie
     $cetteCategorie = ModelCategorie_Fiche::select($NumeroCategorie);
     $NomCategorie = $cetteCategorie -> getNomCatFiche();
+
+    //objet CoefficientsAss
+    $coeffAss = ModelCoeffAss::select($FK_CodeCoeffAss);
+    $valeurCoeffAss = $coeffAss -> getvaleurCoeffAss();
+    //objet coefficnets Cout personnel 
+    $coeffCoutPersonnel = ModelCoeffCoutPersonnel::select($FK_CodeCoeffCoutPersonnel);
+    $valeurCoeffCoutPersonnel = $coeffCoutPersonnel -> getvaleurCoeffCoutPersonnel();
+
 
     //les progression ? on a besoin de savoir quelles sont les etapes appartenant a cette fiche et les afficher.
     //select DescriptionEtape from contenir join Etape on FK_NumEtape = NumEtape where NumeroFiche = $NumeroFiche
@@ -19,13 +29,7 @@
     echo '</pre>';*/ 
     //on récupère les progressions dans la variable $Progressions
 
-
-    //les coefficients?
-    //echo '<pre>';
-      //  print_r($Coefficients);
-    //echo '</pre>';
     //les sousfiches?
-
 
     //les ingrédients?
 
@@ -65,12 +69,9 @@
                 <!-- La liste des coefficients utilisés dans la fiche technique-->
                 <div class="col-6" >
                     <ul class="list-group list-group-flush">
-                    <li class="list-group-item"><strong>Coefficients et couts utlisés</strong></li>';
-                foreach($Coefficients as $coeff){
-                    echo 
-                      ' <li class="list-group-item"><strong>Coeff '.$coeff["NomCoeff"].' :  </strong> ' .$coeff["valeurCoefficient"]. '</li>';
-                }
-                    echo '
+                        <li class="list-group-item"><strong>Coefficients et couts utlisés</strong></li>
+                        <li class="list-group-item"><strong>Coeff Ass : </strong>'.$valeurCoeffAss.'</li>
+                        <li class="list-group-item"><strong>Coeff cout personnel : </strong>'.$valeurCoeffCoutPersonnel.'</li>
                         <li class="list-group-item"><strong>Cout de fluide : </strong>' .$CoutFluide.'</li>
                     </ul>
                 </div>
