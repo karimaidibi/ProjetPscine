@@ -101,6 +101,7 @@ function DeleteRow(o) {
     cell5.innerHTML = "catégorie";
     cell6.innerHTML = '<button class="btn btn-danger" type="button" onclick="DeleteRowFiches(this)"><i class="bi bi-trash" style="font-size: 1rem;" ></i></button>';
     cell6.id = codeFiche; // on attribut le code de la fiche qui vient detre rajouté dans le front comme id à la case qui contient le bouton supprimer 
+    console.log(cell6.id);
     TabFiches.push(codeFiche); // on rajoute le Code de la fiche rajouté par lutilisateur dans le tableau TabFiches
     console.log(TabFiches.length);
     console.log(TabFiches);
@@ -122,7 +123,8 @@ function DeleteRow(o) {
 
   function DeleteRowFiches(o) {
     // supprimer dans le tableau
-    var index = TabFiches.indexOf(o.id); // trouver l'index de l'id à supprimer dans la TabFiches
+    var index = TabFiches.indexOf(o.parentNode.id); // trouver l'index de l'id à supprimer dans la TabFiches
+    console.log(o.parentNode.id);
     var rem = TabFiches.splice(index,1); // supprimer un element qui se trouve à la position index
     console.log(TabFiches);
     // supprimer la ligne
