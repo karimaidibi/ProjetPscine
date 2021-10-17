@@ -40,17 +40,19 @@ class ControllerIngredient{
 	}
 
 	public static function delete(){
-		if(!is_null(myGet('NumIngredient'))){
+		if(is_null(myGet('NumIngredient'))){
         	$view='error';
         	$pagetitle='Page 404';
 	    	require_once File::build_path(array("view", "view.php"));
 		}
 		else{
 			$NumIngredient = myGet('NumIngredient');
-			ModelIngredient::delete($idIngredient);
+			$Ingredient = ModelIngredient::select($NumIngredient);
+			$NomIng = $Ingredient->getNomIng();
+			ModelIngredient::delete($NumIngredient);
 			$tab_u = ModelIngredient::selectAll();
 	        $view='deleted';
-	        $pagetitle='Catégorie supprimé';
+	        $pagetitle='Ingredient supprimé';
 		    require_once File::build_path(array("view", "view.php"));
 		}
 	}
@@ -72,6 +74,48 @@ class ControllerIngredient{
 		$Ingredient = new ModelIngredient($NomIng,$prixUnitaireIng,$QteStockIngredient,$FK_NumUnite,$FK_NumAllergene,$FK_CodeTVA,$FK_NumCategorie);
 		$Ingredient->save();
 		self::readAll();
+	}
+
+	public static function updated(){
+		if(!is_null(myGet('NumIngredient'))){
+			$NumIngredient=myGet('NumIngredient');
+		}
+		if(!is_null(myGet('NomIng'))){
+			$NomIng=myGet('NomIng');
+		}
+		if(!is_null(myGet('prixUnitaireIng'))){
+			$prixUnitaireIng=myGet('prixUnitaireIng');
+		}
+		if(!is_null(myGet('QteStockIngredient'))){
+			$QteStockIngredient=myGet('QteStockIngredient');
+		}
+		if(!is_null(myGet('FK_NumUnite'))){
+			$FK_NumUnite=myGet('FK_NumUnite');
+		}
+		if(!is_null(myGet('FK_NumAllergene'))){
+			$FK_NumAllergene=myGet('FK_NumAllergene');
+		}
+		if(!is_null(myGet('FK_CodeTVA'))){
+			$FK_CodeTVA=myGet('FK_CodeTVA');
+		}
+		if(!is_null(myGet('FK_NumCategorie'))){
+			$FK_NumCategorie=myGet('FK_NumCategorie');
+		}
+		$data = array(
+			"primary" => $NumIngredient,
+			"NomIng" => $NomIng,
+			"prixUnitaireIng" => $prixUnitaireIng,
+			"QteStockIngredient" => $QteStockIngredient,
+			"FK_NumUnite" => $FK_NumUnite,
+			"FK_NumAllergene" => $FK_NumAllergene,
+			"FK_CodeTVA" => $FK_CodeTVA,
+			"FK_NumCategorie" => $FK_NumCategorie
+		);
+		ModelIngredient::update($data);
+	    $view='list';
+	    $pagetitle='Mise à jour de la recette';
+	    $tab_u = ModelIngredient::selectAll();
+		require_once File::build_path(array("view", "view.php"));
 	}
 
 	/*private $NumIngredient;

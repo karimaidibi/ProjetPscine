@@ -76,7 +76,7 @@ ini_set('display_errors', 'on');
             <tbody>';
     foreach ($tab_u as $u)
     {
-        $IdIngredient = $u->getNumIngredient();
+        $NumIngredient = $u->getNumIngredient();
         $NomIng = $u->getNomIng();
         $PrixUnitaire = $u->getPrixUnitaireIng();
         $QuantiteStock = $u->getQteStockIngredient();
@@ -110,12 +110,12 @@ ini_set('display_errors', 'on');
                         <!--Boutons modifier et supprimer-->
                         <div class="d-grid gap-2 d-md-block">
                             <button class="btn btn-success" type="button">
-                                <a href="index.php?controller=Ingredient&action=update&NumIngredient=' . $IdIngredient . '">
+                                <a href="index.php?controller=Ingredient&action=update&NumIngredient=' . $NumIngredient . '">
                                 <i class="bi bi-pencil" style="font-size: 1rem; color:black;" ></i>
                                 </a>
                             </button>
                             <button class="btn btn-danger" type="button">
-                                <a href="index.php?controller=Ingredient&action=delete&NumIngredient=' . $IdIngredient . ' ">
+                                <a href="index.php?controller=Ingredient&action=delete&NumIngredient=' . $NumIngredient . ' ">
                                 <i class="bi bi-trash" style="font-size: 1rem; color:black;" ></i>
                                 </a>  
                             </button>
