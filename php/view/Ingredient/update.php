@@ -56,7 +56,7 @@ if($type=='readonly'){
                                     </div>
                                     <!-- Deuxième sous colonne -->
                                     <div class="col-auto">
-                                        <select name="Unite" id="FK_NumUnite_id">
+                                        <select name="FK_NumUnite" id="FK_NumUnite_id">
                                             <option value="">--Choisissez une unité--</option>';
                                         foreach ($liste_unite as $unite) {
                                             $NumeroUnite = $unite->getNumUnite();
@@ -100,7 +100,7 @@ if($type=='readonly'){
                                 </div>
                                 <!-- Deuxième sous colonne -->
                                 <div class="col-auto">
-                                <select name="Categorie" id="FK_NumCategorie_id">
+                                <select name="FK_NumCategorie" id="FK_NumCategorie_id">
                                     <option value="">--Choisissez une catégorie--</option>';
 
                                 foreach ($liste_categorie as $categorie) {
@@ -151,7 +151,7 @@ if($type=='readonly'){
                                     </div>
                                     <!-- Deuxième sous colonne -->
                                     <div class="col-auto">
-                                    <select name="TVA" id="FK_CodeTVA_id">
+                                    <select name="FK_CodeTVA" id="FK_CodeTVA_id">
                                         <option value="">--Choisissez une TVA--</option>';
     
                                     foreach ($liste_TVA as $TVA) {
@@ -200,7 +200,7 @@ if($type=='readonly'){
                                     </div>
                                     <!-- Deuxième sous colonne -->
                                     <div class="col-auto">
-                                    <select name="Allergene" id="FK_NumAllergene">
+                                    <select name="FK_NumAllergene" id="FK_NumAllergene_id">
                                         <option value="">--Choisissez un allergène--</option>';
     
                                     foreach ($liste_allergene as $allergene) {
