@@ -70,6 +70,7 @@ CREATE TABLE IF NOT EXISTS `categorie_ingredient` (
 DROP TABLE IF EXISTS `coefficient`;
 CREATE TABLE IF NOT EXISTS `coefficient` (
   `CodeCoeff` int(11) NOT NULL AUTO_INCREMENT,
+  `NomCoeff` varchar(20) NOT NULL,
   `valeurCoefficient` float NOT NULL,
   PRIMARY KEY (`CodeCoeff`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;

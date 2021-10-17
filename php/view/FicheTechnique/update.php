@@ -1,11 +1,22 @@
 <?php
 
+
+// si on update la fiche 
 if($type=='readonly'){
   $NomFiche = $fiche->getNomFiche();
   $NbreCouverts = $fiche->getNbreCouverts();
   $NomAuteur = $fiche->getNomAuteur();
   $CoutFluide = $fiche->getCoutFluide();
   $FK_NumeroCatFiche = $fiche->getFK_NumeroCatFiche();
+
+  //categorie de la fiche
+  $categorie = ModelCategorie_Fiche::select($FK_NumeroCatFiche);
+  $NomCatFiche = $categorie -> getNomCatFiche();
+
+  //coefficients de la fiche
+  print_r($coefficientASS);
+  print_r($coefficientCoutPersonnel);
+
 }
 
 echo '<!--Titré création de fiche technique -->
@@ -99,18 +110,30 @@ echo '<!--Titré création de fiche technique -->
                               </label>
                             </div>
                             <!-- Deuxième sous colonne -->
-                            <div class="col-auto">';
+                            <div class="col-auto">
+                              <select id="FK_NumeroCatFiche_id" name="FK_NumeroCatFiche" class="form-select">';
                             if($type=='readonly'){
-                              echo '<input type="text" id="FK_NumeroCatFiche_id" name="FK_NumeroCatFiche" class="form-control" list="ListeDesCatégories" value="' . $FK_NumeroCatFiche . '">';
+                              foreach($categories as $cat){
+                                $NumCategorie = $cat->getNumeroCatFiche();
+                                $NomCategorie = $cat->getNomCatFiche();
+                                if($NumCategorie==$FK_NumeroCatFiche){
+                                  echo '<option selected value = "'.$FK_NumeroCatFiche.'"> '.$NomCatFiche.' </option>';
+                                }
+                                else{
+                                  echo  
+                                  '<option value="'.$NumCategorie.'">'.$NomCategorie.'</option>';
+                                }
+                              }
+                            }else{
+                              foreach($categories as $cat){
+                                $NumCategorie = $cat->getNumeroCatFiche();
+                                $NomCategorie = $cat->getNomCatFiche();
+                                echo  
+                                    '<option value="'.$NumCategorie.'">'.$NomCategorie.'</option>';
+                              }
                             }
-                            else{
-                              echo '<input type="text" id="FK_NumeroCatFiche_id" name="FK_NumeroCatFiche" class="form-control" list="ListeDesCatégories" placeholder="Ajoutez une catégorie" required/>';
-                            }
-                              echo '<datalist id="ListeDesCatégories">
-                                <option value="Dessert">
-                                <option value="Diner">
-                                <option value="Entrée">
-                              </datalist>               
+                          echo '
+                               </select>           
                             </div>
                           </div>
                         </li>
@@ -128,17 +151,33 @@ echo '<!--Titré création de fiche technique -->
                               <!-- première sous colonne -->
                               <div class="col-auto">
                                 <label for="CoeffAss" class="col-form-label">
-                                  Coefficient Ass  
+                                  Coefficient ASS :  
                                 </label>
                               </div>
                               <!-- Deuxième sous colonne -->
                               <div class="col-auto">
-                                <input type="number" id="CoeffAss" class="form-control" list="ListeDesCoeff" placeholder="Ajouter un Coeff...">
-                                <datalist id="ListeDesCoeff">
-                                  <option value="0.5">
-                                  <option value="7">
-                                  <option value="5">
-                                </datalist>               
+                              <select id="coeffASS" name="CodeCoeffAss" class="form-select">';
+                            if($type=='readonly'){
+                              foreach($coefficients as $coeff){ // pour chaque coefficients dans la BD 
+                                $CodeCoeff = $coeff->getCodeCoeff();
+                                $valeurCoefficient = $coeff->getvaleurCoefficient(); 
+                                  if($CodeCoeff==$coefficientASS[0][0]){
+                                    echo '<option selected value = "'.$CodeCoeff.'"> '.$valeurCoefficient.' </option>';
+                                  }
+                                  else{
+                                    echo  
+                                    '<option value="'.$CodeCoeff.'">'.$valeurCoefficient.'</option>';
+                                  }
+                              }
+                            }else{
+                              foreach($coefficients as $coeff){
+                                $CodeCoeff = $coeff->getCodeCoeff();
+                                $valeurCoefficient = $coeff->getvaleurCoefficient();
+                                echo  
+                                    '<option value="'.$CodeCoeff.'">'.$valeurCoefficient.'</option>';
+                              }
+                            }
+                            echo '</select>             
                               </div>
                             </div>    
                         </li>
@@ -154,12 +193,28 @@ echo '<!--Titré création de fiche technique -->
                               </div>
                               <!-- Deuxième sous colonne -->
                               <div class="col-auto">
-                                <input type="number" id="CoeffPersonnel" class="form-control" list="ListeDesCoeff" placeholder="Ajouter un Coeff...">
-                                <datalist id="ListeDesCoeff">
-                                  <option value="0.5">
-                                  <option value="7">
-                                  <option value="5">
-                                </datalist>               
+                              <select id="coeffASS" name="CodeCoeffCoutPersonnel" class="form-select">';
+                              if($type=='readonly'){
+                                foreach($coefficients as $coeff){ // pour chaque coefficients dans la BD 
+                                  $CodeCoeff = $coeff->getCodeCoeff();
+                                  $valeurCoefficient = $coeff->getvaleurCoefficient(); 
+                                    if($CodeCoeff==$coefficientCoutPersonnel[0][0]){
+                                      echo '<option selected value = "'.$CodeCoeff.'"> '.$valeurCoefficient.' </option>';
+                                    }
+                                    else{
+                                      echo  
+                                      '<option value="'.$CodeCoeff.'">'.$valeurCoefficient.'</option>';
+                                    }
+                                }
+                              }else{
+                                foreach($coefficients as $coeff){
+                                  $CodeCoeff = $coeff->getCodeCoeff();
+                                  $valeurCoefficient = $coeff->getvaleurCoefficient();
+                                  echo  
+                                      '<option value="'.$CodeCoeff.'">'.$valeurCoefficient.'</option>';
+                                }
+                              }
+                        echo '  </select>   
                               </div>
                             </div> 
                         </li>
@@ -176,10 +231,10 @@ echo '<!--Titré création de fiche technique -->
                               <!-- Deuxième sous colonne -->
                               <div class="col-auto">';
                               if($type=='readonly'){
-                                echo '<input type="number" id="CoutFluide_id" name="CoutFluide" class="form-control" value="' . $CoutFluide . '">';   
+                                echo '<input type="number" step="any" id="CoutFluide_id" name="CoutFluide" class="form-control" value="' . $CoutFluide . '">';   
                               }
                               else{
-                                echo '<input type="number" id="CoutFluide_id" name="CoutFluide" class="form-control" placeholder="Ajoutez un coût fluide" required/>';
+                                echo '<input type="number" step="any" id="CoutFluide_id" name="CoutFluide" class="form-control" placeholder="Ajoutez un coût fluide" required/>';
                               }
                               echo '</div>
                             </div> 
@@ -210,9 +265,15 @@ echo '<!--Titré création de fiche technique -->
                       <i class="bi bi-plus-square"></i>
                     </button>
                     <input class="form-control" list="listeDesProgressions" id="inputProgressionExistante" placeholder="Chercher une progression..">
-                    <datalist id="listeDesProgressions" >
-                      <option value="verser le lait" class="nomProgression">
-                      <option value="mettre du sucre" class="nomProgression">
+                    <datalist id="listeDesProgressions" >';
+                  foreach($progressions as $prog){
+                    $NumEtape = $prog -> getNumEtape();
+                    $DescriptionEtape = $prog ->getDescriptionEtape();
+                    echo 
+                          '<option value="'.$DescriptionEtape.'" class="nomProgression">';
+                    
+                  }
+                  echo '
                     </datalist>
                   </div>
                   <!-- Les progressions de la fiche sous forme d\'une table-->
@@ -252,7 +313,7 @@ echo '<!--Titré création de fiche technique -->
                         </button>
                         <input class="form-control" list="listeDesIngredients" id="inputIngredient" placeholder="Chercher un ingrédient..">
                         <datalist id="listeDesIngredients">';
-                        foreach($tab_i as $i){
+                        foreach($ingredients as $i){
                           $NomIng = $i -> getNomIng();
                           echo '<option value="'.$NomIng.'" class="nomIngredient">';
                         }
@@ -355,9 +416,12 @@ echo '<!--Titré création de fiche technique -->
                     </button>
                     <input id="inputFiches" class="form-control" list="listeDesFichesTechniques" placeholder="Chercher une fiche..">
                     <datalist id="listeDesFichesTechniques" >';
-                    foreach($tab_u as $u){
-                      $NomFiche = $u->getNomFiche();
-                  echo '<option value= "'.$NomFiche.'" class="nomFiche">';
+                    foreach($LesFiches as $f){
+                      $NomFiche = $f->getNomFiche();
+                      $NumeroFiche = $f->getNumeroFiche();
+                  echo '<option value="'.$NomFiche.'" class="nomFiche">
+                          <input type="hidden" value ="'.$NumeroFiche.'" class="NumeroFiche">
+                        </option>' ;
                     }
               echo  '</datalist>
                   </div>
@@ -366,7 +430,7 @@ echo '<!--Titré création de fiche technique -->
                       <table class="table table-striped table-hover align-middle">
                         <thead class = "table-dark">
                         <tr>
-                            <th scope="col">Code</th>
+                            <th scope="col">Ordre</th>
                             <th scope="col">NomFiche</th>
                             <th scope="col">NbreCouverts</th>
                             <th scope="col">NomAuteur</th>
@@ -381,7 +445,7 @@ echo '<!--Titré création de fiche technique -->
                   </div>
                 </div>
             </div>
-          <!-- validation -->
+              <!-- validation -->
           <div class="mt-3 mb-5 " align=center>
             <button class="btn btn-dark" type="button">
               <i class="bi bi-folder-plus"></i>
@@ -394,7 +458,7 @@ echo '<!--Titré création de fiche technique -->
                 echo '<input type=\'hidden\' name=\'action\' value=\'created\'>';
                 echo '<input class="btn btn-dark" type="submit" value="Créer la fiche technique" />';
               }
-            echo '</button>
+      echo '</button>
             <button class="btn btn-dark" type="button">
               <i class="bi bi-emoji-heart-eyes"></i>
               Aperçu fiche 

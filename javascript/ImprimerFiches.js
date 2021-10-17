@@ -1,3 +1,5 @@
+
+
 function imprimer() {    
     var imprimer = document.getElementById('imprimer');
     var popupcontenu = window.open('', '_blank');

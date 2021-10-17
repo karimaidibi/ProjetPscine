@@ -10,40 +10,40 @@ class ModelComposer extends Model{
 	private $FK_NumeroFiche;
     private $QuantiteIngredient;
 
-	public function getNumIngredient(){
-		return $this->NumIngredient;
+	public function getFK_NumIngredient(){
+		return $this->FK_NumIngredient;
 	}
 
-	public function getNumeroFiche(){
+	public function getFK_NumeroFiche(){
 		return $this->NumeroFiche;
 	}
 
-    public function getQuantiteIngredient(){
-        return $this->QuantiteIngredient;
-    }
-
-	public function setNumComposer($NumIngredient2){
-		$this->NumIngredient = $NumIngredient2;
+	public function setFK_NumIngredient($NumIngredient2){
+		$this->FK_NumIngredient = $NumIngredient2;
 	}
 
-	public function setNumeroFiche($NumeroFiche2){
-		$this->NumeroFiche = $NumeroFiche2;
+	public function setFK_NumeroFiche($NumeroFiche2){
+		$this->FK_NumeroFiche = $NumeroFiche2;
 	}
 
     public function setQuantiteIngredient($QuantiteIngredient2){
         $this->QuantiteIngredient = $QuantiteIngredient2;
     }
 
-	public function __construct($NumIngredient = NULL, $NumeroFiche = NULL, $QuantiteIngredient = NULL) {
-  	if (!is_null($NumIngredient) && !is_null($NumeroFiche)) {
-	    $this->NumIngredient = $NumIngredient;
-        $this->NumeroFiche = $NumeroFiche;
+    public function getQuantiteIngredient(){
+        return $this->QuantiteIngredient;
+    }
+
+	public function __construct($FK_NumIngredient = NULL, $FK_NumeroFiche = NULL, $QuantiteIngredient = NULL) {
+  	if (!is_null($FK_NumIngredient) && !is_null($FK_NumeroFiche)) {
+	    $this->FK_NumIngredient = $FK_NumIngredient;
+        $this->FK_NumeroFiche = $FK_NumeroFiche;
         $this->QuantiteIngredient = $QuantiteIngredient;
     	}
   	}
 
   	public function NumComposerExiste($NumI, $NumFiche) {
-      $sql = "SELECT COUNT(*) FROM Composer WHERE NumIngredient = $NumI AND NumeroFiche = $NumFiche";
+      $sql = "SELECT COUNT(*) FROM Composer WHERE FK_NumIngredient = $NumI AND FK_NumeroFiche = $NumFiche";
       $rep = Model::$pdo->query($sql);  
       $rep->setFetchMode(PDO::FETCH_CLASS, 'Composer');
      
@@ -58,13 +58,13 @@ class ModelComposer extends Model{
 
     public function save() {
         try {
-            $sql = "INSERT INTO Composer VALUES (:NumeroFiche, :NumIngredient, :QuantiteIngredient)";
+            $sql = "INSERT INTO Composer VALUES (:FK_NumeroFiche, :FK_NumIngredient, :QuantiteIngredient)";
             // Préparation de la requête
             $req_prep = Model::$pdo->prepare($sql);
 
             $values = array(
-                "NumeroFiche" => $this->FK_NumeroFiche,
-                "NumIngredient" => $this->FK_NumIngredient,
+                "FK_NumeroFiche" => $this->FK_NumeroFiche,
+                "FK_NumIngredient" => $this->FK_NumIngredient,
                 "QuantiteIngredient" => $this->QuantiteIngredient,
             );
             // On donne les valeurs et on exécute la requête     

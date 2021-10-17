@@ -1,4 +1,6 @@
 <?php
+
+    $NomFiche = $cetteFiche -> getNomFiche();
     echo '
         <!--Bouton aperçu fiche avec prix, sans prix, ou etiquette -->
         <div class="container-fluid mt-5" align=center>
@@ -24,7 +26,7 @@
         <div class="ms-5 me-5 mt-5 " id="imprimer">
             <!--carte qui contient létiquette-->
             <div class="card">
-                <h5 class="card-header text-white bg-dark mb-3">(Nom de la fiche technique)</h5>
+                <h5 class="card-header text-white bg-dark mb-3">' .$NomFiche. '</h5>
                     <div class="card-body">
                         <!--Division qui permet daligner les dates à droite, elle contient :
                                 - deux lignes, chaque ligne contient deux colonnes-->

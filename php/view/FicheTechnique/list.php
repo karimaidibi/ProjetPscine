@@ -85,7 +85,8 @@ foreach ($tab_u as $u)
     $CoutFluide = $u->getCoutFluide();
     $NumCategorieFiche = $u->getFK_NumeroCatFiche();
 
-    $NomCategorieFiche = ModelCategorie_Fiche::select($NumCategorieFiche) -> getNomCatFiche(); //une ligne = objet
+    $categorieFiche = ModelCategorie_Fiche::select($NumCategorieFiche);
+    $NomCategorieFiche =  $categorieFiche -> getNomCatFiche(); //une ligne = objet
 
   
         echo '<tr>

@@ -3,25 +3,25 @@ require_once File::build_path(array("model", "Model.php"));
 class ModelUtiliser extends Model{
 
 	protected static $object = 'Utiliser';
-	protected static $primary1 = 'FK_CodeCoeff';
-    protected static $primary2 ='FK_NumeroFiche';
+	protected static $primary2 = 'FK_CodeCoeff';
+    protected static $primary ='FK_NumeroFiche';
 
 	private $FK_CodeCoeff;
 	private $FK_NumeroFiche;
 
-    public function getCodeCoeff(){
+    public function getFK_CodeCoeff(){
         return $this->FK_CodeCoeff;
     }
 
-	public function getNumeroFiche(){
+	public function getFK_NumeroFiche(){
 		return $this->FK_NumeroFiche;
 	}
 
-	public function setCodeCoeff($CodeCoeff2){
+	public function setFK_CodeCoeff($CodeCoeff2){
 		$this->FK_CodeCoeff = $CodeCoeff2;
 	}
 
-	public function setNumeroFiche($NumeroFiche2){
+	public function setFK_NumeroFiche($NumeroFiche2){
 		$this->FK_NumeroFiche = $NumeroFiche2;
 	}
 

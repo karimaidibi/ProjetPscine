@@ -68,7 +68,7 @@
                     <li class="list-group-item"><strong>Coefficients et couts utlisés</strong></li>';
                 foreach($Coefficients as $coeff){
                     echo 
-                      ' <li class="list-group-item"><strong>Coeff : </strong> ' .$coeff["valeurCoefficient"]. '</li>';
+                      ' <li class="list-group-item"><strong>Coeff '.$coeff["NomCoeff"].' :  </strong> ' .$coeff["valeurCoefficient"]. '</li>';
                 }
                     echo '
                         <li class="list-group-item"><strong>Cout de fluide : </strong>' .$CoutFluide.'</li>

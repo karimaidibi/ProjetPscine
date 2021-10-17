@@ -2,6 +2,10 @@
 require_once File::build_path(array("model","ModelFicheTechnique.php"));
 require_once File::build_path(array("model","ModelCategorie_Fiche.php"));
 require_once File::build_path(array("model","ModelComposer.php"));
+require_once File::build_path(array("model","ModelIngredient.php"));
+require_once File::build_path(array("model","ModelEtape.php"));
+require_once File::build_path(array("model","ModelCoefficient.php"));
+require_once File::build_path(array("model","ModelUtiliser.php"));
 class ControllerFicheTechnique{
 
 	protected static $object='FicheTechnique';
@@ -71,6 +75,23 @@ class ControllerFicheTechnique{
 			"FK_NumeroCatFiche" => $FK_NumeroCatFiche
 		);
 		ModelFicheTechnique::update($data);
+		//les coefficients
+		if(!is_null(myGet('CodeCoeffAss'))){
+			$CodeCoeffAss=myGet('CodeCoeffAss');
+		}
+		if(!is_null(myGet('CodeCoeffCoutPersonnel'))){
+			$CodeCoeffCoutPersonnel=myGet('CodeCoeffCoutPersonnel');
+		}
+		$Ass = array(
+			"primary" => $NumeroFiche,
+			"FK_CodeCoeff" => $CodeCoeffAss
+		);
+		$CoutPersonnel = array(
+			"primary" => $NumeroFiche,
+			"FK_CodeCoeff" => $CodeCoeffCoutPersonnel
+		);
+		ModelUtiliser::update($Ass);
+		ModelUtiliser::update($CoutPersonnel);		
 	    $view='list';
 	    $pagetitle='Mise à jour de la recette';
 	    $tab_u = ModelFicheTechnique::selectAll();
@@ -85,6 +106,14 @@ class ControllerFicheTechnique{
 		$FK_NumeroCatFiche=myGet('FK_NumeroCatFiche');
 		$Fiche = new ModelFicheTechnique($NomFiche,$NbreCouverts,$NomAuteur,$CoutFluide,$FK_NumeroCatFiche);
 		$Fiche->save();
+		//les coefficients
+		$NumeroFiche = $Fiche ->getNumeroFiche();
+		$CodeCoeffAss = myGet('CodeCoeffAss');
+		$CodeCoeffCoutPersonnel= myGet('CodeCoeffCoutPersonnel');
+		$utiliser = new ModelUtiliser($CodeCoeffAss,$NumeroFiche);
+		$utiliser2 = new ModelUtiliser($CodeCoeffCoutPersonnel,$NumeroFiche);
+		$utiliser->save();
+		$utiliser2->save();
 		self::readAll();
 	}
 
@@ -107,25 +136,35 @@ class ControllerFicheTechnique{
 	}
 
 	public static function update(){
-		$tab_u = ModelFicheTechnique::selectAll();
-		if(is_null(myGet('NumeroFiche'))){
+		$LesFiches = ModelFicheTechnique::selectAll(); // toutes les fiches dans la BD 
+		$categories = ModelCategorie_Fiche::selectAll(); // toutes les categories dans la BD
+		$ingredients = ModelIngredient::selectAll(); //touts les ingredients dans la BD
+		$progressions = ModelEtape::selectAll(); // toutes les etapes dans la BD
+		$coefficients = ModelCoefficient::selectAll(); // touts les coefficients dans la BD 
+		if(is_null(myGet('NumeroFiche'))){ // si c'est pour créer
         	$view='update';
         	$pagetitle='Création d\'une Recette';
         	$type = '';
-        	$action='created';
+        	$action='created'; // fonction created quand on click sur le submit
 	    	require_once File::build_path(array("view", "view.php"));
 		}
-		else{
+		else{ // si c'est pour update
 			$NumeroFiche = myGet('NumeroFiche');
 	    	$fiche = ModelFicheTechnique::select($NumeroFiche); //Fiche à update
-	    	$compositions = ModelComposer::select2($NumeroFiche);  //lignes de la table Composer pour le Numéro de fiche concerné
-	    	$ingredients = array();
+			$coefficientASS = ModelFicheTechnique::selectCoefficientAssOf($NumeroFiche);
+			$coefficientCoutPersonnel = ModelFicheTechnique::selectCoefficientCoutPersonnelOf($NumeroFiche);
+	    	//$compositions = ModelComposer::select2($NumeroFiche);  //lignes de la table Composer pour le Numéro de fiche concerné, chaque ligne étant un objet composer
+	    	//$ingredients = array();
+			/*echo '<pre>';
 	    	print_r($compositions);
-	    	foreach ($compositions as $key) {
-	    		echo('qsdsdqqdqd');
-	    		echo($key);
-	    		array_push($ingredients, ModelIngredient::select($key));
+			echo '</pre>';
+	    	foreach ($compositions as $comp) {
+				$NumIngredient = $comp -> getFK_NumIngredient();
+	    		array_push($ingredients, ModelIngredient::select($NumIngredient));
 	    	}
+			echo '<pre>';
+			print_r($ingredients);
+			echo '</pre>'; */
 	        $view='update';
 	        $pagetitle='Modification de la recette';
 	        $type = 'readonly';
@@ -155,6 +194,7 @@ class ControllerFicheTechnique{
 	//apercu de letiquette
 	public static function apercuEtiquette(){
 		$NumeroFiche = myGet('NumeroFiche'); //recuperer le num de la fiche actuelle
+		$cetteFiche = ModelFicheTechnique::select($NumeroFiche); // recuperer lobjet fiche ayant ce numero 
 		$Ingredients = ModelFicheTechnique::selectIngredientsOf($NumeroFiche);
 		$view ='apercuEtiquette';
 		require_once File::build_path(array("view", "view.php"));

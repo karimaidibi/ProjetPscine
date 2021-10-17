@@ -127,7 +127,7 @@ class ModelFicheTechnique extends Model{
     public static function selectProgressionsOf($NumeroFiche){
         try{
             //select DescriptionEtape from contenir join Etape on FK_NumEtape = NumEtape where NumeroFiche = $NumeroFiche
-            $sql = "SELECT DescriptionEtape, ordre FROM etape e JOIN contenir c ON e.NumEtape = c.FK_NumEtape WHERE c.FK_NumeroFiche = $NumeroFiche ORDER BY ordre ASC";
+            $sql = "SELECT * FROM etape e JOIN contenir c ON e.NumEtape = c.FK_NumEtape WHERE c.FK_NumeroFiche = $NumeroFiche ORDER BY ordre ASC";
             $req_prep = Model::$pdo->prepare($sql);
             $req_prep->execute();
         } catch (PDOException $e){
@@ -146,7 +146,7 @@ class ModelFicheTechnique extends Model{
         public static function selectCoefficientsOf($NumeroFiche){
             try{
                 // select touts les coefficients dans la table coefficients ayant comme code un code utilisé par une fiche technique précise
-                $sql = "SELECT valeurCoefficient FROM coefficient c JOIN utiliser u ON c.CodeCoeff = u.FK_CodeCoeff WHERE u.FK_NumeroFiche = $NumeroFiche";
+                $sql = "SELECT * FROM coefficient c JOIN utiliser u ON c.CodeCoeff = u.FK_CodeCoeff WHERE u.FK_NumeroFiche = $NumeroFiche";
                 $req_prep = Model::$pdo->prepare($sql);
                 $req_prep->execute();
             } catch (PDOException $e){
@@ -184,6 +184,42 @@ class ModelFicheTechnique extends Model{
             try{
 
                 $sql = "SELECT * FROM inclure i JOIN fichetechnique f ON i.FK_NumeroSousFiche = f.NumeroFiche WHERE i.FK_NumeroFiche = $NumeroFiche ORDER BY ordre ASC";
+                $req_prep = Model::$pdo->prepare($sql);
+                $req_prep->execute();
+            } catch (PDOException $e){
+                if (Conf::getDebug()) {
+                    echo $e->getMessage(); // affiche un message d'erreur
+                } else {
+                    echo 'Une erreur est survenue <a href=""> retour a la page d\'accueil </a>';
+                }
+                die();
+            }
+            return $req_prep->fetchAll();
+        }
+
+    /*Requette pour recuperer le coefficient ASS appartenant à une fiche donnée
+        - cette requette n'est pas generique à toute les tables */
+        public static function selectCoefficientAssOf($NumeroFiche){
+            try{
+                $sql = "SELECT CodeCoeff FROM coefficient c JOIN utiliser u ON c.CodeCoeff = u.FK_CodeCoeff WHERE u.FK_NumeroFiche = $NumeroFiche AND c.NomCoeff = 'Ass' ";
+                $req_prep = Model::$pdo->prepare($sql);
+                $req_prep->execute();
+            } catch (PDOException $e){
+                if (Conf::getDebug()) {
+                    echo $e->getMessage(); // affiche un message d'erreur
+                } else {
+                    echo 'Une erreur est survenue <a href=""> retour a la page d\'accueil </a>';
+                }
+                die();
+            }
+            return $req_prep->fetchAll();
+        }
+
+    /*Requette pour recuperer le coefficient de cout personnel appartenant à une fiche donnée
+        - cette requette n'est pas generique à toute les tables */
+        public static function selectCoefficientCoutPersonnelOf($NumeroFiche){
+            try{
+                $sql = "SELECT CodeCoeff FROM coefficient c JOIN utiliser u ON c.CodeCoeff = u.FK_CodeCoeff WHERE u.FK_NumeroFiche = $NumeroFiche AND c.NomCoeff = 'cout personnel' ";
                 $req_prep = Model::$pdo->prepare($sql);
                 $req_prep->execute();
             } catch (PDOException $e){
