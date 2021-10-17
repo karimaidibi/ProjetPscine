@@ -20,7 +20,7 @@ class ControllerIngredient{
     public static function read(){
     	if(!is_null(myGet('NumIngredient'))){
 	    	$NumIngredient = myGet('NumIngredient');
-	    	$u = ModelIngredient::select($idIngredient);
+	    	$u = ModelIngredient::select($NumIngredient);
 	    	if($u==false){
         		$view='error';
         		$pagetitle='Page 404';
@@ -55,17 +55,35 @@ class ControllerIngredient{
 		}
 	}
 
-	// faut changer ça
 	public static function create($nomI,$prixI){
         $v1 = new ModelIngredient($nomI,$prixI);
 		$v1->save();
-		return $v1->getIdIngredient();
+		return $v1->getNumIngredient();
 	}
 
 	//fonction pour modifier et créer des ingrédients
 	public static function update(){
-		$view='update';
-		require_once File::build_path(array("view", "view.php"));
+		$tab_u = ModelIngredient::selectAll();
+		$NumIngredient = myGet('NumIngredient');
+		$liste_unite = ModelUnite::selectAll();
+		$liste_categorie = ModelCategorie_Ingredient::selectAll();
+		$liste_allergene = ModelAllergene::selectAll();
+		$liste_TVA = ModelTVA::selectAll();
+		if(is_null($NumIngredient)){
+        	$view='update';
+        	$pagetitle='Création d\'un ingredient';
+        	$type = '';
+        	$action='created';
+	    	require_once File::build_path(array("view", "view.php"));
+		} else {
+	    	$ingredient = ModelIngredient::select($NumIngredient); //Ingredient à update
+	    	$view = 'update';
+	        $pagetitle='Modification de l\'ingredient';
+	        $type = 'readonly';
+	        $action = 'updated';
+
+	    	require_once File::build_path(array("view", "view.php"));
+		}
 	}
 }
 ?>

@@ -83,10 +83,10 @@ class ModelIngredient extends Model{
 	    $this->NomIng = $nom;
         $this->prixUnitaireIng = $prixU;
         $this->QteStockIngredient = $qteStock;
-        $this->$FK_NumUnite = $NumUnite;
-        $this->$FK_NumAllergene = $NumAllergene;
-        $this->$FK_CodeTVA = $CodeTVA;
-        $this->$FK_NumCategorie = $NumCategorie;
+        $this->FK_NumUnite = $NumUnite;
+        $this->FK_NumAllergene = $NumAllergene;
+        $this->FK_CodeTVA = $CodeTVA;
+        $this->FK_NumCategorie = $NumCategorie;
     	}
   	}
 
@@ -124,10 +124,10 @@ class ModelIngredient extends Model{
                 "NomIng" => $this->NomIng,
                 "prixUnitaireIng" => $this->prixUnitaireIng,
                 "QteStockIngredient" => $this->QteStockIngredient,
-                "FK_NumUnite" => $this->$FK_NumUnite,
-                "FK_NumAllergene" => $this->$FK_NumAllergene,
-                "FK_CodeTVA" => $this->$FK_CodeTVA,
-                "FK_NumCategorie" => $this->$FK_NumCategorie,
+                "FK_NumUnite" => $this->FK_NumUnite,
+                "FK_NumAllergene" => $this->FK_NumAllergene,
+                "FK_CodeTVA" => $this->FK_CodeTVA,
+                "FK_NumCategorie" => $this->FK_NumCategorie,
             );
             self::setNumIngredient($NumIngredient);
             // On donne les valeurs et on exécute la requête     

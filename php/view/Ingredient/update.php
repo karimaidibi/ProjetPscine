@@ -1,4 +1,14 @@
 <?php
+
+if($type=='readonly'){
+    $NomIng = $ingredient->getNomIng();
+    $prixUnitaireIng = $ingredient->getPrixUnitaireIng();
+    $QteStockIngredient = $ingredient->getQteStockIngredient();
+    $FK_NumUnite = $ingredient->getFK_NumUnite();
+    $FK_NumAllergene = $ingredient->getFK_NumAllergene();
+    $FK_CodeTVA = $ingredient->getFK_CodeTVA();
+    $FK_NumCategorie = $ingredient->getFK_NumCategorie();
+}
     echo'
             <!--Titre ajout et modification dun ingrédient -->
             <div class="container mt-5 bg-dark bg-gradient" align=center>
@@ -18,14 +28,20 @@
                                 <div class="row g-2 align-items-center">
                                     <!-- première sous colonne -->
                                     <div class="col-auto">
-                                        <label for="inputIngredient" class="col-form-label">
+                                        <label for="NumIngredient_id" class="col-form-label">
                                         Nom de l\'ingrédient :
                                         </label>
                                     </div>
                                     <!-- Deuxième sous colonne -->
-                                    <div class="col-auto">
-                                        <input type="text" id="inputIngredient" class="form-control" placeholder="Ajouter un text...">                
-                                    </div>
+                                    <div class="col-auto">';
+                                    if($type=='readonly'){
+                                        echo '<input type="hidden" id="NumIngredient_id" name="NumIngredient" class="form-control" value="'. $NumIngredient . '" required/>';
+                                        echo '<input type="text" id="NomIng_id" name="NomIng" class="form-control" value="' . $NomIng . '">';
+                                    }
+                                    else{
+                                        echo '<input type="text" id="NomIng_id" name="NomIng" class="form-control" placeholder="Ajouter un text..." required/>';
+                                    }
+                                    echo '</div>
                                 </div>
                             </li>
                             <!-- Input Unité de lingrédient-->
@@ -34,18 +50,20 @@
                                 <div class="row g-2 align-items-center">
                                     <!-- Première sous colonne -->
                                     <div class="col-auto">
-                                        <label for="inputUnite" class="col-form-label">
+                                        <label for="FK_NumUnite_id" class="col-form-label">
                                             Unité :
                                         </label>
                                     </div>
                                     <!-- Deuxième sous colonne -->
                                     <div class="col-auto">
-                                        <input type="text" id="inputUnite" class="form-control" list="ListeDesUnites" placeholder="Chercher une unité...">
-                                        <datalist id="ListeDesUnites">
-                                            <option value="Kg (Kilos gramme)">
-                                            <option value="L (Litre)">
-                                            <option value="g (gramme)">
-                                        </datalist>                 
+                                        <select name="Unite" id="FK_NumUnite_id">
+                                            <option value="">--Choisissez une unité--</option>';
+                                        foreach ($liste_unite as $unite) {
+                                            $NumeroUnite = $unite->getNumUnite();
+                                            $NomUnite = $unite->getNomUnite();
+                                            echo '<option value="'. $NumeroUnite .'">'. $NomUnite .'</option>';
+                                        }
+                                        echo '</select>
                                     </div>
                                 </div>   
                             </li>
@@ -55,14 +73,19 @@
                                 <div class="row g-2 align-items-center">
                                 <!-- première sous colonne -->
                                 <div class="col-auto">
-                                    <label for="inputPrixU" class="col-form-label">
+                                    <label for="prixUnitaireIng_id" class="col-form-label">
                                     Prix Unitaire <small class="text-muted"><em>(€)</em></small> : 
                                     </label>
                                 </div>
                                 <!-- Deuxième sous colonne -->
-                                <div class="col-auto">
-                                    <input type="number" id="inputPrixU" class="form-control" placeholder="Ajouter un nombre...">                
-                                </div>
+                                <div class="col-auto">';
+                                if($type=='readonly'){
+                                    echo '<input type="text" id="prixUnitaireIng_id" name="prixUnitaireIng" class="form-control" value="' . $prixUnitaireIng . '">';
+                                }
+                                else{
+                                    echo '<input type="number" id="prixUnitaireIng_id" name="prixUnitaireIng" class="form-control" placeholder="Ajouter un nombre..." required/>';
+                                }
+                                echo '</div>
                                 </div>
                             </li>
                             <!-- Input Catégorie de lingrédient-->
@@ -71,18 +94,22 @@
                                 <div class="row g-2 align-items-center">
                                 <!-- première sous colonne -->
                                 <div class="col-auto">
-                                    <label for="Categorie" class="col-form-label">
+                                    <label for="FK_NumCategorie_id" class="col-form-label">
                                     Catégorie de l\'ingrédient : 
                                     </label>
                                 </div>
                                 <!-- Deuxième sous colonne -->
                                 <div class="col-auto">
-                                    <input type="text" id="Categorie" class="form-control" list="ListeDesCategories" placeholder="Chercher une catégorie...">
-                                    <datalist id="ListeDesCategories">
-                                    <option value="Viande">
-                                    <option value="Poisson">
-                                    <option value="Autre">
-                                    </datalist>               
+                                <select name="Categorie" id="FK_NumCategorie_id">
+                                    <option value="">--Choisissez une catégorie--</option>';
+
+                                foreach ($liste_categorie as $categorie) {
+                                    $NumeroCategorie = $categorie->getNumCategorie();
+                                    $NomCategorie = $categorie->getNomCategorie();
+                                    echo '<option value="'. $NumeroCategorie .'">'. $NomCategorie .'</option>';
+                                }
+
+                                    echo '</select>
                                 </div>
                                 </div>
                             </li>
@@ -97,14 +124,19 @@
                                 <div class="row g-2 align-items-center">
                                     <!-- première sous colonne -->
                                     <div class="col-auto">
-                                    <label for="Qtestock" class="col-form-label">
+                                    <label for="QteStockIngredient_id" class="col-form-label">
                                         Quantitée présente en stock : 
                                     </label>
                                     </div>
                                     <!-- Deuxième sous colonne -->
-                                    <div class="col-auto">
-                                    <input type="number" id="Qtestock" class="form-control" placeholder="Ajouter un nombre...">                
-                                    </div>
+                                    <div class="col-auto">';
+                                    if($type=='readonly'){
+                                        echo '<input type="text" id="QteStockIngredient_id" name="QteStockIngredient" class="form-control" value="' . $QteStockIngredient . '">';
+                                    }
+                                    else{
+                                        echo '<input type="number" id="QteStockIngredient_id" name="QteStockIngredient" class="form-control" placeholder="Ajouter un nombre...">';
+                                    }
+                                    echo '</div>
                                 </div>  
                             </li>
                             <!--input correspondant à la TVA-->
@@ -113,18 +145,23 @@
                                 <div class="row g-2 align-items-center">
                                     <!-- première sous colonne -->
                                     <div class="col-auto">
-                                    <label for="TVA" class="col-form-label">
+                                    <label for="FK_CodeTVA_id" class="col-form-label">
                                         TVA : 
                                     </label>
                                     </div>
                                     <!-- Deuxième sous colonne -->
                                     <div class="col-auto">
-                                    <input type="number" id="TVA" class="form-control" list="ListeTVA" placeholder="Chercher une valeur...">
-                                    <datalist id="ListeTVA">
-                                        <option value="0.5">
-                                        <option value="0.7">
-                                        <option value="0.8">
-                                    </datalist>               
+                                    <select name="TVA" id="FK_CodeTVA_id">
+                                        <option value="">--Choisissez une TVA--</option>';
+    
+                                    foreach ($liste_TVA as $TVA) {
+                                        $NumeroTVA = $TVA->getCodeTVA();
+                                        $NomTVA = $TVA->getNomTVA();
+                                        $CoefTVA = $TVA->getCoefTVA();
+                                        echo '<option value="'. $NumeroTVA .'">'. $NomTVA .' ('. $CoefTVA*100 .'%)</option>';
+                                    }
+    
+                                        echo '</select>
                                     </div>
                                 </div> 
                             </li>
@@ -157,18 +194,22 @@
                                 <div class="row g-2 align-items-center">
                                     <!-- première sous colonne -->
                                     <div class="col-auto">
-                                    <label for="TypeAllergene" class="col-form-label">
+                                    <label for="FK_NumAllergene" class="col-form-label">
                                         <em><small class="text-muted">(si allergène, veuillez renseigner son type)</em></small> Type d\'allergène  : 
                                     </label>
                                     </div>
                                     <!-- Deuxième sous colonne -->
                                     <div class="col-auto">
-                                    <input type="text" id="TypeAllergene" class="form-control" list="ListeTypeAllergene" placeholder="Ajouter un type...">
-                                    <datalist id="ListeTypeAllergene">
-                                        <option value="Arachide">
-                                        <option value="Fruit à coque">
-                                        <option value="Protéine de lait de vache">
-                                    </datalist>               
+                                    <select name="Allergene" id="FK_NumAllergene">
+                                        <option value="">--Choisissez un allergène--</option>';
+    
+                                    foreach ($liste_allergene as $allergene) {
+                                        $NumeroAllergene = $allergene->getNumAllergene();
+                                        $NomAllergene = $allergene->getNomAllergene();
+                                        echo '<option value="'. $NumeroAllergene .'">'. $NomAllergene .'</option>';
+                                    }
+    
+                                        echo '</select>
                                     </div>
                                 </div> 
                             </li>
@@ -179,9 +220,18 @@
                 <div class="mt-3 mb-5 " align=center>
                     <button class="btn btn-dark" type="button">
                     <i class="bi bi-cloud-arrow-up-fill"></i>
-                    Ajouter l\'ingrédient 
-                    </button>
-                </div>
+                    <input type="hidden" name="controller" value="Ingredient">';
+                    
+                    if($type=='readonly'){
+                        echo '<input type="hidden" name="action" value="updated">';
+                        echo '<input class="btn btn-dark" type="submit" value="Modifier l\'ingrédient" />';
+                    } else {
+                        echo '<input type="hidden" name="action" value="created">';
+                        echo '<input class="btn btn-dark" type="submit" value="Créer l\'ingrédient" />';
+                    }
+
+                    echo '</button>
+                    </div>
             </form>
             </div>';
 
