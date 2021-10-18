@@ -11,12 +11,6 @@ function DeleteRow(o) {
   - si l'input n'existe pas dans la datalist de la barre de recherche, le rajout de la ligne n'est pas accepté */
   TabIngredients = new Array();
   function CreateLigneIngredient() {
-<<<<<<< HEAD
-    var listDesIngredient = null, options = null;
-    options = document.querySelectorAll('#listeDesIngredients .nomIngredient')
-    optionsNum = document.querySelectorAll('#listeDesIngredients .NumIngredient');
-    var i = 0;
-=======
     options = null;
     options = document.querySelectorAll('#listeDesIngredients .nomIngredient') //les noms des ingredients dans la BD
     optionsNum = document.querySelectorAll('#listeDesIngredients .NumIngredient')  // les num des ingredients dans ma BD
@@ -24,20 +18,15 @@ function DeleteRow(o) {
     optionsUnite = document.querySelectorAll('#listeDesIngredients .Unite') // les Unite des ing dans la BD
     optionsAllergene = document.querySelectorAll('#listeDesIngredients .Allergene') //les allergene des ingredients dans la BD
     var i = 0; //incrementeur
->>>>>>> 70af06fd799d4c16416a9a00ac9ba851481d2ce1
     var ingredienttrouver = false;
     var NomChoisi = document.getElementById('inputIngredient').value; // le nom d'ingredient choisi dans la barre de recherche
     while(i<options.length && !ingredienttrouver){
     if(options[i].value === NomChoisi){ //si l'ingredient est trouvé dans la liste
         ingredienttrouver = true;
-<<<<<<< HEAD
-         var NumeroIngredient = optionsNum[i].value;
-=======
         var CodeIngredient = optionsNum[i].value // on recupere le code de cet ingredient
         var PrixU = optionsPrixU[i].value // on recupere son PrixU
         var UniteIng = optionsUnite[i].value // son unite
         var AllergeneIng = optionsAllergene[i].value // son allergene si existe 
->>>>>>> 70af06fd799d4c16416a9a00ac9ba851481d2ce1
     }
     i = i + 1;
     }
@@ -60,18 +49,12 @@ function DeleteRow(o) {
     cell5.innerHTML = PrixU;
     console.log("cell 5 value : " + cell5.innerHTML);
     cell6.innerHTML =  "$PTHT";
-<<<<<<< HEAD
-    cell7.innerHTML = '<button class="btn btn-danger" type="button" onclick="DeleteRow(this)"><i class="bi bi-trash" style="font-size: 1rem;" ></i></button>';
-    TabIngredients.push(NumeroIngredient);
-    document.cookie = 'TabFiches=' + JSON.stringify(TabIngredients) + '; path=/';
-    console.log(TabIngredients);
-=======
     cell7.innerHTML = '<button class="btn btn-danger" type="button" onclick="DeleteRowIngredients(this)"><i class="bi bi-trash" style="font-size: 1rem;" ></i></button>';
     cell7.id = CodeIngredient;
     TabIngredients.push(CodeIngredient); // on rajoute le Code de lingredient rajouté par lutilisateur dans le tableau TabIngredients
+    document.cookie = 'TabFiches=' + JSON.stringify(TabIngredients) + '; path=/'; // cookie
     console.log("id ingredient qu'on va push : " + cell7.id);
     console.log("Ingredient rajouté : " + TabIngredients);
->>>>>>> 70af06fd799d4c16416a9a00ac9ba851481d2ce1
     }
     else{
     alert('Ingredient non trouvé, veuillez réessayer'); 

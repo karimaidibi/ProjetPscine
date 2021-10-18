@@ -6,7 +6,6 @@ require_once File::build_path(array("model","ModelIngredient.php"));
 require_once File::build_path(array("model","ModelEtape.php"));
 require_once File::build_path(array("model","ModelCoeffAss.php"));
 require_once File::build_path(array("model","ModelCoeffCoutPersonnel.php"));
-require_once File::build_path(array("model","ModelUtiliser.php"));
 require_once File::build_path(array("controller","ControllerInclure.php"));
 require_once File::build_path(array("model","ModelInclure.php"));
 class ControllerFicheTechnique{
@@ -111,14 +110,7 @@ class ControllerFicheTechnique{
 		$FK_CodeCoeffCoutPersonnel = myGet('CodeCoeffCoutPersonnel');
 		$Fiche = new ModelFicheTechnique($NomFiche,$NbreCouverts,$NomAuteur,$CoutFluide,$FK_NumeroCatFiche,$FK_CodeCoeffAss,$FK_CodeCoeffCoutPersonnel);
 		$Fiche->save();
-		//les coefficients
 		self::saveIngredients($Fiche);
-		$CodeCoeffAss = myGet('CodeCoeffAss');
-		$CodeCoeffCoutPersonnel= myGet('CodeCoeffCoutPersonnel');
-		$utiliser = new ModelUtiliser($CodeCoeffAss,$NumeroFiche);
-		$utiliser2 = new ModelUtiliser($CodeCoeffCoutPersonnel,$NumeroFiche);
-		$utiliser->save();
-		$utiliser2->save();
 		self::readAll();
 	} 
 
