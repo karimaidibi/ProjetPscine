@@ -164,8 +164,8 @@ CREATE TABLE IF NOT EXISTS `fichetechnique` (
 
 -- definir les FK pour la table fichetechnique 
 ALTER TABLE `fichetechnique`
-  ADD CONSTRAINT `FK_fichetechnique_FK_NumeroCatFiche` FOREIGN KEY (`FK_NumeroCatFiche`) REFERENCES `categorie_fiche` (`NumeroCatFiche`);
-  ADD CONSTRAINT `FK_fichetechnique_FK_CodeCoeffAss` FOREIGN KEY (`FK_CodeCoeffAss`) REFERENCES `coeffAss` (`CodeCoeffAss`);
+  ADD CONSTRAINT `FK_fichetechnique_FK_NumeroCatFiche` FOREIGN KEY (`FK_NumeroCatFiche`) REFERENCES `categorie_fiche` (`NumeroCatFiche`),
+  ADD CONSTRAINT `FK_fichetechnique_FK_CodeCoeffAss` FOREIGN KEY (`FK_CodeCoeffAss`) REFERENCES `coeffAss` (`CodeCoeffAss`),
   ADD CONSTRAINT `FK_fichetechnique_FK_CodeCoeffCoutPersonnel` FOREIGN KEY (`FK_CodeCoeffCoutPersonnel`) REFERENCES `coeffCoutPersonnel` (`CodeCoeffCoutPersonnel`);
 -- --------------------------------------------------------
 
@@ -200,7 +200,7 @@ CREATE TABLE IF NOT EXISTS `ingredient` (
   `prixUnitaireIng` float NOT NULL,
   `QteStockIngredient` float NOT NULL,
   `FK_NumUnite` int(11) NOT NULL,
-  `FK_NumAllergene` int(11),
+  `FK_NumAllergene` int(11) NOT NULL,
   `FK_CodeTVA` int(11) NOT NULL,
   `FK_NumCategorie` int(11) NOT NULL,
   PRIMARY KEY (`NumIngredient`),

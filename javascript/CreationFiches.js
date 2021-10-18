@@ -1,24 +1,3 @@
-var mesTables =null, boutonSupprimer =  null;
-document.addEventListener('DOMContentLoaded',function(){
-  mesTables = document.getElementsByTagName('table');
-  for(var j = 0; j<mesTables.length; j++) {
-    boutonSupprimer = mesTables[j].getElementsByClassName('btn-danger');
-    for(var i = 0; i<boutonSupprimer.length; i++){
-      boutonSupprimer[i].addEventListener('click',  supprimerLigne);
-    }//for
-  }
-
-});
-
-/*
-Méthode 1 basic 
-compatible avec tous les navigateurs même tres anciens
-*/
-function supprimerLigne(oEvent){
-  var oEleBt = oEvent.currentTarget,
-      oTr = oEleBt.parentNode.parentNode ;
-  oTr.remove(); 
-}//fct
 
 function DeleteRow(o) {
     //no clue what to put here?
@@ -54,6 +33,7 @@ function DeleteRow(o) {
     if(ingredienttrouver == true){
     var row = table.insertRow(table.length);
     var cell1 = row.insertCell(0);
+    console.log("cell1 : " + cell1);
     var cell2 = row.insertCell(1);
     var cell3 = row.insertCell(2);
     var cell4 = row.insertCell(3);
@@ -64,19 +44,19 @@ function DeleteRow(o) {
     cell2.innerHTML = NomChoisi;
     cell3.innerHTML = UniteIng;
     cell4.innerHTML = ' <input type="number" step="any" class="form-control w-50" id="QteIng" placeholder="Qté...">';
-    console.log(cell4.innerHTML.value);
+    console.log("input : " + cell4.lastChild);
     cell5.innerHTML = PrixU;
+    console.log("cell 5 value : " + cell5.innerHTML);
     cell6.innerHTML =  "$PTHT";
     cell7.innerHTML = '<button class="btn btn-danger" type="button" onclick="DeleteRowIngredients(this)"><i class="bi bi-trash" style="font-size: 1rem;" ></i></button>';
     cell7.id = CodeIngredient;
     TabIngredients.push(CodeIngredient); // on rajoute le Code de lingredient rajouté par lutilisateur dans le tableau TabIngredients
-    console.log(cell7.id);
+    console.log("id ingredient qu'on va push : " + cell7.id);
     console.log("Ingredient rajouté : " + TabIngredients);
     }
     else{
     alert('Ingredient non trouvé, veuillez réessayer'); 
     }
-
 }
 
 function DeleteRowIngredients(o) {
@@ -88,12 +68,49 @@ function DeleteRowIngredients(o) {
   // supprimer la ligne
   var p=o.parentNode.parentNode;
   p.parentNode.removeChild(p);
+
 }
 
 //fonction pour calculer les prix et le mettre a jour directement
-document.addEventListener("keyup",function(){
-  
-})
+document.addEventListener("click",function(){
+  var tableIngredients = document.getElementById('bodyIngredients');
+  console.log("longueur table ingredient: " + tableIngredients.rows.length);
+  var TotalDenree = 0; // pour le totalDenree
+  //recuperer le Coeff ASS
+  var SelectCoeffAss = document.getElementById('coeffASS');
+  var CoeffAss = parseFloat(SelectCoeffAss.options[SelectCoeffAss.selectedIndex].text);
+  console.log("CoeffASS : " + CoeffAss);
+  //recuperer le coeff perso
+  var SelectCoeffPerso = document.getElementById('coeffCoutPersonnel');
+  var CoeffPerso = parseFloat(SelectCoeffPerso.options[SelectCoeffPerso.selectedIndex].text);
+  console.log("coeff perso : " + CoeffPerso);
+  //recuperer le cout de fluide 
+  var CoutFluide = document.getElementById('CoutFluide_id').value;
+  console.log("cout fluide : " + CoutFluide);
+  //commencer le calcul
+  for(var i = 0,row;row=tableIngredients.rows[i]; i++){ // pour chaque ligne as row
+    var QteIng = row.cells[3].lastChild.value; // on recupere la quantite de l'ing
+    var prixU = parseFloat(row.cells[4].innerHTML); // on recupere son prixU
+    var ptht = QteIng * prixU; // on calcul sn ptht
+    row.cells[5].innerHTML = ptht; // on met le ptht dans la bonne colonne
+    TotalDenree = TotalDenree + ptht;
+  }
+  //calculer les autres prix 
+  var ASS = CoeffAss * TotalDenree; 
+  var CoutMatiere = TotalDenree + ASS;
+  var CoutPersonnel = CoeffPerso *16.74;
+  var CoutProductionTotale = CoutMatiere + CoutPersonnel + CoutFluide;
+  var CoutProductionPortion = CoutProductionTotale * 0.1;
+  // maintenant,, mettre les prix dans leur table de prix 
+  var tablePrix = document.getElementById('bodyPrix');
+  tablePrix.rows[0].cells[1].innerHTML = TotalDenree;
+  tablePrix.rows[1].cells[1].innerHTML = ASS;
+  tablePrix.rows[2].cells[1].innerHTML = CoutMatiere;
+  tablePrix.rows[3].cells[1].innerHTML = CoutPersonnel;
+  tablePrix.rows[4].cells[1].innerHTML = CoutFluide;
+  tablePrix.rows[5].cells[1].innerHTML = CoutProductionTotale;
+  tablePrix.rows[6].cells[1].innerHTML = CoutProductionPortion;
+});
 
   TabFiches = new Array(); // variable globale qui contient les sous fiches
   var ordreFiche = 0;

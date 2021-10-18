@@ -198,7 +198,7 @@ echo '<!--Titré création de fiche technique -->
                               </div>
                               <!-- Deuxième sous colonne -->
                               <div class="col-auto">
-                              <select id="coeffASS" name="CodeCoeffCoutPersonnel" class="form-select">';
+                              <select id="coeffCoutPersonnel" name="CodeCoeffCoutPersonnel" class="form-select">';
                               if($type=='readonly'){
                                 foreach($coefficientsCoutPersonnel as $c){ // pour chaque coefficients dans la BD 
                                   $CodeCoeff = $c->getCodeCoeffCoutPersonnel();
@@ -353,7 +353,7 @@ echo '<!--Titré création de fiche technique -->
                       - Valorisation :
                           -  Quantité | PrixU | PTHT-->
                   <div class="pt-4 ms-4">
-                    <table class="table table-striped table-hover align-middle">
+                    <table class="table table-striped table-hover align-middle" id="tableIngredients" >
                       <thead class="table-dark">
                           <!-- Prémière ligne-->
                           <tr>
@@ -391,40 +391,40 @@ echo '<!--Titré création de fiche technique -->
             <div class="row row-cols-2 pt-4">
                 <!-- Les prix de la fichetechniques -->
                 <div class="col-4">
-                  <table class="table table-striped table-hover">
+                  <table class="table table-striped table-hover>
                     <thead class="table-dark">
                         <tr>
                         <th scope="col" colspan="2"> Prix </th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody id="bodyPrix">
                         <tr>
                         <th scope="row">Total Denrées</th>
-                        <td>197,8 €</td>
+                        <td></td>
                         </tr>
                         <tr>
                         <th scope="row">ASS 5%</th>
-                        <td>9,8 €</td>
+                        <td></td>
                         </tr>
                         <tr>
                         <th scope="row">Cout Matières</th>
-                        <td>197,8 €</td>
+                        <td></td>
                         </tr>
                         <tr>
                         <th scope="row">Cout Personnel</th>
-                        <td>197,8 €</td>
+                        <td></td>
                         </tr>
                         <tr>
                         <th scope="row">Cout Fluide</th>
-                        <td>197,8 €</td>
+                        <td></td>
                         </tr>
                         <tr>
                         <th scope="row">Cout de production Total</th>
-                        <td>197,8 €</td>
+                        <td></td>
                         </tr>
                         <tr>
                         <th scope="row">Cout de production portion</th>
-                        <td>197,8 €</td>
+                        <td></td>
                         </tr>
                     </tbody>
                   </table> 
@@ -457,8 +457,7 @@ echo '<!--Titré création de fiche technique -->
                           <input type="hidden" value ="'.$NbreCouverts.'" class="NbreCouverts">
                           <input type="hidden" value ="'.$NomAuteur.'" class="NomAuteur">
                           <input type="hidden" value ="'.$CoutFluide.'" class="CoutFluide">
-                          <input type="hidden" value ="'.$NomCategorieFiche.'" class="NomCategorieFiche">
-                        </option>' ;
+                          <input type="hidden" value ="'.$NomCategorieFiche.'" class="NomCategorieFiche">';
                     }
               echo  '</datalist>
                   </div>

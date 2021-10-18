@@ -138,18 +138,8 @@ class ControllerFicheTechnique{
 		else{ // si c'est pour update
 			$NumeroFiche = myGet('NumeroFiche');
 	    	$fiche = ModelFicheTechnique::select($NumeroFiche); //Fiche à update
-	    	//$compositions = ModelComposer::select2($NumeroFiche);  //lignes de la table Composer pour le Numéro de fiche concerné, chaque ligne étant un objet composer
-	    	//$ingredients = array();
-			/*echo '<pre>';
-	    	print_r($compositions);
-			echo '</pre>';
-	    	foreach ($compositions as $comp) {
-				$NumIngredient = $comp -> getFK_NumIngredient();
-	    		array_push($ingredients, ModelIngredient::select($NumIngredient));
-	    	}
-			echo '<pre>';
-			print_r($ingredients);
-			echo '</pre>'; */
+			$Progressions = ModelFicheTechnique::selectProgressionsOf($NumeroFiche); // les progressions de cette fiche
+			$Ingredients = ModelFicheTechnique::selectIngredientsOf($NumeroFiche);  // les ingredients de cette fiche 
 	        $view='update';
 	        $pagetitle='Modification de la recette';
 	        $type = 'readonly';
