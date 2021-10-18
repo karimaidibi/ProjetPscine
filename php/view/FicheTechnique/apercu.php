@@ -123,44 +123,64 @@
                         <tr>
                             <!-- première colonne-->
                             <th scope="col">ALLERGENE</th>
-                            <!-- deuxième colonne-->
+                            <!-- 2euxième colonne-->
                             <th scope="col">Ingrédient</th>
-                            <!-- 3ème colonne-->
-                            <th scope="col">UNITE</th>
+                            <!- 3ème colonne (categorie ingredient)->
+                            <th scope="col" > Categorie Ingredient</th>
                             <!-- 4ème colonne-->
-                            <th scope="col">QUANTITE</th>
+                            <th scope="col">UNITE</th>
                             <!-- 5ème colonne-->
-                            <th scope="col">PRIXU</th>
+                            <th scope="col">QUANTITE</th>
                             <!-- 6ème colonne-->
+                            <th scope="col">PRIXU</th>
+                            <!-- 7ème colonne-->
                             <th scope="col">PTHT</th>
                         </tr>
                     </thead>
                     <tbody>
                         <!-- 3ème  ligne-->';
+                $TotalDenree = 0; // le total Denree = somme des PTHT
                 foreach($Ingredients as $Ing){
-                    $NomAllergene = ModelAllergene::select($Ing["FK_NumAllergene"]) -> getNomAllergene();
-                    $NomUnite = ModelUnite::select($Ing["FK_NumUnite"]) -> getNomUnite();
+                    $objetAllergene = ModelAllergene::select($Ing["FK_NumAllergene"]); //recuperer son allergene si existe
+                    if(!empty($objetAllergene)){
+                        $NomAllergene = $objetAllergene ->getNomAllergene();
+                    }else{
+                        $NomAllergene = "";
+                    }
+                    $NomUnite = ModelUnite::select($Ing["FK_NumUnite"]) -> getNomUnite(); //recuperer son nom unité
+                    $CategorieIng = ModelCategorie_Ingredient::select($Ing["FK_NumCategorie"]) -> getNomCategorie(); // recuperer la categorie de l'ingredient
+                    $PTHT = $Ing["QuantiteIngredient"] * $Ing["prixUnitaireIng"]; // calculer son PTHT
+                    $TotalDenree = $TotalDenree + $PTHT;
                         echo 
                             '<tr>
                                 <!-- Première colonne (code) -->
-                                <th scope="row"> ' .$NomAllergene. ' </th>
+                                <th scope="row"> ' .$NomAllergene. '</th>
                                 <!-- deuxième colonne (ingrédient)-->
                                 <td>' .$Ing["NomIng"]. '</td>
-                                <!-- 3ème colonne (Unitairé)-->
+                                <!- 3emme colonne (categorie ingredient)->
+                                <td>' .$CategorieIng. ' </td>
+                                <!-- 4ème colonne (Unitairé)-->
                                 <td>' .$NomUnite. '</td>
-                                <!-- 4èmme colonne (Qté_Ing)-->
+                                <!-- 5èmme colonne (Qté_Ing)-->
                                 <td> ' .$Ing["QuantiteIngredient"]. '</td>
                                 <!-- 5ème colonne (PrixU)-->
                                 <td> ' .$Ing["prixUnitaireIng"]. ' </td>
-                                <!-- 6èmme colonne(PTHT)-->
-                                <td> ptht calculé </td>
+                                <!-- 7èmme colonne(PTHT)-->
+                                <td> '.$PTHT.' </td>
                             </tr>';
                 }
                 echo ' 
                     </tbody>
                     </table>
                 </div>
-            </div>
+            </div>';
+            // les prix dans la table des prix 
+                $ASS = $valeurCoeffAss * $TotalDenree;
+                $CoutMatiere = $TotalDenree + $ASS;
+                $CoutPersonnel = $valeurCoeffCoutPersonnel * 16.74;
+                $CoutProductionTotale = $CoutMatiere + $CoutPersonnel + $CoutFluide;
+                $CoutProductionPortion = $CoutProductionTotale * 0.1;
+            echo '
                 <!-- La table qui contient les prix totales et une table contenante les fiches techniques -->
                 <div class="row row-cols-2 ms-3 ">
                 <!-- les prix-->
@@ -174,31 +194,31 @@
                             <tbody>
                                 <tr>
                                 <th scope="row">Total Denrées</th>
-                                <td>197,8 €</td>
+                                <td >'.$TotalDenree.'</td>
                                 </tr>
                                 <tr>
                                 <th scope="row">ASS 5%</th>
-                                <td>9,8 €</td>
+                                <td>'.$ASS.'</td>
                                 </tr>
                                 <tr>
                                 <th scope="row">Cout Matières</th>
-                                <td>197,8 €</td>
+                                <td>'.$CoutMatiere.'</td>
                                 </tr>
                                 <tr>
                                 <th scope="row">Cout Personnel</th>
-                                <td>197,8 €</td>
+                                <td>'.$CoutPersonnel.'</td>
                                 </tr>
                                 <tr>
                                 <th scope="row">Cout Fluide</th>
-                                <td>197,8 €</td>
+                                <td>'.$CoutFluide.'</td>
                                 </tr>
                                 <tr>
                                 <th scope="row">Cout de production Total</th>
-                                <td>197,8 €</td>
+                                <td>'.$CoutProductionTotale.'</td>
                                 </tr>
                                 <tr>
                                 <th scope="row">Cout de production portion</th>
-                                <td>197,8 €</td>
+                                <td>'.$CoutProductionPortion.'</td>
                                 </tr>
                             </tbody>
                         </table> 

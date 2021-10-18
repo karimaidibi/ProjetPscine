@@ -319,8 +319,29 @@ echo '<!--Titré création de fiche technique -->
                         <input class="form-control" list="listeDesIngredients" id="inputIngredient" placeholder="Chercher un ingrédient..">
                         <datalist id="listeDesIngredients">';
                         foreach($ingredients as $i){
-                          $NomIng = $i -> getNomIng();
-                          echo '<option value="'.$NomIng.'" class="nomIngredient">';
+                          $NumIngredient = $i->getNumIngredient();
+                          $NomIng = $i->getNomIng();
+                          $PrixUnitaire = $i->getPrixUnitaireIng();
+                          $QuantiteStock = $i->getQteStockIngredient();
+                          $FK_NumUnite = $i->getFK_NumUnite();
+                          $FK_NumAllergene = $i->getFK_NumAllergene();
+                          $FK_CodeTVA = $i->getFK_CodeTVA();
+                          $FK_NumCategorie = $i->getFK_NumCategorie();
+                  
+                          $Unite = ModelUnite::select($FK_NumUnite)->getNomUnite();
+                          $objetAllergene = ModelAllergene::select($FK_NumAllergene); //recuperer son allergene si existe
+                          if(!empty($objetAllergene)){
+                              $NomAllergene = $objetAllergene ->getNomAllergene();
+                          }else{
+                              $NomAllergene = "";
+                          }
+                          //$TVA = ModelTVA::select($FK_CodeTVA)->getCoefTVA();
+                          //$Categorie = ModelCategorie_Ingredient::select($FK_NumCategorie)->getNomCategorie();
+                          echo '<option value="'.$NomIng.'" class="nomIngredient">
+                                <input type="hidden" value ="'.$NumIngredient.'" class="NumIngredient">
+                                <input type="hidden" value ="'.$PrixUnitaire.'" class="PrixUnitaire">
+                                <input type="hidden" value ="'.$Unite.'" class="Unite">
+                                <input type="hidden" value ="'.$NomAllergene.'" class="Allergene">';
                         }
                   echo' </datalist>
                       </div> 
@@ -344,9 +365,9 @@ echo '<!--Titré création de fiche technique -->
                           <!-- Deuxième ligne-->
                           <tr>
                             <!-- première colonne-->
-                            <th scope="col">CODE</th>
+                            <th scope="col">ALLERGENE</th>
                             <!-- deuxième colonne-->
-                            <th scope="col">Ingrédient</th>
+                            <th scope="col">INGREDIENT</th>
                             <!-- 3ème colonne-->
                             <th scope="col">UNITE</th>
                             <!-- 4ème colonne-->
@@ -424,8 +445,19 @@ echo '<!--Titré création de fiche technique -->
                     foreach($LesFiches as $f){
                       $NomFiche = $f->getNomFiche();
                       $NumeroFiche = $f->getNumeroFiche();
+                      $NbreCouverts = $f->getNbreCouverts();
+                      $NomAuteur = $f->getNomAuteur();
+                      $CoutFluide = $f->getCoutFluide();
+                      $NumCategorieFiche = $f->getFK_NumeroCatFiche();
+                  
+                      $categorieFiche = ModelCategorie_Fiche::select($NumCategorieFiche);
+                      $NomCategorieFiche =  $categorieFiche -> getNomCatFiche(); //une ligne = objet
                   echo '<option value="'.$NomFiche.'" class="nomFiche">
                           <input type="hidden" value ="'.$NumeroFiche.'" class="NumeroFiche">
+                          <input type="hidden" value ="'.$NbreCouverts.'" class="NbreCouverts">
+                          <input type="hidden" value ="'.$NomAuteur.'" class="NomAuteur">
+                          <input type="hidden" value ="'.$CoutFluide.'" class="CoutFluide">
+                          <input type="hidden" value ="'.$NomCategorieFiche.'" class="NomCategorieFiche">
                         </option>' ;
                     }
               echo  '</datalist>
@@ -433,6 +465,7 @@ echo '<!--Titré création de fiche technique -->
                   <div class="pt-4">
                       <!------LA TABLE QUI CONTIENT LES FICHES TECHNIQUES--------->
                       <table class="table table-striped table-hover align-middle">
+                      <input type="hidden" id="inputTableIngredients"> 
                         <thead class = "table-dark">
                         <tr>
                             <th scope="col">Ordre</th>

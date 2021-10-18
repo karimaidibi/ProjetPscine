@@ -29,20 +29,29 @@ function DeleteRow(o) {
     /* Elle prend la table de la création des ingredient :
   - elle rajoute une ligne à la fin du tableau
   - si l'input n'existe pas dans la datalist de la barre de recherche, le rajout de la ligne n'est pas accepté */
+  TabIngredients = new Array();
   function CreateLigneIngredient() {
-    var listDesIngredient = null, options = null;
-    options = document.querySelectorAll('#listeDesIngredients .nomIngredient')
-    var i = 0;
+    options = null;
+    options = document.querySelectorAll('#listeDesIngredients .nomIngredient') //les noms des ingredients dans la BD
+    optionsNum = document.querySelectorAll('#listeDesIngredients .NumIngredient')  // les num des ingredients dans ma BD
+    optionsPrixU = document.querySelectorAll('#listeDesIngredients .PrixUnitaire') //les prixU des ing dans la BD
+    optionsUnite = document.querySelectorAll('#listeDesIngredients .Unite') // les Unite des ing dans la BD
+    optionsAllergene = document.querySelectorAll('#listeDesIngredients .Allergene') //les allergene des ingredients dans la BD
+    var i = 0; //incrementeur
     var ingredienttrouver = false;
-    var NomChoisi = document.getElementById('inputIngredient').value;
+    var NomChoisi = document.getElementById('inputIngredient').value; // le nom d'ingredient choisi dans la barre de recherche
     while(i<options.length && !ingredienttrouver){
-    if(options[i].value === NomChoisi){
+    if(options[i].value === NomChoisi){ //si l'ingredient est trouvé dans la liste
         ingredienttrouver = true;
+        var CodeIngredient = optionsNum[i].value // on recupere le code de cet ingredient
+        var PrixU = optionsPrixU[i].value // on recupere son PrixU
+        var UniteIng = optionsUnite[i].value // son unite
+        var AllergeneIng = optionsAllergene[i].value // son allergene si existe 
     }
     i = i + 1;
     }
+    var table = document.getElementById("bodyIngredients"); // le body de la table ingredient
     if(ingredienttrouver == true){
-    var table = document.getElementById("bodyIngredients");
     var row = table.insertRow(table.length);
     var cell1 = row.insertCell(0);
     var cell2 = row.insertCell(1);
@@ -51,19 +60,40 @@ function DeleteRow(o) {
     var cell5 = row.insertCell(4);
     var cell6 = row.insertCell(5);
     var cell7 = row.insertCell(6);
-    cell1.innerHTML = "4";
-    cell1.style.display ="";
+    cell1.innerHTML = AllergeneIng;
     cell2.innerHTML = NomChoisi;
-    cell3.innerHTML = "$Unite";
-    cell4.innerHTML = ' <input type="number" class="form-control w-50" placeholder="Qté...">';
-    cell5.innerHTML = "$PrixU";
+    cell3.innerHTML = UniteIng;
+    cell4.innerHTML = ' <input type="number" step="any" class="form-control w-50" id="QteIng" placeholder="Qté...">';
+    console.log(cell4.innerHTML.value);
+    cell5.innerHTML = PrixU;
     cell6.innerHTML =  "$PTHT";
-    cell7.innerHTML = '<button class="btn btn-danger" type="button" onclick="DeleteRow(this)"><i class="bi bi-trash" style="font-size: 1rem;" ></i></button>';
+    cell7.innerHTML = '<button class="btn btn-danger" type="button" onclick="DeleteRowIngredients(this)"><i class="bi bi-trash" style="font-size: 1rem;" ></i></button>';
+    cell7.id = CodeIngredient;
+    TabIngredients.push(CodeIngredient); // on rajoute le Code de lingredient rajouté par lutilisateur dans le tableau TabIngredients
+    console.log(cell7.id);
+    console.log("Ingredient rajouté : " + TabIngredients);
     }
     else{
     alert('Ingredient non trouvé, veuillez réessayer'); 
     }
+
 }
+
+function DeleteRowIngredients(o) {
+  // supprimer dans le tableau
+  var index = TabIngredients.indexOf(o.parentNode.id); // trouver l'index de l'id à supprimer dans la TabFiches
+  console.log(o.parentNode.id);
+  var rem = TabIngredients.splice(index,1); // supprimer un element qui se trouve à la position index
+  console.log("Ingredient supprime : " + TabIngredients);
+  // supprimer la ligne
+  var p=o.parentNode.parentNode;
+  p.parentNode.removeChild(p);
+}
+
+//fonction pour calculer les prix et le mettre a jour directement
+document.addEventListener("keyup",function(){
+  
+})
 
   TabFiches = new Array(); // variable globale qui contient les sous fiches
   var ordreFiche = 0;
@@ -71,9 +101,13 @@ function DeleteRow(o) {
   - elle rajoute une ligne à la fin du tableau
   - si l'input n'existe pas dans la datalist de la barre de recherche, le rajout de la ligne n'est pas accepté */
   function CreateLigneFiche() {
-    var listDesFiches = null, options = null;
+    options = null;
     options = document.querySelectorAll('#listeDesFichesTechniques .nomFiche'); // les noms des fiches dand la BD
     optionsNum = document.querySelectorAll('#listeDesFichesTechniques .NumeroFiche'); // les numero des fiches dans la BD
+    optionsCouv = document.querySelectorAll('#listeDesFichesTechniques .NbreCouverts'); // less nbrecouverts des fiches dans la BD
+    optionsAuteur = document.querySelectorAll('#listeDesFichesTechniques .NomAuteur'); //les nomAuteur des fihces dans la BD
+    //optionsFluide = document.querySelectorAll('#listeDesFichesTechniques .CoutFluide'); // les cout fluide de  la fiche dans la BD
+    optionsCat = document.querySelectorAll('#listeDesFichesTechniques .NomCategorieFiche'); // les categorie des fiches dans la BD 
     var i = 0; // incrementeur
     var fichetrouver = false;
     var NomChoisi = document.getElementById('inputFiches').value; // le nom que le client met dans la barre de recherche
@@ -82,6 +116,10 @@ function DeleteRow(o) {
         fichetrouver = true;
         ordreFiche = ordreFiche +  1 ; // on incremente lordre des fiches
         var codeFiche = optionsNum[i].value; // le code de la fiche
+        var CouvFiche = optionsCouv[i].value; // le code de la fiche
+        var AuteurFiche = optionsAuteur[i].value; // le code de la fiche
+        //var FluideFiche = optionsFluide[i].value; // le code de la fiche
+        var CategorieFiche = optionsCat[i].value; // le code de la fiche
     }
     i = i + 1;
     }
@@ -96,29 +134,23 @@ function DeleteRow(o) {
     var cell6 = row.insertCell(5);
     cell1.innerHTML = ordreFiche;
     cell2.innerHTML = NomChoisi;
-    cell3.innerHTML = "nbrecouverts";
-    cell4.innerHTML = "$auteur";
-    cell5.innerHTML = "catégorie";
+    cell3.innerHTML = CouvFiche;
+    cell4.innerHTML = AuteurFiche;
+    cell5.innerHTML = CategorieFiche;
     cell6.innerHTML = '<button class="btn btn-danger" type="button" onclick="DeleteRowFiches(this)"><i class="bi bi-trash" style="font-size: 1rem;" ></i></button>';
     cell6.id = codeFiche; // on attribut le code de la fiche qui vient detre rajouté dans le front comme id à la case qui contient le bouton supprimer 
     console.log(cell6.id);
     TabFiches.push(codeFiche); // on rajoute le Code de la fiche rajouté par lutilisateur dans le tableau TabFiches
     console.log(TabFiches.length);
-    console.log(TabFiches);
-          $.ajax({ // on envoie vers PHP 
-            type: "POST", 
-            url: "http://projetpiscine/php/index.php?controller=ficheTechnique&action=update", 
-            data: { TabFiches : TabFiches}, 
-            success: function() { 
-                  console.log(TabFiches); 
-                  console.log(TabFiches.length);
-            } 
-          }); 
+    console.log("Fiche ajouté : " + TabFiches);
+    
+    //envoyer la TabFiche vers la pageHtml avec la method setAttribute
+    document.getElementById("inputTableIngredients").setAttribute("name",TabFiches);
+    console.log(document.getElementById("inputTableIngredients").getAttribute("name"));
     }
     else{
     alert('fiche non trouvé, veuillez réessayer'); 
     }
-    //document.write("<?php print_r($_POST['TabFiches']); ?>");
 }
 
   function DeleteRowFiches(o) {
@@ -126,7 +158,7 @@ function DeleteRow(o) {
     var index = TabFiches.indexOf(o.parentNode.id); // trouver l'index de l'id à supprimer dans la TabFiches
     console.log(o.parentNode.id);
     var rem = TabFiches.splice(index,1); // supprimer un element qui se trouve à la position index
-    console.log(TabFiches);
+    console.log("Fiche supprime " + TabFiches);
     // supprimer la ligne
     var p=o.parentNode.parentNode;
     p.parentNode.removeChild(p);
