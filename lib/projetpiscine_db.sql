@@ -200,7 +200,7 @@ CREATE TABLE IF NOT EXISTS `ingredient` (
   `prixUnitaireIng` float NOT NULL,
   `QteStockIngredient` float NOT NULL,
   `FK_NumUnite` int(11) NOT NULL,
-  `FK_NumAllergene` int(11) NOT NULL,
+  `FK_NumAllergene` int(11),
   `FK_CodeTVA` int(11) NOT NULL,
   `FK_NumCategorie` int(11) NOT NULL,
   PRIMARY KEY (`NumIngredient`),
