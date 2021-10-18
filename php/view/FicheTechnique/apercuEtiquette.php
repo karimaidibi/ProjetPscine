@@ -38,6 +38,7 @@
                                 </div>
                                 <div class="col-auto">
                                     <input type="date" class="form-control-plaintext" id="DateFabric">
+                                    <p id ="DateFabricCache" class="mt-2" ></p>
                                 </div>
                             </div>
                             <!-- Date de péremption (date de fabrication +3j)-->
@@ -47,7 +48,7 @@
                                 </div>
                                 <!--Date calculée avec javascript (date de fabrication +3j)-->
                                 <div class="col-auto">
-                                    <p>Date calculé avec javascipt</p>
+                                    <p id ="DatePeremption"></p>
                                 </div>
                             </div>
                         </div>

@@ -1,20 +1,20 @@
 <?php
-require_once File::build_path(array("model","ModelCoefficient.php"));
-class ControllerCoefficient{
+require_once File::build_path(array("model","ModelCoeffAss.php"));
+class ControllerCoeffAss{
 
-	protected static $object='Coefficient';
+	protected static $object='CoeffAss';
 
 	public static function readAll() {
-        $tab_u = ModelCoefficient::selectAll();     
+        $tab_u = ModelCoeffAss::selectAll();     
         $view='list';
         $pagetitle='Liste des coefficients';
         require_once File::build_path(array("view", "view.php"));
     }
 
     public static function read(){
-    	if(!is_null(myGet('CodeCoeff'))){
-	    	$CodeCoeff = myGet('CodeCoeff');
-	    	$u = ModelCoefficient::select($CodeCoeff);
+    	if(!is_null(myGet('CodeCoeffAss'))){
+	    	$CodeCoeffAss = myGet('CodeCoeffAss');
+	    	$u = ModelCoeffAss::select($CodeCoeffAss);
 	    	if($u==false){
         		$view='error';
         		$pagetitle='Page 404';
@@ -22,7 +22,7 @@ class ControllerCoefficient{
 	    	}
 	    	else{
         		$view='detail';
-        		$pagetitle='Coefficient ' . $CodeCoeff;
+        		$pagetitle='CoeffAss ' . $CodeCoeffAss;
 	    		require_once File::build_path(array("view", "view.php"));
 	    	}
     	}
@@ -34,25 +34,25 @@ class ControllerCoefficient{
 	}
 
 	public static function delete(){
-		if(!is_null(myGet('CodeCoeff'))){
+		if(!is_null(myGet('CodeCoeffAss'))){
         	$view='error';
         	$pagetitle='Page 404';
 	    	require_once File::build_path(array("view", "view.php"));
 		}
 		else{
-			$CodeCoeff = myGet('CodeCoeff');
-			ModelCoefficient::delete($CodeCoeff);
-			$tab_u = ModelCoefficient::selectAll();
+			$CodeCoeffAss = myGet('CodeCoeffAss');
+			ModelCoeffAss::delete($CodeCoeffAss);
+			$tab_u = ModelCoeffAss::selectAll();
 	        $view='deleted';
-	        $pagetitle='Coefficient supprimé';
+	        $pagetitle='CoeffAss supprimé';
 		    require_once File::build_path(array("view", "view.php"));
 		}
 	}
 
-	public static function create($valeurCoefficient){
-        $v1 = new ModelCoefficient($valeurCoefficient);
+	public static function create($valeurCoeffAss){
+        $v1 = new ModelCoeffAss($valeurCoeffAss);
 		$v1->save();
-		return $v1->getCodeCoeff();
+		return $v1->getCodeCoeffAss();
 	}
 }
 ?>

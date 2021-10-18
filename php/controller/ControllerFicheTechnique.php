@@ -4,7 +4,8 @@ require_once File::build_path(array("model","ModelCategorie_Fiche.php"));
 require_once File::build_path(array("model","ModelComposer.php"));
 require_once File::build_path(array("model","ModelIngredient.php"));
 require_once File::build_path(array("model","ModelEtape.php"));
-require_once File::build_path(array("model","ModelCoefficient.php"));
+require_once File::build_path(array("model","ModelCoeffAss.php"));
+require_once File::build_path(array("model","ModelCoeffCoutPersonnel.php"));
 require_once File::build_path(array("model","ModelUtiliser.php"));
 require_once File::build_path(array("controller","ControllerInclure.php"));
 require_once File::build_path(array("model","ModelInclure.php"));
@@ -77,32 +78,23 @@ class ControllerFicheTechnique{
 		if(!is_null(myGet('CoutFluide'))){
 			$CoutFluide=myGet('CoutFluide');
 		}
+		if(!is_null(myGet('CodeCoeffAss'))){
+			$FK_CodeCoeffAss=myGet('CodeCoeffAss');
+		}
+		if(!is_null(myGet('CodeCoeffCoutPersonnel'))){
+			$FK_CodeCoeffCoutPersonnel=myGet('CodeCoeffCoutPersonnel');
+		}
 		$data = array(
 			"primary" => $NumeroFiche,
 			"NomFiche" => $NomFiche,
 			"NbreCouverts" => $NbreCouverts,
 			"NomAuteur" => $NomAuteur,
 			"CoutFluide" => $CoutFluide,
-			"FK_NumeroCatFiche" => $FK_NumeroCatFiche
+			"FK_NumeroCatFiche" => $FK_NumeroCatFiche,
+			"FK_CodeCoeffAss" => $FK_CodeCoeffAss,
+			"FK_CodeCoeffCoutPersonnel" => $FK_CodeCoeffCoutPersonnel
 		);
-		ModelFicheTechnique::update($data);
-		//les coefficients
-		if(!is_null(myGet('CodeCoeffAss'))){
-			$CodeCoeffAss=myGet('CodeCoeffAss');
-		}
-		if(!is_null(myGet('CodeCoeffCoutPersonnel'))){
-			$CodeCoeffCoutPersonnel=myGet('CodeCoeffCoutPersonnel');
-		}
-		$Ass = array(
-			"primary" => $NumeroFiche,
-			"FK_CodeCoeff" => $CodeCoeffAss
-		);
-		$CoutPersonnel = array(
-			"primary" => $NumeroFiche,
-			"FK_CodeCoeff" => $CodeCoeffCoutPersonnel
-		);
-		ModelUtiliser::update($Ass);
-		ModelUtiliser::update($CoutPersonnel);		
+		ModelFicheTechnique::update($data);		
 	    $view='list';
 	    $pagetitle='Mise à jour de la recette';
 	    $tab_u = ModelFicheTechnique::selectAll();
@@ -115,7 +107,9 @@ class ControllerFicheTechnique{
 		$NomAuteur=myGet('NomAuteur');
 		$CoutFluide=myGet('CoutFluide');
 		$FK_NumeroCatFiche=myGet('FK_NumeroCatFiche');
-		$Fiche = new ModelFicheTechnique($NomFiche,$NbreCouverts,$NomAuteur,$CoutFluide,$FK_NumeroCatFiche);
+		$FK_CodeCoeffAss = myGet('CodeCoeffAss');
+		$FK_CodeCoeffCoutPersonnel = myGet('CodeCoeffCoutPersonnel');
+		$Fiche = new ModelFicheTechnique($NomFiche,$NbreCouverts,$NomAuteur,$CoutFluide,$FK_NumeroCatFiche,$FK_CodeCoeffAss,$FK_CodeCoeffCoutPersonnel);
 		$Fiche->save();
 		//les coefficients
 		self::saveIngredients($Fiche);
@@ -151,7 +145,8 @@ class ControllerFicheTechnique{
 		$categories = ModelCategorie_Fiche::selectAll(); // toutes les categories dans la BD
 		$ingredients = ModelIngredient::selectAll(); //touts les ingredients dans la BD
 		$progressions = ModelEtape::selectAll(); // toutes les etapes dans la BD
-		$coefficients = ModelCoefficient::selectAll(); // touts les coefficients dans la BD 
+		$coefficientsAss = ModelCoeffAss::selectAll(); // touts les coeff Ass dans la BD
+		$coefficientsCoutPersonnel = ModelCoeffCoutPersonnel::selectAll(); // touts les coeff de cout personnel dans la BD 
 		if(is_null(myGet('NumeroFiche'))){ // si c'est pour créer
         	$view='update';
         	$pagetitle='Création d\'une Recette';
@@ -162,8 +157,6 @@ class ControllerFicheTechnique{
 		else{ // si c'est pour update
 			$NumeroFiche = myGet('NumeroFiche');
 	    	$fiche = ModelFicheTechnique::select($NumeroFiche); //Fiche à update
-			$coefficientASS = ModelFicheTechnique::selectCoefficientAssOf($NumeroFiche);
-			$coefficientCoutPersonnel = ModelFicheTechnique::selectCoefficientCoutPersonnelOf($NumeroFiche);
 	    	//$compositions = ModelComposer::select2($NumeroFiche);  //lignes de la table Composer pour le Numéro de fiche concerné, chaque ligne étant un objet composer
 	    	//$ingredients = array();
 			/*echo '<pre>';
@@ -194,7 +187,6 @@ class ControllerFicheTechnique{
 	public static function apercu(){
 		$NumeroFiche = myGet('NumeroFiche'); //recuperer le num de la fiche actuelle
 		$Progressions = ModelFicheTechnique::selectProgressionsOf($NumeroFiche);
-		$Coefficients = ModelFicheTechnique::selectCoefficientsOf($NumeroFiche);
 		$Ingredients = ModelFicheTechnique::selectIngredientsOf($NumeroFiche);
 		$SousFiches = ModelFicheTechnique::selectSousFichesOf($NumeroFiche);
 		$view ='apercu';

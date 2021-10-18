@@ -58,10 +58,24 @@ if($type=='readonly'){
                                     <div class="col-auto">
                                         <select name="FK_NumUnite" id="FK_NumUnite_id">
                                             <option value="">--Choisissez une unité--</option>';
-                                        foreach ($liste_unite as $unite) {
-                                            $NumeroUnite = $unite->getNumUnite();
-                                            $NomUnite = $unite->getNomUnite();
-                                            echo '<option value="'. $NumeroUnite .'">'. $NomUnite .'</option>';
+                                        if($type=='readonly'){
+                                            foreach($liste_unite as $unite){
+                                                $NumeroUnite = $unite->getNumUnite();
+                                                $NomUnite = $unite->getNomUnite();
+                                                if($NumeroUnite==$FK_NumUnite){
+                                                    echo '<option selected value="'. $NumeroUnite .'">'. $NomUnite .'</option>';
+                                                }
+                                                else {
+                                                    echo '<option value="'. $NumeroUnite .'">'. $NomUnite .'</option>';
+                                                }
+                                            }
+                                        }
+                                        else {
+                                            foreach ($liste_unite as $unite) {
+                                                $NumeroUnite = $unite->getNumUnite();
+                                                $NomUnite = $unite->getNomUnite();
+                                                echo '<option value="'. $NumeroUnite .'">'. $NomUnite .'</option>';
+                                            }
                                         }
                                         echo '</select>
                                     </div>
@@ -102,13 +116,25 @@ if($type=='readonly'){
                                 <div class="col-auto">
                                 <select name="FK_NumCategorie" id="FK_NumCategorie_id">
                                     <option value="">--Choisissez une catégorie--</option>';
-
-                                foreach ($liste_categorie as $categorie) {
-                                    $NumeroCategorie = $categorie->getNumCategorie();
-                                    $NomCategorie = $categorie->getNomCategorie();
-                                    echo '<option value="'. $NumeroCategorie .'">'. $NomCategorie .'</option>';
+                                if($type=='readonly'){
+                                    foreach ($liste_categorie as $categorie) {
+                                        $NumeroCategorie = $categorie->getNumCategorie();
+                                        $NomCategorie = $categorie->getNomCategorie();
+                                        if($NumeroCategorie==$FK_NumCategorie){
+                                            echo '<option selected value="'. $NumeroCategorie .'">'. $NomCategorie .'</option>';
+                                        }
+                                        else {
+                                            echo '<option value="'. $NumeroCategorie .'">'. $NomCategorie .'</option>';
+                                        }
+                                    }
                                 }
-
+                                else {
+                                    foreach ($liste_categorie as $categorie) {
+                                        $NumeroCategorie = $categorie->getNumCategorie();
+                                        $NomCategorie = $categorie->getNomCategorie();
+                                        echo '<option value="'. $NumeroCategorie .'">'. $NomCategorie .'</option>';
+                                    }
+                                }
                                     echo '</select>
                                 </div>
                                 </div>
@@ -153,14 +179,27 @@ if($type=='readonly'){
                                     <div class="col-auto">
                                     <select name="FK_CodeTVA" id="FK_CodeTVA_id">
                                         <option value="">--Choisissez une TVA--</option>';
-    
-                                    foreach ($liste_TVA as $TVA) {
-                                        $NumeroTVA = $TVA->getCodeTVA();
-                                        $NomTVA = $TVA->getNomTVA();
-                                        $CoefTVA = $TVA->getCoefTVA();
-                                        echo '<option value="'. $NumeroTVA .'">'. $NomTVA .' ('. $CoefTVA*100 .'%)</option>';
+                                    if($type=='readonly'){
+                                        foreach ($liste_TVA as $TVA) {
+                                            $NumeroTVA = $TVA->getCodeTVA();
+                                            $NomTVA = $TVA->getNomTVA();
+                                            $CoefTVA = $TVA->getCoefTVA();
+                                            if($NumeroTVA==$FK_CodeTVA) {
+                                                echo '<option selected value="'. $NumeroTVA .'">'. $NomTVA .' ('. $CoefTVA*100 .'%)</option>';
+                                            }
+                                            else {
+                                                echo '<option value="'. $NumeroTVA .'">'. $NomTVA .' ('. $CoefTVA*100 .'%)</option>';
+                                            }
+                                        } 
                                     }
-    
+                                    else {
+                                        foreach ($liste_TVA as $TVA) {
+                                            $NumeroTVA = $TVA->getCodeTVA();
+                                            $NomTVA = $TVA->getNomTVA();
+                                            $CoefTVA = $TVA->getCoefTVA();
+                                            echo '<option value="'. $NumeroTVA .'">'. $NomTVA .' ('. $CoefTVA*100 .'%)</option>';
+                                        }
+                                    }
                                         echo '</select>
                                     </div>
                                 </div> 
@@ -202,13 +241,25 @@ if($type=='readonly'){
                                     <div class="col-auto">
                                     <select name="FK_NumAllergene" id="FK_NumAllergene_id">
                                         <option value="">--Choisissez un allergène--</option>';
-    
-                                    foreach ($liste_allergene as $allergene) {
-                                        $NumeroAllergene = $allergene->getNumAllergene();
-                                        $NomAllergene = $allergene->getNomAllergene();
-                                        echo '<option value="'. $NumeroAllergene .'">'. $NomAllergene .'</option>';
+                                    if($type=='readonly'){
+                                        foreach ($liste_allergene as $allergene) {
+                                            $NumeroAllergene = $allergene->getNumAllergene();
+                                            $NomAllergene = $allergene->getNomAllergene();
+                                            if($NumeroAllergene==$FK_NumAllergene){
+                                                echo '<option selected value="'. $NumeroAllergene .'">'. $NomAllergene .'</option>';
+                                            }
+                                            else {
+                                                echo '<option value="'. $NumeroAllergene .'">'. $NomAllergene .'</option>';
+                                            }
+                                        }
                                     }
-    
+                                    else {
+                                        foreach ($liste_allergene as $allergene) {
+                                            $NumeroAllergene = $allergene->getNumAllergene();
+                                            $NomAllergene = $allergene->getNomAllergene();
+                                            echo '<option value="'. $NumeroAllergene .'">'. $NomAllergene .'</option>';
+                                        }
+                                    }
                                         echo '</select>
                                     </div>
                                 </div> 

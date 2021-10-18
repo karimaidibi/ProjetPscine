@@ -8,14 +8,19 @@ if($type=='readonly'){
   $NomAuteur = $fiche->getNomAuteur();
   $CoutFluide = $fiche->getCoutFluide();
   $FK_NumeroCatFiche = $fiche->getFK_NumeroCatFiche();
+  $FK_CodeCoeffAss = $fiche->getFK_CodeCoeffAss();
+  $FK_CodeCoeffCoutPersonnel = $fiche->getFK_CodeCoeffCoutPersonnel();
 
   //categorie de la fiche
   $categorie = ModelCategorie_Fiche::select($FK_NumeroCatFiche);
   $NomCatFiche = $categorie -> getNomCatFiche();
 
   //coefficients de la fiche
-  print_r($coefficientASS);
-  print_r($coefficientCoutPersonnel);
+  $coeffAss = ModelCoeffAss::select($FK_CodeCoeffAss);
+  $valeurCoeffAss = $coeffAss -> getvaleurCoeffAss();
+  
+  $coeffCoutPersonnel = ModelCoeffCoutPersonnel::select($FK_CodeCoeffCoutPersonnel);
+  $valeurCoeffCoutPersonnel = $coeffCoutPersonnel -> getvaleurCoeffCoutPersonnel();
 
 }
 
@@ -158,23 +163,23 @@ echo '<!--Titré création de fiche technique -->
                               <div class="col-auto">
                               <select id="coeffASS" name="CodeCoeffAss" class="form-select">';
                             if($type=='readonly'){
-                              foreach($coefficients as $coeff){ // pour chaque coefficients dans la BD 
-                                $CodeCoeff = $coeff->getCodeCoeff();
-                                $valeurCoefficient = $coeff->getvaleurCoefficient(); 
-                                  if($CodeCoeff==$coefficientASS[0][0]){
-                                    echo '<option selected value = "'.$CodeCoeff.'"> '.$valeurCoefficient.' </option>';
+                              foreach($coefficientsAss as $c){ // pour chaque coefficients dans la BD 
+                                $CodeCoeff = $c->getCodeCoeffAss();
+                                $valeurCoeff = $c->getvaleurCoeffAss(); 
+                                  if($CodeCoeff==$FK_CodeCoeffAss){
+                                    echo '<option selected value = "'.$CodeCoeff.'"> '.$valeurCoeff.' </option>';
                                   }
                                   else{
                                     echo  
-                                    '<option value="'.$CodeCoeff.'">'.$valeurCoefficient.'</option>';
+                                    '<option value="'.$CodeCoeff.'">'.$valeurCoeff.'</option>';
                                   }
                               }
                             }else{
-                              foreach($coefficients as $coeff){
-                                $CodeCoeff = $coeff->getCodeCoeff();
-                                $valeurCoefficient = $coeff->getvaleurCoefficient();
+                              foreach($coefficientsAss as $c){
+                                $CodeCoeff = $c->getCodeCoeffAss();
+                                $valeurCoeff = $c->getvaleurCoeffAss(); 
                                 echo  
-                                    '<option value="'.$CodeCoeff.'">'.$valeurCoefficient.'</option>';
+                                    '<option value="'.$CodeCoeff.'">'.$valeurCoeff.'</option>';
                               }
                             }
                             echo '</select>             
@@ -195,23 +200,23 @@ echo '<!--Titré création de fiche technique -->
                               <div class="col-auto">
                               <select id="coeffASS" name="CodeCoeffCoutPersonnel" class="form-select">';
                               if($type=='readonly'){
-                                foreach($coefficients as $coeff){ // pour chaque coefficients dans la BD 
-                                  $CodeCoeff = $coeff->getCodeCoeff();
-                                  $valeurCoefficient = $coeff->getvaleurCoefficient(); 
-                                    if($CodeCoeff==$coefficientCoutPersonnel[0][0]){
-                                      echo '<option selected value = "'.$CodeCoeff.'"> '.$valeurCoefficient.' </option>';
+                                foreach($coefficientsCoutPersonnel as $c){ // pour chaque coefficients dans la BD 
+                                  $CodeCoeff = $c->getCodeCoeffCoutPersonnel();
+                                  $valeurCoeff = $c->getvaleurCoeffCoutPersonnel(); 
+                                    if($CodeCoeff==$FK_CodeCoeffCoutPersonnel){
+                                      echo '<option selected value = "'.$CodeCoeff.'"> '.$valeurCoeff.' </option>';
                                     }
                                     else{
                                       echo  
-                                      '<option value="'.$CodeCoeff.'">'.$valeurCoefficient.'</option>';
+                                      '<option value="'.$CodeCoeff.'">'.$valeurCoeff.'</option>';
                                     }
                                 }
                               }else{
-                                foreach($coefficients as $coeff){
-                                  $CodeCoeff = $coeff->getCodeCoeff();
-                                  $valeurCoefficient = $coeff->getvaleurCoefficient();
+                                foreach($coefficientsCoutPersonnel as $c){
+                                  $CodeCoeff = $c->getCodeCoeffCoutPersonnel();
+                                  $valeurCoeff = $c->getvaleurCoeffCoutPersonnel(); 
                                   echo  
-                                      '<option value="'.$CodeCoeff.'">'.$valeurCoefficient.'</option>';
+                                      '<option value="'.$CodeCoeff.'">'.$valeurCoeff.'</option>';
                                 }
                               }
                         echo '  </select>   
@@ -314,10 +319,29 @@ echo '<!--Titré création de fiche technique -->
                         <input class="form-control" list="listeDesIngredients" id="inputIngredient" placeholder="Chercher un ingrédient..">
                         <datalist id="listeDesIngredients">';
                         foreach($ingredients as $i){
-                          $NumIngredient = $i -> getNumIngredient();
-                          $NomIng = $i -> getNomIng();
+                          $NumIngredient = $i->getNumIngredient();
+                          $NomIng = $i->getNomIng();
+                          $PrixUnitaire = $i->getPrixUnitaireIng();
+                          $QuantiteStock = $i->getQteStockIngredient();
+                          $FK_NumUnite = $i->getFK_NumUnite();
+                          $FK_NumAllergene = $i->getFK_NumAllergene();
+                          $FK_CodeTVA = $i->getFK_CodeTVA();
+                          $FK_NumCategorie = $i->getFK_NumCategorie();
+                  
+                          $Unite = ModelUnite::select($FK_NumUnite)->getNomUnite();
+                          $objetAllergene = ModelAllergene::select($FK_NumAllergene); //recuperer son allergene si existe
+                          if(!empty($objetAllergene)){
+                              $NomAllergene = $objetAllergene ->getNomAllergene();
+                          }else{
+                              $NomAllergene = "";
+                          }
+                          //$TVA = ModelTVA::select($FK_CodeTVA)->getCoefTVA();
+                          //$Categorie = ModelCategorie_Ingredient::select($FK_NumCategorie)->getNomCategorie();
                           echo '<option value="'.$NomIng.'" class="nomIngredient">
-                          <input type="hidden" value ="'.$NumIngredient.'" class="NumIngredient">';
+                                <input type="hidden" value ="'.$NumIngredient.'" class="NumIngredient">
+                                <input type="hidden" value ="'.$PrixUnitaire.'" class="PrixUnitaire">
+                                <input type="hidden" value ="'.$Unite.'" class="Unite">
+                                <input type="hidden" value ="'.$NomAllergene.'" class="Allergene">';
                         }
                   echo' </datalist>
                       </div> 
@@ -341,9 +365,9 @@ echo '<!--Titré création de fiche technique -->
                           <!-- Deuxième ligne-->
                           <tr>
                             <!-- première colonne-->
-                            <th scope="col">CODE</th>
+                            <th scope="col">ALLERGENE</th>
                             <!-- deuxième colonne-->
-                            <th scope="col">Ingrédient</th>
+                            <th scope="col">INGREDIENT</th>
                             <!-- 3ème colonne-->
                             <th scope="col">UNITE</th>
                             <!-- 4ème colonne-->
@@ -421,8 +445,19 @@ echo '<!--Titré création de fiche technique -->
                     foreach($LesFiches as $f){
                       $NomFiche = $f->getNomFiche();
                       $NumeroFiche = $f->getNumeroFiche();
+                      $NbreCouverts = $f->getNbreCouverts();
+                      $NomAuteur = $f->getNomAuteur();
+                      $CoutFluide = $f->getCoutFluide();
+                      $NumCategorieFiche = $f->getFK_NumeroCatFiche();
+                  
+                      $categorieFiche = ModelCategorie_Fiche::select($NumCategorieFiche);
+                      $NomCategorieFiche =  $categorieFiche -> getNomCatFiche(); //une ligne = objet
                   echo '<option value="'.$NomFiche.'" class="nomFiche">
                           <input type="hidden" value ="'.$NumeroFiche.'" class="NumeroFiche">
+                          <input type="hidden" value ="'.$NbreCouverts.'" class="NbreCouverts">
+                          <input type="hidden" value ="'.$NomAuteur.'" class="NomAuteur">
+                          <input type="hidden" value ="'.$CoutFluide.'" class="CoutFluide">
+                          <input type="hidden" value ="'.$NomCategorieFiche.'" class="NomCategorieFiche">
                         </option>' ;
                     }
               echo  '</datalist>
@@ -430,6 +465,7 @@ echo '<!--Titré création de fiche technique -->
                   <div class="pt-4">
                       <!------LA TABLE QUI CONTIENT LES FICHES TECHNIQUES--------->
                       <table class="table table-striped table-hover align-middle">
+                      <input type="hidden" id="inputTableIngredients"> 
                         <thead class = "table-dark">
                         <tr>
                             <th scope="col">Ordre</th>
