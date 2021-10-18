@@ -314,8 +314,10 @@ echo '<!--Titré création de fiche technique -->
                         <input class="form-control" list="listeDesIngredients" id="inputIngredient" placeholder="Chercher un ingrédient..">
                         <datalist id="listeDesIngredients">';
                         foreach($ingredients as $i){
+                          $NumIngredient = $i -> getNumIngredient();
                           $NomIng = $i -> getNomIng();
-                          echo '<option value="'.$NomIng.'" class="nomIngredient">';
+                          echo '<option value="'.$NomIng.'" class="nomIngredient">
+                          <input type="hidden" value ="'.$NumIngredient.'" class="NumIngredient">';
                         }
                   echo' </datalist>
                       </div> 
@@ -456,6 +458,7 @@ echo '<!--Titré création de fiche technique -->
               }
               else{
                 echo '<input type=\'hidden\' name=\'action\' value=\'created\'>';
+                echo '<button class="btn btn-dark" type="button" onclick="submit()">';
                 echo '<input class="btn btn-dark" type="submit" value="Créer la fiche technique" />';
               }
       echo '</button>
@@ -479,4 +482,4 @@ echo '<!--Titré création de fiche technique -->
 
 ?>
 
-<script src="../../../javascript/CreationFiches.js" ></script>
+<script src="../javascript/CreationFiches.js" ></script>

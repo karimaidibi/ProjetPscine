@@ -6,6 +6,8 @@ require_once File::build_path(array("model","ModelIngredient.php"));
 require_once File::build_path(array("model","ModelEtape.php"));
 require_once File::build_path(array("model","ModelCoefficient.php"));
 require_once File::build_path(array("model","ModelUtiliser.php"));
+require_once File::build_path(array("controller","ControllerInclure.php"));
+require_once File::build_path(array("model","ModelInclure.php"));
 class ControllerFicheTechnique{
 
 	protected static $object='FicheTechnique';
@@ -45,6 +47,15 @@ class ControllerFicheTechnique{
         	$pagetitle='Page 404';
 	    	require_once File::build_path(array("view", "view.php"));
     	}
+	}
+
+	public static function saveIngredients($Fiche){
+		$NumeroFiche = $Fiche ->getNumeroFiche();
+		$tabFiches = JSON_decode($_COOKIE['TabFiches']);  // récupère les sous-fiches liées à la fiche
+		print_r($tabFiches);
+		foreach ($tabFiches as $numFiche) {
+			ControllerInclure::create(1,$numFiche); //crée les relations inclure en BDD
+		}
 	}
 
 	public static function updated(){
@@ -107,7 +118,7 @@ class ControllerFicheTechnique{
 		$Fiche = new ModelFicheTechnique($NomFiche,$NbreCouverts,$NomAuteur,$CoutFluide,$FK_NumeroCatFiche);
 		$Fiche->save();
 		//les coefficients
-		$NumeroFiche = $Fiche ->getNumeroFiche();
+		self::saveIngredients($Fiche);
 		$CodeCoeffAss = myGet('CodeCoeffAss');
 		$CodeCoeffCoutPersonnel= myGet('CodeCoeffCoutPersonnel');
 		$utiliser = new ModelUtiliser($CodeCoeffAss,$NumeroFiche);
@@ -115,7 +126,7 @@ class ControllerFicheTechnique{
 		$utiliser->save();
 		$utiliser2->save();
 		self::readAll();
-	}
+	} 
 
 	public static function delete(){
 		if(is_null(myGet('NumeroFiche'))){

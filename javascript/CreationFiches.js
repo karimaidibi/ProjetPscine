@@ -26,18 +26,21 @@ function DeleteRow(o) {
     p.parentNode.removeChild(p);
 }
 
+    TabIngredients = new Array();
     /* Elle prend la table de la création des ingredient :
   - elle rajoute une ligne à la fin du tableau
   - si l'input n'existe pas dans la datalist de la barre de recherche, le rajout de la ligne n'est pas accepté */
   function CreateLigneIngredient() {
     var listDesIngredient = null, options = null;
     options = document.querySelectorAll('#listeDesIngredients .nomIngredient')
+    optionsNum = document.querySelectorAll('#listeDesIngredients .NumIngredient');
     var i = 0;
     var ingredienttrouver = false;
     var NomChoisi = document.getElementById('inputIngredient').value;
     while(i<options.length && !ingredienttrouver){
     if(options[i].value === NomChoisi){
         ingredienttrouver = true;
+         var NumeroIngredient = optionsNum[i].value;
     }
     i = i + 1;
     }
@@ -59,6 +62,9 @@ function DeleteRow(o) {
     cell5.innerHTML = "$PrixU";
     cell6.innerHTML =  "$PTHT";
     cell7.innerHTML = '<button class="btn btn-danger" type="button" onclick="DeleteRow(this)"><i class="bi bi-trash" style="font-size: 1rem;" ></i></button>';
+    TabIngredients.push(NumeroIngredient);
+    document.cookie = 'TabFiches=' + JSON.stringify(TabIngredients) + '; path=/';
+    console.log(TabIngredients);
     }
     else{
     alert('Ingredient non trouvé, veuillez réessayer'); 
@@ -102,15 +108,14 @@ function DeleteRow(o) {
     cell6.innerHTML = '<button class="btn btn-danger" type="button" onclick="DeleteRowFiches(this)"><i class="bi bi-trash" style="font-size: 1rem;" ></i></button>';
     cell6.id = codeFiche; // on attribut le code de la fiche qui vient detre rajouté dans le front comme id à la case qui contient le bouton supprimer 
     TabFiches.push(codeFiche); // on rajoute le Code de la fiche rajouté par lutilisateur dans le tableau TabFiches
-    console.log(TabFiches.length);
-    console.log(TabFiches);
+    document.cookie = 'TabFiches=' + JSON.stringify(TabFiches) + '; path=/';
           $.ajax({ // on envoie vers PHP 
-            type: "POST", 
-            url: "http://projetpiscine/php/index.php?controller=ficheTechnique&action=update", 
-            data: { TabFiches : TabFiches}, 
+            type: "POST",
+            url: "index.php?controller=ficheTechnique&action=created",  
+            //url: "http://projetpiscine/php/index.php?controller=ficheTechnique&action=update", 
+            data: { TabFiches : TabFiches},
             success: function() { 
-                  console.log(TabFiches); 
-                  console.log(TabFiches.length);
+                  console.log(TabFiches);
             } 
           }); 
     }
