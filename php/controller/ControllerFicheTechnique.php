@@ -53,8 +53,11 @@ class ControllerFicheTechnique{
 		$NumeroFiche = $Fiche ->getNumeroFiche();
 		$tabFiches = JSON_decode($_COOKIE['TabFiches']);  // récupère les sous-fiches liées à la fiche
 		print_r($tabFiches);
+		$ordre = 0;
 		foreach ($tabFiches as $numFiche) {
-			ControllerInclure::create(1,$numFiche); //crée les relations inclure en BDD
+			print_r($numFiche);
+			$ordre = $ordre + 1;
+			ControllerInclure::create($NumeroFiche,$numFiche,$ordre); //crée les relations inclure en BDD (inclure c'est la relation entre une fiche et les sousfiches)
 		}
 	}
 

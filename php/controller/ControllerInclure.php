@@ -52,8 +52,8 @@ class ControllerInclure{
 		}
 	}
 
-	public static function create($FK_NumeroFiche, $FK_NumeroSousFiche){
-        $v1 = new ModelInclure($FK_NumeroFiche,$FK_NumeroSousFiche);
+	public static function create($FK_NumeroFiche, $FK_NumeroSousFiche,$ordre){
+        $v1 = new ModelInclure($FK_NumeroFiche,$FK_NumeroSousFiche, $ordre);
 		$v1->save();
 	}
 }
