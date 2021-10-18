@@ -493,6 +493,7 @@ echo '<!--Titré création de fiche technique -->
               }
               else{
                 echo '<input type=\'hidden\' name=\'action\' value=\'created\'>';
+                echo '<button class="btn btn-dark" type="button" onclick="submit()">';
                 echo '<input class="btn btn-dark" type="submit" value="Créer la fiche technique" />';
               }
       echo '</button>
@@ -516,4 +517,4 @@ echo '<!--Titré création de fiche technique -->
 
 ?>
 
-<script src="../../../javascript/CreationFiches.js" ></script>
+<script src="../javascript/CreationFiches.js" ></script>
