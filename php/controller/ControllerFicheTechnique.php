@@ -15,6 +15,7 @@ class ControllerFicheTechnique{
 
 	public static function readAll() {
         $tab_u = ModelFicheTechnique::selectAll();     //appel au modèle pour gerer la BD  //"redirige" vers la vue
+		$tabFiches = JSON_decode($_COOKIE['TabFiches']);  // récupère les sous-fiches liées à la fiche
         $view='list';
         $pagetitle='Liste des fiches techniques';
         require_once File::build_path(array("view", "view.php"));
@@ -57,6 +58,7 @@ class ControllerFicheTechnique{
 		for($i=0;$i<count($TabIng);$i++) {
 			ControllerComposer::create($TabIng[$i],$NumeroFiche,$TabQteIng[$i]); //crée les relations composer en BDD 
 		}
+		setcookie('TabFiches',time()-3600);
 	}
 
 	public static function updated(){

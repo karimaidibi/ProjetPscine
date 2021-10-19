@@ -177,7 +177,7 @@ DROP TABLE IF EXISTS `inclure`;
 CREATE TABLE IF NOT EXISTS `inclure` (
   `FK_NumeroFiche` int(11) NOT NULL,
   `FK_NumeroSousFiche` int(11) NOT NULL,
-  `ordre` int(11) NOT NULL AUTO_INCREMENT,
+  `ordre` int(11) NOT NULL,
   PRIMARY KEY (`FK_NumeroFiche`,`FK_NumeroSousFiche`,`ordre`),
   key `FK_inclure_FK_NumeroFiche` (`FK_NumeroFiche`),
   key `FK_inclure_FK_NumeroSousFiche` (`FK_NumeroSousFiche`)
@@ -200,7 +200,7 @@ CREATE TABLE IF NOT EXISTS `ingredient` (
   `prixUnitaireIng` float NOT NULL,
   `QteStockIngredient` float NOT NULL,
   `FK_NumUnite` int(11) NOT NULL,
-  `FK_NumAllergene` int(11) NOT NULL,
+  `FK_NumAllergene` int(11),
   `FK_CodeTVA` int(11) NOT NULL,
   `FK_NumCategorie` int(11),
   PRIMARY KEY (`NumIngredient`),
