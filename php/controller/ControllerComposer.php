@@ -54,7 +54,6 @@ class ControllerComposer{
 	public static function create($NumIngredient,$NumeroFiche,$QuantiteIngredient){
         $v1 = new ModelComposer($NumIngredient,$NumeroFiche,$QuantiteIngredient);
 		$v1->save();
-		return $v1->getNumeroFiche();
 	}
 }
 ?>
