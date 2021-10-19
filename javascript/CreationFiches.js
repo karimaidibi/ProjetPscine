@@ -5,7 +5,7 @@ function DeleteRow(o) {
     p.parentNode.removeChild(p);
 }
 
-    TabIngredients = new Array();
+
     /* Elle prend la table de la création des ingredient :
   - elle rajoute une ligne à la fin du tableau
   - si l'input n'existe pas dans la datalist de la barre de recherche, le rajout de la ligne n'est pas accepté */
@@ -52,7 +52,7 @@ function DeleteRow(o) {
     cell7.innerHTML = '<button class="btn btn-danger" type="button" onclick="DeleteRowIngredients(this)"><i class="bi bi-trash" style="font-size: 1rem;" ></i></button>';
     cell7.id = CodeIngredient;
     TabIngredients.push(CodeIngredient); // on rajoute le Code de lingredient rajouté par lutilisateur dans le tableau TabIngredients
-    document.cookie = 'TabFiches=' + JSON.stringify(TabIngredients) + '; path=/'; // cookie
+    //document.cookie = 'TabFiches=' + JSON.stringify(TabIngredients) + '; path=/'; // cookie
     console.log("id ingredient qu'on va push : " + cell7.id);
     console.log("Ingredient rajouté : " + TabIngredients);
     }
@@ -163,6 +163,8 @@ document.addEventListener("click",function(){
     console.log(TabFiches.length);
     console.log("Fiche ajouté : " + TabFiches);
     
+    //document.cookie = "TabFiches=; expires=Thu, 01 Jan 1970 00:00:00 GMT; SameSite=None; Secure";
+    document.cookie = 'TabFiches=' + JSON.stringify(TabFiches) + '; path=/'; // cookie
     //envoyer la TabFiche vers la pageHtml avec la method setAttribute
     document.getElementById("inputTableIngredients").setAttribute("name",TabFiches);
     console.log(document.getElementById("inputTableIngredients").getAttribute("name"));
@@ -181,6 +183,7 @@ document.addEventListener("click",function(){
     // supprimer la ligne
     var p=o.parentNode.parentNode;
     p.parentNode.removeChild(p);
+    document.cookie = 'TabFiches=' + JSON.stringify(TabFiches) + '; path=/'; // cookie
   }
 
     /* Elle prend la table de la création des fiches techniques :
