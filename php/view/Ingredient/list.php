@@ -86,9 +86,17 @@ ini_set('display_errors', 'on');
         $FK_NumCategorie = $u->getFK_NumCategorie();
 
         $Unite = ModelUnite::select($FK_NumUnite)->getNomUnite();
-        $Allergene = ModelAllergene::select($FK_NumAllergene)->getNomAllergene();
         $TVA = ModelTVA::select($FK_CodeTVA)->getCoefTVA();
-        $Categorie = ModelCategorie_Ingredient::select($FK_NumCategorie)->getNomCategorie();
+        if($FK_NumAllergene==NULL) {
+            $Allergene = "";
+        } else {
+            $Allergene = ModelAllergene::select($FK_NumAllergene)->getNomAllergene();
+        }
+        if($FK_NumCategorie==NULL) {
+            $Categorie = "";
+        } else {
+            $Categorie = ModelCategorie_Ingredient::select($FK_NumCategorie)->getNomCategorie();
+        }
 
       echo '<tr>
                 <td>' .$NomIng. '</td>
