@@ -8,6 +8,7 @@ require_once File::build_path(array("model","ModelCoeffAss.php"));
 require_once File::build_path(array("model","ModelCoeffCoutPersonnel.php"));
 require_once File::build_path(array("controller","ControllerInclure.php"));
 require_once File::build_path(array("model","ModelInclure.php"));
+require_once File::build_path(array("controller","ControllerComposer.php"));
 class ControllerFicheTechnique{
 
 	protected static $object='FicheTechnique';
@@ -51,13 +52,10 @@ class ControllerFicheTechnique{
 
 	public static function saveIngredients($Fiche){
 		$NumeroFiche = $Fiche ->getNumeroFiche();
-		$tabFiches = JSON_decode($_COOKIE['TabFiches']);  // récupère les sous-fiches liées à la fiche
-		print_r($tabFiches);
-		$ordre = 0;
-		foreach ($tabFiches as $numFiche) {
-			print_r($numFiche);
-			$ordre = $ordre + 1;
-			ControllerInclure::create($NumeroFiche,$numFiche,$ordre); //crée les relations inclure en BDD (inclure c'est la relation entre une fiche et les sousfiches)
+		$TabIng = json_decode(($_COOKIE['TabIng']));
+		$TabQteIng = json_decode(($_COOKIE['TabQteIng']));
+		for($i=0;$i<count($TabIng);$i++) {
+			ControllerComposer::create($TabIng[$i],$NumeroFiche,$TabQteIng[$i]); //crée les relations composer en BDD 
 		}
 	}
 
@@ -151,6 +149,7 @@ class ControllerFicheTechnique{
 		}
 		else{ // si c'est pour update
 			$NumeroFiche = myGet('NumeroFiche');
+			$ingredientsFiches = ModelComposer::select()
 	    	$fiche = ModelFicheTechnique::select($NumeroFiche); //Fiche à update
 			$Progressions = ModelFicheTechnique::selectProgressionsOf($NumeroFiche); // les progressions de cette fiche
 			$Ingredients = ModelFicheTechnique::selectIngredientsOf($NumeroFiche);  // les ingredients de cette fiche 

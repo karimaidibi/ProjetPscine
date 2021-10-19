@@ -10,6 +10,10 @@ function DeleteRow(o) {
   - elle rajoute une ligne à la fin du tableau
   - si l'input n'existe pas dans la datalist de la barre de recherche, le rajout de la ligne n'est pas accepté */
   TabIngredients = new Array();
+  TabQteIngredient = new Array();
+  incrementeurIng = 0;
+
+
   function CreateLigneIngredient() {
     options = null;
     options = document.querySelectorAll('#listeDesIngredients .nomIngredient') //les noms des ingredients dans la BD
@@ -32,33 +36,53 @@ function DeleteRow(o) {
     }
     var table = document.getElementById("bodyIngredients"); // le body de la table ingredient
     if(ingredienttrouver == true){
-    var row = table.insertRow(table.length);
-    var cell1 = row.insertCell(0);
-    console.log("cell1 : " + cell1);
-    var cell2 = row.insertCell(1);
-    var cell3 = row.insertCell(2);
-    var cell4 = row.insertCell(3);
-    var cell5 = row.insertCell(4);
-    var cell6 = row.insertCell(5);
-    var cell7 = row.insertCell(6);
-    cell1.innerHTML = AllergeneIng;
-    cell2.innerHTML = NomChoisi;
-    cell3.innerHTML = UniteIng;
-    cell4.innerHTML = ' <input type="number" step="any" class="form-control w-50" id="QteIng" placeholder="Qté...">';
-    console.log("input : " + cell4.lastChild);
-    cell5.innerHTML = PrixU;
-    console.log("cell 5 value : " + cell5.innerHTML);
-    cell6.innerHTML =  "$PTHT";
-    cell7.innerHTML = '<button class="btn btn-danger" type="button" onclick="DeleteRowIngredients(this)"><i class="bi bi-trash" style="font-size: 1rem;" ></i></button>';
-    cell7.id = CodeIngredient;
-    TabIngredients.push(CodeIngredient); // on rajoute le Code de lingredient rajouté par lutilisateur dans le tableau TabIngredients
-    document.cookie = 'TabFiches=' + JSON.stringify(TabIngredients) + '; path=/'; // cookie
-    console.log("id ingredient qu'on va push : " + cell7.id);
-    console.log("Ingredient rajouté : " + TabIngredients);
-    }
+      incrementeurIng += 1;
+      var row = table.insertRow(table.length);
+      var cell1 = row.insertCell(0);
+      console.log("cell1 : " + cell1);
+      var cell2 = row.insertCell(1);
+      var cell3 = row.insertCell(2);
+      var cell4 = row.insertCell(3);
+      var cell5 = row.insertCell(4);
+      var cell6 = row.insertCell(5);
+      var cell7 = row.insertCell(6);
+      cell1.innerHTML = AllergeneIng;
+      cell2.innerHTML = NomChoisi;
+      cell3.innerHTML = UniteIng;
+      cell4.innerHTML = ' <input type="number" step="any" class="form-control w-50" id="QteIng" placeholder="Qté...">';
+      cell5.innerHTML = PrixU;
+      cell6.innerHTML =  "$PTHT";
+      cell7.innerHTML = '<button class="btn btn-danger" type="button" onclick="DeleteRowIngredients(this)"><i class="bi bi-trash" style="font-size: 1rem;" ></i></button>';
+      cell7.id = CodeIngredient;
+      TabIngredients.push(CodeIngredient);
+      TabQteIngredient.push("");
+      }
     else{
     alert('Ingredient non trouvé, veuillez réessayer'); 
     }
+}
+
+TabIng = new Array();
+
+document.addEventListener("click",function(){
+        var tableIngredients = document.getElementById('bodyIngredients');
+        for(var i = 0,row;row=tableIngredients.rows[i]; i++){ // pour chaque ligne as row
+          var QteIng = row.cells[3].lastChild.value; // on recupere la quantite de l'ing
+          var CodeIngredient = row.cells[6].id;
+          for(y=0; y<TabIngredients.length; y++){
+            if(TabIngredients[y]==CodeIngredient && QteIng!=""){
+              TabQteIngredient.splice(y,1,QteIng);
+            }
+          }
+        }
+        console.log(TabIngredients);
+        console.log(TabQteIngredient);
+        document.cookie = ('TabIng=' + JSON.stringify(TabIngredients) + '; path=/'); // cookie
+        document.cookie = ('TabQteIng=' + JSON.stringify(TabQteIngredient) + '; path=/'); // cookie
+      });
+
+function submit(){
+  document.cookie = ('TabIng=' + JSON.stringify(TabIng) + '; path=/'); // cookie
 }
 
 function DeleteRowIngredients(o) {
@@ -66,7 +90,9 @@ function DeleteRowIngredients(o) {
   var index = TabIngredients.indexOf(o.parentNode.id); // trouver l'index de l'id à supprimer dans la TabFiches
   console.log(o.parentNode.id);
   var rem = TabIngredients.splice(index,1); // supprimer un element qui se trouve à la position index
+  TabQteIngredient.splice(index,1);
   console.log("Ingredient supprime : " + TabIngredients);
+  incrementeurIng = incrementeurIng - 1;
   // supprimer la ligne
   var p=o.parentNode.parentNode;
   p.parentNode.removeChild(p);
