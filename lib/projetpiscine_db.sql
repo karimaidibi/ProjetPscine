@@ -202,7 +202,7 @@ CREATE TABLE IF NOT EXISTS `ingredient` (
   `FK_NumUnite` int(11) NOT NULL,
   `FK_NumAllergene` int(11) NOT NULL,
   `FK_CodeTVA` int(11) NOT NULL,
-  `FK_NumCategorie` int(11) NOT NULL,
+  `FK_NumCategorie` int(11),
   PRIMARY KEY (`NumIngredient`),
   key `FK_ingredient_FK_NumUnite` (`FK_NumUnite`),
   key `FK_ingredient_FK_NumAllergene` (`FK_NumAllergene`),

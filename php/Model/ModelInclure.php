@@ -33,7 +33,7 @@ class ModelInclure extends Model{
         $this->ordre = $ordre2;
     }
 
-	public function __construct($FK_NumeroFiche = NULL, $FK_NumeroSousFiche = NULL) {
+	public function __construct($FK_NumeroFiche = NULL, $FK_NumeroSousFiche = NULL, $ordre = NULL) {
   	if (!is_null($FK_NumeroFiche) && !is_null($FK_NumeroSousFiche) && !is_null($ordre)) {
 	    $this->FK_NumeroFiche = $FK_NumeroFiche;
         $this->FK_NumeroSousFiche = $FK_NumeroSousFiche;

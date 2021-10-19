@@ -6,7 +6,6 @@ require_once File::build_path(array("model","ModelIngredient.php"));
 require_once File::build_path(array("model","ModelEtape.php"));
 require_once File::build_path(array("model","ModelCoeffAss.php"));
 require_once File::build_path(array("model","ModelCoeffCoutPersonnel.php"));
-require_once File::build_path(array("model","ModelUtiliser.php"));
 require_once File::build_path(array("controller","ControllerInclure.php"));
 require_once File::build_path(array("model","ModelInclure.php"));
 class ControllerFicheTechnique{
@@ -54,8 +53,11 @@ class ControllerFicheTechnique{
 		$NumeroFiche = $Fiche ->getNumeroFiche();
 		$tabFiches = JSON_decode($_COOKIE['TabFiches']);  // récupère les sous-fiches liées à la fiche
 		print_r($tabFiches);
+		$ordre = 0;
 		foreach ($tabFiches as $numFiche) {
-			ControllerInclure::create(1,$numFiche); //crée les relations inclure en BDD
+			print_r($numFiche);
+			$ordre = $ordre + 1;
+			ControllerInclure::create($NumeroFiche,$numFiche,$ordre); //crée les relations inclure en BDD (inclure c'est la relation entre une fiche et les sousfiches)
 		}
 	}
 
@@ -111,14 +113,7 @@ class ControllerFicheTechnique{
 		$FK_CodeCoeffCoutPersonnel = myGet('CodeCoeffCoutPersonnel');
 		$Fiche = new ModelFicheTechnique($NomFiche,$NbreCouverts,$NomAuteur,$CoutFluide,$FK_NumeroCatFiche,$FK_CodeCoeffAss,$FK_CodeCoeffCoutPersonnel);
 		$Fiche->save();
-		//les coefficients
 		self::saveIngredients($Fiche);
-		$CodeCoeffAss = myGet('CodeCoeffAss');
-		$CodeCoeffCoutPersonnel= myGet('CodeCoeffCoutPersonnel');
-		$utiliser = new ModelUtiliser($CodeCoeffAss,$NumeroFiche);
-		$utiliser2 = new ModelUtiliser($CodeCoeffCoutPersonnel,$NumeroFiche);
-		$utiliser->save();
-		$utiliser2->save();
 		self::readAll();
 	} 
 
@@ -157,18 +152,8 @@ class ControllerFicheTechnique{
 		else{ // si c'est pour update
 			$NumeroFiche = myGet('NumeroFiche');
 	    	$fiche = ModelFicheTechnique::select($NumeroFiche); //Fiche à update
-	    	//$compositions = ModelComposer::select2($NumeroFiche);  //lignes de la table Composer pour le Numéro de fiche concerné, chaque ligne étant un objet composer
-	    	//$ingredients = array();
-			/*echo '<pre>';
-	    	print_r($compositions);
-			echo '</pre>';
-	    	foreach ($compositions as $comp) {
-				$NumIngredient = $comp -> getFK_NumIngredient();
-	    		array_push($ingredients, ModelIngredient::select($NumIngredient));
-	    	}
-			echo '<pre>';
-			print_r($ingredients);
-			echo '</pre>'; */
+			$Progressions = ModelFicheTechnique::selectProgressionsOf($NumeroFiche); // les progressions de cette fiche
+			$Ingredients = ModelFicheTechnique::selectIngredientsOf($NumeroFiche);  // les ingredients de cette fiche 
 	        $view='update';
 	        $pagetitle='Modification de la recette';
 	        $type = 'readonly';
