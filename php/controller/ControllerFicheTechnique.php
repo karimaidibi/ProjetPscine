@@ -8,13 +8,18 @@ require_once File::build_path(array("model","ModelCoeffAss.php"));
 require_once File::build_path(array("model","ModelCoeffCoutPersonnel.php"));
 require_once File::build_path(array("controller","ControllerInclure.php"));
 require_once File::build_path(array("model","ModelInclure.php"));
+require_once File::build_path(array("controller","ControllerContenir.php"));
+require_once File::build_path(array("controller","ControllerEtape.php"));
 class ControllerFicheTechnique{
 
 	protected static $object='FicheTechnique';
 
 	public static function readAll() {
         $tab_u = ModelFicheTechnique::selectAll();     //appel au modèle pour gerer la BD  //"redirige" vers la vue
-		$tabFiches = JSON_decode($_COOKIE['TabFiches']);  // récupère les sous-fiches liées à la fiche
+		$tabFiches = JSON_decode($_COOKIE['TabFiches']);  // debogage
+		$tabProgressions = JSON_decode($_COOKIE['TabProgressions']);  // debogage
+		$NumProg = ModelEtape::selectNumOf('numopp'); // debogage
+		print_r($NumProg);
         $view='list';
         $pagetitle='Liste des fiches techniques';
         require_once File::build_path(array("view", "view.php"));
@@ -50,17 +55,44 @@ class ControllerFicheTechnique{
     	}
 	}
 
-	public static function saveIngredients($Fiche){
+	public static function saveSousFiches($Fiche){
 		$NumeroFiche = $Fiche ->getNumeroFiche();
 		$tabFiches = JSON_decode($_COOKIE['TabFiches']);  // récupère les sous-fiches liées à la fiche
-		print_r($tabFiches);
+		//print_r($tabFiches);
 		$ordre = 0;
 		foreach ($tabFiches as $numFiche) {
-			print_r($numFiche);
+			//print_r($numFiche);
 			$ordre = $ordre + 1;
 			ControllerInclure::create($NumeroFiche,$numFiche,$ordre); //crée les relations inclure en BDD (inclure c'est la relation entre une fiche et les sousfiches)
 		}
-		setcookie('TabFiches',time()-3600);
+		//setcookie('TabFiches','',time()-3600);
+	}
+
+	public static function saveProgressions($Fiche){
+		$NumeroFiche = $Fiche ->getNumeroFiche();
+		echo $NumeroFiche;
+		$tabProgressions = JSON_decode($_COOKIE['TabProgressions']);  // récupère les sous-fiches liées à la fiche
+		echo '<pre>';
+		print_r($tabProgressions);
+		echo '</pre>';
+		$ordre = 0;
+		//$reg = "abc";
+		foreach($tabProgressions as $numProgression){
+			if(!is_numeric($numProgression)){
+				ControllerEtape::create($numProgression);
+			}
+		}
+		foreach ($tabProgressions as $numProgression){
+			$ordre = $ordre + 1;
+			if(is_numeric($numProgression)){
+				ControllerContenir::create($NumeroFiche,$numProgression,$ordre); //crée les relations inclure en BDD (inclure c'est la relation entre une fiche et les sousfiches)
+			}else{
+				$obj = ModelEtape::selectNumOf($numProgression);
+				$NumProg = $obj[0][0];
+				ControllerContenir::create($NumeroFiche,$NumProg,$ordre); //crée les relations inclure en BDD (inclure c'est la relation entre une fiche et les sousfiches)			
+			}	
+		}				
+		setcookie('TabProgressions','',time()-3600);
 	}
 
 	public static function updated(){
@@ -115,7 +147,8 @@ class ControllerFicheTechnique{
 		$FK_CodeCoeffCoutPersonnel = myGet('CodeCoeffCoutPersonnel');
 		$Fiche = new ModelFicheTechnique($NomFiche,$NbreCouverts,$NomAuteur,$CoutFluide,$FK_NumeroCatFiche,$FK_CodeCoeffAss,$FK_CodeCoeffCoutPersonnel);
 		$Fiche->save();
-		self::saveIngredients($Fiche);
+		//self::saveSousFiches($Fiche);
+		self::saveProgressions($Fiche);
 		self::readAll();
 	} 
 
@@ -190,6 +223,19 @@ class ControllerFicheTechnique{
 		require_once File::build_path(array("view", "view.php"));
 	}
 
+	//creer une progression a partir de form de fiche technique 
+	public static function CreateProg(){
+        	$view='update';
+        	$pagetitle='Création d\'une progression';
+        	$action='CreerProg'; // fonction created quand on click sur le submit
 
+	}
+
+	//creer une progression a partir de form de fiche technique 
+	public static function CreerProg(){
+		$DescrEtape = myGet('AjouterProgressionDirect');
+		ControllerEtape::create($DescrEtape);
+		self::update();
+	}
 }
 ?>

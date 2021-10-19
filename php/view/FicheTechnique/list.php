@@ -1,6 +1,7 @@
 
 <?php
 echo $_COOKIE['TabFiches'];
+echo $_COOKIE['TabProgressions'];
 echo '<div class=" container mt-5 bg-dark bg-gradient" align=center style="color:whitesmoke;">
         <p class="fs-5"> Chercher par catégorie, par fiche ou par auteur ! </p>
       </div>

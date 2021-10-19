@@ -35,10 +35,11 @@ class ModelContenir extends Model{
         $this->ordre = $ordre2;
     }
 
-	public function __construct($FK_NumEtape = NULL, $FK_NumeroFiche = NULL) {
-  	if (!is_null($FK_NumEtape) && !isnull($FK_NumeroFiche) && !is_null($ordre)) {
+	public function __construct($FK_NumEtape = NULL, $FK_NumeroFiche = NULL, $ordre = NULL) {
+  	if (!is_null($FK_NumEtape) && !is_null($FK_NumeroFiche) && !is_null($ordre)) {
         $this->FK_NumeroFiche = $FK_NumeroFiche;
 	    $this->FK_NumEtape = $FK_NumEtape;
+        $this->ordre = $ordre;
         }
   	}
 
@@ -70,14 +71,13 @@ class ModelContenir extends Model{
             $sql = "INSERT INTO Contenir VALUES (:FK_NumEtape, :FK_NumeroFiche, :ordre)";
             // Préparation de la requête
             $req_prep = Model::$pdo->prepare($sql);
-            $ordre = self::configordre()+1;
+            //$ordre = self::configordre()+1;
 
             $values = array(
                 "FK_NumEtape" => $this->FK_NumEtape,
                 "FK_NumeroFiche" => $this->FK_NumeroFiche,
-                "ordre" => self::configordre()+1
+                "ordre" => $this->ordre
             );
-            self::setordre($ordre);
             // On donne les valeurs et on exécute la requête     
             $req_prep->execute($values);
             // echo $sql;

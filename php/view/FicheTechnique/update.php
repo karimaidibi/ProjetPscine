@@ -260,8 +260,9 @@ echo '<!--Titré création de fiche technique -->
                     <button class="btn btn-dark" type="button" onclick="CreateLigneProgressionInDB()">
                       <i class="bi bi-plus-square"></i>
                     </button>
-                    <textarea class="form-control" id="inputProgressionInDB" rows="3"></textarea>
-                  </div>
+                    <textarea class="form-control" id="inputProgressionInDB" rows="3" name ="AjouterProgressionDirect" ></textarea>
+                  </div>';
+                  echo '
                   <!-- Barre de recherche pour une progression existante -->
                   <!-- Deuxième group d\'input -->
                   <p class ="mt-3">Ou je choisis une progression que j\'ai déjà créée : </p>
@@ -275,7 +276,8 @@ echo '<!--Titré création de fiche technique -->
                     $NumEtape = $prog -> getNumEtape();
                     $DescriptionEtape = $prog ->getDescriptionEtape();
                     echo 
-                          '<option value="'.$DescriptionEtape.'" class="nomProgression">';
+                          '<option value="'.$DescriptionEtape.'" class="nomProgression">
+                          <input type="hidden" value ="'.$NumEtape.'" class="NumProgression">';
                     
                   }
                   echo '

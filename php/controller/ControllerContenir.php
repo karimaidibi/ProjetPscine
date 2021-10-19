@@ -1,4 +1,5 @@
 <?php
+require_once File::build_path(array("model","ModelContenir.php"));
 class ControllerContenir{
 
 	protected static $object='Contenir';
@@ -52,8 +53,8 @@ class ControllerContenir{
 		}
 	}
 
-	public static function create($FK_NumeroFiche, $FK_NumEtape){
-        $v1 = new ModelContenir($FK_NumeroFiche, $FK_NumEtape);
+	public static function create($FK_NumeroFiche, $FK_NumEtape,$ordre){
+        $v1 = new ModelContenir($FK_NumeroFiche, $FK_NumEtape,$ordre);
 		$v1->save();
 	}
 }
