@@ -93,7 +93,7 @@ ini_set('display_errors', 'on');
             $Allergene = ModelAllergene::select($FK_NumAllergene)->getNomAllergene();
         }
         if($FK_NumCategorie==NULL) {
-            $Categorie = "";
+            $Categorie = "Autre";
         } else {
             $Categorie = ModelCategorie_Ingredient::select($FK_NumCategorie)->getNomCategorie();
         }
