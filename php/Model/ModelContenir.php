@@ -3,8 +3,8 @@ require_once File::build_path(array("model", "Model.php"));
 class ModelContenir extends Model{
 
 	protected static $object = 'Contenir';
-	protected static $primary='FK_NumEtape';
-    protected static $primary2='FK_NumeroFiche';
+    protected static $primary='FK_NumeroFiche';
+	protected static $primary2='FK_NumEtape';
     protected static $primary3='ordre';
 
 	private $FK_NumeroFiche;
@@ -35,7 +35,7 @@ class ModelContenir extends Model{
         $this->ordre = $ordre2;
     }
 
-	public function __construct($FK_NumEtape = NULL, $FK_NumeroFiche = NULL, $ordre = NULL) {
+	public function __construct( $FK_NumeroFiche = NULL, $FK_NumEtape = NULL, $ordre = NULL) {
   	if (!is_null($FK_NumEtape) && !is_null($FK_NumeroFiche) && !is_null($ordre)) {
         $this->FK_NumeroFiche = $FK_NumeroFiche;
 	    $this->FK_NumEtape = $FK_NumEtape;
@@ -68,14 +68,14 @@ class ModelContenir extends Model{
 
     public function save() {
         try {
-            $sql = "INSERT INTO Contenir VALUES (:FK_NumEtape, :FK_NumeroFiche, :ordre)";
+            $sql = "INSERT INTO Contenir VALUES (:FK_NumeroFiche, :FK_NumEtape, :ordre)";
             // Préparation de la requête
             $req_prep = Model::$pdo->prepare($sql);
             //$ordre = self::configordre()+1;
 
             $values = array(
-                "FK_NumEtape" => $this->FK_NumEtape,
                 "FK_NumeroFiche" => $this->FK_NumeroFiche,
+                "FK_NumEtape" => $this->FK_NumEtape,
                 "ordre" => $this->ordre
             );
             // On donne les valeurs et on exécute la requête     

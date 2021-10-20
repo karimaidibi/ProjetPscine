@@ -3,11 +3,11 @@ require_once File::build_path(array("model", "Model.php"));
 class ModelComposer extends Model{
 
 	protected static $object = 'Composer';
-	protected static $primary='FK_NumIngredient';
-    protected static $primary2='FK_NumeroFiche';
+    protected static $primary='FK_NumeroFiche';
+	protected static $primary2='FK_NumIngredient';
 
+    private $FK_NumeroFiche;
 	private $FK_NumIngredient;
-	private $FK_NumeroFiche;
     private $QuantiteIngredient;
 
 	public function getFK_NumIngredient(){
@@ -34,10 +34,10 @@ class ModelComposer extends Model{
         return $this->QuantiteIngredient;
     }
 
-	public function __construct($FK_NumIngredient = NULL, $FK_NumeroFiche = NULL, $QuantiteIngredient = NULL) {
+	public function __construct($FK_NumeroFiche = NULL, $FK_NumIngredient = NULL, $QuantiteIngredient = NULL) {
   	if (!is_null($FK_NumIngredient) && !is_null($FK_NumeroFiche)) {
-	    $this->FK_NumIngredient = $FK_NumIngredient;
         $this->FK_NumeroFiche = $FK_NumeroFiche;
+	    $this->FK_NumIngredient = $FK_NumIngredient;
         $this->QuantiteIngredient = $QuantiteIngredient;
     	}
   	}

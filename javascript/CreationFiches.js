@@ -332,12 +332,12 @@ function DeleteRowProgressions(o) {
     while(i<options.length && !progressiontrouver){
     if(options[i].value === NomChoisi || NomChoisi ===""){
         progressiontrouver = true;
-        ordreProgressions = ordreProgressions + 1; //ordre + 1
         //var CodeProgression = optionsNum[i].value;
     }
     i = i + 1;
     }
     if(progressiontrouver == false){
+      ordreProgressions = ordreProgressions + 1; //ordre + 1
       var table = document.getElementById("bodyProgressions");
       var row = table.insertRow(table.length);
       var cell1 = row.insertCell(0);

@@ -6,8 +6,8 @@ require_once File::build_path(array("model","ModelIngredient.php"));
 require_once File::build_path(array("model","ModelEtape.php"));
 require_once File::build_path(array("model","ModelCoeffAss.php"));
 require_once File::build_path(array("model","ModelCoeffCoutPersonnel.php"));
-require_once File::build_path(array("controller","ControllerInclure.php"));
 require_once File::build_path(array("model","ModelInclure.php"));
+require_once File::build_path(array("controller","ControllerInclure.php"));
 require_once File::build_path(array("controller","ControllerContenir.php"));
 require_once File::build_path(array("controller","ControllerEtape.php"));
 require_once File::build_path(array("controller","ControllerComposer.php"));
@@ -56,8 +56,7 @@ class ControllerFicheTechnique{
     	}
 	}
 
-	public static function saveSousFiches($Fiche){
-		$NumeroFiche = $Fiche ->getNumeroFiche();
+	public static function saveSousFiches($NumeroFiche){
 		$tabFiches = JSON_decode($_COOKIE['TabFiches']);  // récupère les sous-fiches liées à la fiche
 		//print_r($tabFiches);
 		$ordre = 0;
@@ -69,22 +68,20 @@ class ControllerFicheTechnique{
 		}
 	}
 
-	public static function saveIngredients($Fiche){
-		$NumeroFiche = $Fiche ->getNumeroFiche();
+	public static function saveIngredients($NumeroFiche){
 		$TabIng = json_decode(($_COOKIE['TabIng']));
 		$TabQteIng = json_decode(($_COOKIE['TabQteIng']));
 		for($i=0;$i<count($TabIng);$i++) {
-			ControllerComposer::create($TabIng[$i],$NumeroFiche,$TabQteIng[$i]); //crée les relations composer en BDD 
+			ControllerComposer::create($NumeroFiche,$TabIng[$i],$TabQteIng[$i]); //crée les relations composer en BDD 
 		}
 	}
 
-	public static function saveProgressions($Fiche){
-		$NumeroFiche = $Fiche ->getNumeroFiche();
-		echo $NumeroFiche;
+	public static function saveProgressions($NumeroFiche){
+		//echo $NumeroFiche;
 		$tabProgressions = JSON_decode($_COOKIE['TabProgressions']);  // récupère les sous-fiches liées à la fiche
-		echo '<pre>';
-		print_r($tabProgressions);
-		echo '</pre>';
+		//echo '<pre>';
+		//print_r($tabProgressions);
+		//echo '</pre>';
 		$ordre = 0;
 		//$reg = "abc";
 		foreach($tabProgressions as $numProgression){
@@ -140,7 +137,14 @@ class ControllerFicheTechnique{
 			"FK_CodeCoeffAss" => $FK_CodeCoeffAss,
 			"FK_CodeCoeffCoutPersonnel" => $FK_CodeCoeffCoutPersonnel
 		);
-		ModelFicheTechnique::update($data);		
+		ModelFicheTechnique::update($data);	
+		self::deleteProgressionsOf($NumeroFiche);
+		self::deleteIngredientsOf($NumeroFiche);
+		self::deleteSousFichesOf($NumeroFiche);
+		$NumeroFiche=myGet('NumeroFiche');
+		self::saveProgressions($NumeroFiche);
+		self::saveIngredients($NumeroFiche);	
+		self::saveSousFiches($NumeroFiche);
 	    $view='list';
 	    $pagetitle='Mise à jour de la recette';
 	    $tab_u = ModelFicheTechnique::selectAll();
@@ -157,11 +161,25 @@ class ControllerFicheTechnique{
 		$FK_CodeCoeffCoutPersonnel = myGet('CodeCoeffCoutPersonnel');
 		$Fiche = new ModelFicheTechnique($NomFiche,$NbreCouverts,$NomAuteur,$CoutFluide,$FK_NumeroCatFiche,$FK_CodeCoeffAss,$FK_CodeCoeffCoutPersonnel);
 		$Fiche->save();
-		self::saveSousFiches($Fiche);
-		self::saveProgressions($Fiche);
-		self::saveIngredients($Fiche);
+		$NumeroFiche = $Fiche ->getNumeroFiche();
+		self::saveSousFiches($NumeroFiche);
+		self::saveProgressions($NumeroFiche);
+		self::saveIngredients($NumeroFiche);
 		self::readAll();
 	} 
+
+	//supprimer les progressions de la table CONTENIR
+	public static function deleteProgressionsOf($numfiche){
+		ModelContenir::delete($numfiche);
+	}
+	//suprimer les ingredients de la table COMPOSER
+	public static function deleteIngredientsOf($numfiche){
+		ModelComposer::delete($numfiche);
+	}
+	//supprimer les sousfiche de la table INCLURE 
+	public static function deleteSousFichesOf($numfiche){
+		ModelInclure::delete($numfiche);
+	}
 
 	public static function delete(){
 		if(is_null(myGet('NumeroFiche'))){
@@ -170,10 +188,17 @@ class ControllerFicheTechnique{
 	    	require_once File::build_path(array("view", "view.php"));
 		}
 		else{
-			$NumeroFiche = myGet('NumeroFiche');
-			$Fiche = ModelFicheTechnique::select($NumeroFiche);
-			$NomFiche = $Fiche->GetNomFiche();
-			ModelFicheTechnique::delete($NumeroFiche);
+			$NumeroFiche = myGet('NumeroFiche'); //numero de cette fiche
+			$Fiche = ModelFicheTechnique::select($NumeroFiche); //objet fiche
+			if(empty($Fiche)){
+				$NomFiche = "Inexistante";
+			}else{
+				$NomFiche = $Fiche->GetNomFiche(); //le nom de la fiche
+			}
+			self::deleteProgressionsOf($NumeroFiche);
+			self::deleteIngredientsOf($NumeroFiche);
+			self::deleteSousFichesOf($NumeroFiche);
+			ModelFicheTechnique::delete($NumeroFiche); //supprimer la ligne concernant cette fiche dans la table des fiches BD 
 			$tab_u = ModelFicheTechnique::selectAll();
 	        $view='deleted';
 	        $pagetitle='FicheTechnique supprimée';
