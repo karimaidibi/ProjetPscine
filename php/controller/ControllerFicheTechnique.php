@@ -67,6 +67,10 @@ class ControllerFicheTechnique{
 			ControllerInclure::create($NumeroFiche,$numFiche,$ordre); //crée les relations inclure en BDD (inclure c'est la relation entre une fiche et les sousfiches)
 		//setcookie('TabFiches','',time()-3600);
 		}
+	}
+
+	public static function saveIngredients($Fiche){
+		$NumeroFiche = $Fiche ->getNumeroFiche();
 		$TabIng = json_decode(($_COOKIE['TabIng']));
 		$TabQteIng = json_decode(($_COOKIE['TabQteIng']));
 		for($i=0;$i<count($TabIng);$i++) {
@@ -155,6 +159,7 @@ class ControllerFicheTechnique{
 		$Fiche->save();
 		self::saveSousFiches($Fiche);
 		self::saveProgressions($Fiche);
+		self::saveIngredients($Fiche);
 		self::readAll();
 	} 
 
@@ -192,7 +197,7 @@ class ControllerFicheTechnique{
 		}
 		else{ // si c'est pour update
 			$NumeroFiche = myGet('NumeroFiche');
-			$ingredientsFiches = ModelComposer::select()
+			$ingredientsFiches = ModelComposer::select();
 	    	$fiche = ModelFicheTechnique::select($NumeroFiche); //Fiche à update
 			$Progressions = ModelFicheTechnique::selectProgressionsOf($NumeroFiche); // les progressions de cette fiche
 			$Ingredients = ModelFicheTechnique::selectIngredientsOf($NumeroFiche);  // les ingredients de cette fiche 

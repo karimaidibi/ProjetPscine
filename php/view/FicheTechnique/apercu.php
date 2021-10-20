@@ -147,8 +147,13 @@
                     }else{
                         $NomAllergene = "";
                     }
+                    $objetcateg = ModelCategorie_Ingredient::select($Ing["FK_NumCategorie"]);// recuperer la categorie de l'ingredient
+                    if(!empty($objetcateg)){
+                        $CategorieIng = $objetcateg -> getNomCategorie(); 
+                    }else{
+                        $CategorieIng = "Autre";
+                    }
                     $NomUnite = ModelUnite::select($Ing["FK_NumUnite"]) -> getNomUnite(); //recuperer son nom unité
-                    $CategorieIng = ModelCategorie_Ingredient::select($Ing["FK_NumCategorie"]) -> getNomCategorie(); // recuperer la categorie de l'ingredient
                     $PTHT = $Ing["QuantiteIngredient"] * $Ing["prixUnitaireIng"]; // calculer son PTHT
                     $TotalDenree = $TotalDenree + $PTHT;
                         echo 
