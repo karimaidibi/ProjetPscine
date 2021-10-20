@@ -67,10 +67,16 @@ class ControllerIngredient{
 		$NomIng=myGet('NomIng');
 		$prixUnitaireIng=myGet('prixUnitaireIng');
 		$QteStockIngredient=myGet('QteStockIngredient');
-		$FK_NumUnite=myGet('FK_NumUnite');
 		$FK_NumAllergene=myGet('FK_NumAllergene');
+		$FK_NumUnite=myGet('FK_NumUnite');
+		if(empty($FK_NumAllergene)){
+			$FK_NumAllergene = NULL;
+		}
 		$FK_CodeTVA=myGet('FK_CodeTVA');
 		$FK_NumCategorie=myGet('FK_NumCategorie');
+		if(empty($FK_NumCategorie)){
+		$FK_NumCategorie = NULL;
+		}
 		$Ingredient = new ModelIngredient($NomIng,$prixUnitaireIng,$QteStockIngredient,$FK_NumUnite,$FK_NumAllergene,$FK_CodeTVA,$FK_NumCategorie);
 		$Ingredient->save();
 		self::readAll();
@@ -95,12 +101,18 @@ class ControllerIngredient{
 		if(!is_null(myGet('FK_NumAllergene'))){
 			$FK_NumAllergene=myGet('FK_NumAllergene');
 		}
+		if(empty($FK_NumAllergene)){
+			$FK_NumAllergene = NULL;
+		}
 		if(!is_null(myGet('FK_CodeTVA'))){
 			$FK_CodeTVA=myGet('FK_CodeTVA');
 		}
 		if(!is_null(myGet('FK_NumCategorie'))){
 			$FK_NumCategorie=myGet('FK_NumCategorie');
 		}
+		if(empty($FK_NumCategorie)){
+			$FK_NumCategorie = NULL;
+			}
 		$data = array(
 			"primary" => $NumIngredient,
 			"NomIng" => $NomIng,

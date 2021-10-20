@@ -1,7 +1,7 @@
 
 <?php
-echo $_COOKIE['TabFiches'];
-echo $_COOKIE['TabProgressions'];
+//echo $_COOKIE['TabFiches'];
+//echo $_COOKIE['TabProgressions'];
 echo '<div class=" container mt-5 bg-dark bg-gradient" align=center style="color:whitesmoke;">
         <p class="fs-5"> Chercher par catégorie, par fiche ou par auteur ! </p>
       </div>
@@ -21,7 +21,7 @@ echo '<div class=" container mt-5 bg-dark bg-gradient" align=center style="color
                     </div>
                     <div class="flex-fill ms-3 ">
                         <div class="input-group">
-                            <select class="form-select btn btn-danger" type="button" id="chercherpar" >
+                            <select class="form-select btn btn-dark" type="button" id="chercherpar" >
                                 <option selected > Chercher par : </option>
                                 <option>Nom fiche</option>
                                 <option>Auteur</option>

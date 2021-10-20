@@ -41,8 +41,8 @@ ini_set('display_errors', 'on');
                     Trier par
                     </button>
                     <ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
-                    <li><button class="dropdown-item" type="button">a--z</button></li>
-                    <li><button class="dropdown-item" type="button">z--a</button></li>
+                    <li><button class="dropdown-item" type="button" onclick="TrierNomAZ()">a--z</button></li>
+                    <li><button class="dropdown-item" type="button" onclick="TrierNomZA()">z--a</button></li>
                     </ul>
                 </div>
             </div>
@@ -87,22 +87,24 @@ ini_set('display_errors', 'on');
 
         $Unite = ModelUnite::select($FK_NumUnite)->getNomUnite();
         $TVA = ModelTVA::select($FK_CodeTVA)->getCoefTVA();
-        if($FK_NumAllergene==NULL) {
-            $Allergene = "";
+        $Allergene = ModelAllergene::select($FK_NumAllergene);
+        if(empty($Allergene)){
+            $NomAllergene = "";
         } else {
-            $Allergene = ModelAllergene::select($FK_NumAllergene)->getNomAllergene();
+            $NomAllergene = $Allergene->getNomAllergene();
         }
-        if($FK_NumCategorie==NULL) {
-            $Categorie = "Autre";
+        $Categorie = ModelCategorie_Ingredient::select($FK_NumCategorie);
+        if(empty($Categorie)) {
+            $NomCategorie = "Autre";
         } else {
-            $Categorie = ModelCategorie_Ingredient::select($FK_NumCategorie)->getNomCategorie();
+            $NomCategorie = $Categorie ->getNomCategorie();
         }
 
       echo '<tr>
                 <td>' .$NomIng. '</td>
-                <td>' .$Categorie. '</td>
+                <td>' .$NomCategorie. '</td>
                 <td>' .$Unite. '</td>
-                <td >'.$Allergene.'</td>
+                <td >'.$NomAllergene.'</td>
                 <td>' .$PrixUnitaire. '</td>
                 <td>' .$TVA*100 .'%</td>
                 <td>

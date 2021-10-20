@@ -17,10 +17,10 @@ class ControllerFicheTechnique{
 
 	public static function readAll() {
         $tab_u = ModelFicheTechnique::selectAll();     //appel au modèle pour gerer la BD  //"redirige" vers la vue
-		$tabFiches = JSON_decode($_COOKIE['TabFiches']);  // debogage
-		$tabProgressions = JSON_decode($_COOKIE['TabProgressions']);  // debogage
-		$NumProg = ModelEtape::selectNumOf('numopp'); // debogage
-		print_r($NumProg);
+		//$tabFiches = JSON_decode($_COOKIE['TabFiches']);  // debogage
+		//$tabProgressions = JSON_decode($_COOKIE['TabProgressions']);  // debogage
+		//$NumProg = ModelEtape::selectNumOf('numopp'); // debogage
+		//print_r($NumProg);
         $view='list';
         $pagetitle='Liste des fiches techniques';
         require_once File::build_path(array("view", "view.php"));
