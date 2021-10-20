@@ -197,10 +197,11 @@ class ControllerFicheTechnique{
 		}
 		else{ // si c'est pour update
 			$NumeroFiche = myGet('NumeroFiche');
-			$ingredientsFiches = ModelComposer::select();
+			//$ingredientsFiches = ModelComposer::select();
 	    	$fiche = ModelFicheTechnique::select($NumeroFiche); //Fiche à update
 			$Progressions = ModelFicheTechnique::selectProgressionsOf($NumeroFiche); // les progressions de cette fiche
 			$Ingredients = ModelFicheTechnique::selectIngredientsOf($NumeroFiche);  // les ingredients de cette fiche 
+			$SousFiches = ModelFicheTechnique::selectSousFichesOf($NumeroFiche);
 	        $view='update';
 	        $pagetitle='Modification de la recette';
 	        $type = 'readonly';

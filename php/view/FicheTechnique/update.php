@@ -294,7 +294,23 @@ echo '<!--Titré création de fiche technique -->
                         </tr>
                       </thead>
                       <!- gerer avec javascript et php->
-                      <tbody id="bodyProgressions">
+                      <tbody id="bodyProgressions">';
+                      if($type=='readonly'){
+                        echo '<input type = "hidden" id ="readonly">';
+                        foreach($Progressions as $p){
+                          echo 
+                            '<tr>
+                                <th scope="row"> ' .$p["ordre"]. '</th>
+                                <td> ' .$p["DescriptionEtape"]. ' </td>
+                                <td id ="'.$p["NumEtape"].'">
+                                  <button class="btn btn-danger" type="button" onclick="DeleteRowProgressions(this)">
+                                  <i class="bi bi-trash" style="font-size: 1rem;" ></i>
+                                  </button>
+                                </td>
+                            </tr>';
+                        }
+                      }
+                     echo '
                       </tbody>
                     </table>
                   </div>
@@ -383,7 +399,53 @@ echo '<!--Titré création de fiche technique -->
                           </tr>
                       </thead>
                       <!- gerer avec javascript et php->
-                      <tbody id="bodyIngredients">
+                      <tbody id="bodyIngredients">';
+                    if($type=="readonly"){
+                      echo '<input type = "hidden" id ="readonly">';
+                      //<!-- 3ème  ligne-->
+                      $TotalDenree = 0; // le total Denree = somme des PTHT
+                      foreach($Ingredients as $Ing){
+                          $objetAllergene = ModelAllergene::select($Ing["FK_NumAllergene"]); //recuperer son allergene si existe
+                          if(!empty($objetAllergene)){
+                              $NomAllergene = $objetAllergene ->getNomAllergene();
+                          }else{
+                              $NomAllergene = "";
+                          }
+                          $objetcateg = ModelCategorie_Ingredient::select($Ing["FK_NumCategorie"]);// recuperer la categorie de l'ingredient
+                          if(!empty($objetcateg)){
+                              $CategorieIng = $objetcateg -> getNomCategorie(); 
+                          }else{
+                              $CategorieIng = "Autre";
+                          }
+                          $NomUnite = ModelUnite::select($Ing["FK_NumUnite"]) -> getNomUnite(); //recuperer son nom unité
+                          $PTHT = $Ing["QuantiteIngredient"] * $Ing["prixUnitaireIng"]; // calculer son PTHT
+                          $TotalDenree = $TotalDenree + $PTHT;
+                              echo 
+                                  '<tr>
+                                      <!-- Première colonne (code) -->
+                                      <th scope="row"> ' .$NomAllergene. '</th>
+                                      <!-- deuxième colonne (ingrédient)-->
+                                      <td>' .$Ing["NomIng"]. '</td>
+                                      <!-- 3ème colonne (Unitairé)-->
+                                      <td>' .$NomUnite. '</td>
+                                      <!-- 4èmme colonne (Qté_Ing)-->
+                                      <td>
+                                      <input type="number" step="any" class="form-control w-50" id="QteIng" value ="' .$Ing["QuantiteIngredient"]. '">
+                                      </td>
+                                      <!-- 5ème colonne (PrixU)-->
+                                      <td> ' .$Ing["prixUnitaireIng"]. ' </td>
+                                      <!-- 6èmme colonne(PTHT)-->
+                                      <td>  </td>
+                                      <!-7èemme colonne (bouton delete)->
+                                      <td id ="'.$Ing["NumIngredient"].'">
+                                      <button class="btn btn-danger" type="button" onclick="DeleteRowIngredients(this)">
+                                      <i class="bi bi-trash" style="font-size: 1rem;" ></i>
+                                      </button>
+                                      </td>
+                                  </tr>';
+                      }
+                    }
+                    echo '
                       </tbody>
                     </table>
                   </div>
@@ -391,7 +453,7 @@ echo '<!--Titré création de fiche technique -->
             </div>
             <!-- une ligne contenante un input pour rajouter des fiches techniques  -->
             <div class="row row-cols-2 pt-4">
-                <!-- Les prix de la fichetechniques -->
+                <!-- Les prix de la fichetechniques géré avec javascript -->
                 <div class="col-4">
                   <table class="table table-striped table-hover>
                     <thead class="table-dark">
@@ -478,7 +540,30 @@ echo '<!--Titré création de fiche technique -->
                         </tr>
                         </thead>
                         <!- gerer avec javascript et php->
-                        <tbody id="bodyFiche">
+                        <tbody id="bodyFiche">';
+                        if($type=='readonly'){
+                          foreach($SousFiches as $sousfiche){
+                            echo '<input type = "hidden" id ="readonly">';
+                            //recuperer le nom de numero categorie de chaque sous fiche 
+                            $NumCatFiche = $sousfiche["FK_NumeroCatFiche"];
+                            $cetteCategorie = ModelCategorie_Fiche::select($NumCatFiche);
+                            $NomCategorie = $cetteCategorie -> getNomCatFiche();
+                            echo
+                               '<tr>
+                                    <th scope="row">' .$sousfiche["ordre"].'</th>
+                                    <td>' .$sousfiche["NomFiche"]. '</td>
+                                    <td>' .$sousfiche["NbreCouverts"]. '</td>
+                                    <td>' .$sousfiche["NomAuteur"]. '</td>
+                                    <td>' .$NomCategorie. '</td>
+                                    <td id="'.$NumCatFiche.'">
+                                      <button class="btn btn-danger" type="button" onclick="DeleteRowFiches(this)">
+                                      <i class="bi bi-trash" style="font-size: 1rem;" ></i>
+                                      </button>
+                                    </td>
+                                </tr>';
+                          }
+                        }
+                      echo '
                         </tbody>
                     </table>
                   </div>
@@ -486,7 +571,7 @@ echo '<!--Titré création de fiche technique -->
             </div>
               <!-- validation -->
           <div class="mt-3 mb-5 " align=center>
-            <button class="btn btn-dark" type="button">
+            <button class="btn btn-dark" type="button" onclick="submit()">
               <i class="bi bi-folder-plus"></i>
               <input type=\'hidden\' name=\'controller\' value=\'ficheTechnique\'>';
               if($type=='readonly'){
@@ -495,27 +580,12 @@ echo '<!--Titré création de fiche technique -->
               }
               else{
                 echo '<input type=\'hidden\' name=\'action\' value=\'created\'>';
-                echo '<button class="btn btn-dark" type="button" onclick="submit()">';
                 echo '<input class="btn btn-dark" type="submit" value="Créer la fiche technique" />';
               }
-      echo '</button>
-            <button class="btn btn-dark" type="button">
-              <i class="bi bi-emoji-heart-eyes"></i>
-              Aperçu fiche 
-            </button>             
+          echo '           
           </div>
         </form>
-      </div>
-      <!-- Optional JavaScript; choose one of the two! -->
-
-      <!-- Option 1: Bootstrap Bundle with Popper -->
-      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
-
-      <!-- Option 2: Separate Popper and Bootstrap JS -->
-      <!--
-      <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
-      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
-      -->'
+      </div>';
 
 ?>
 

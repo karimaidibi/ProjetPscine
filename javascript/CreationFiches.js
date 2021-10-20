@@ -1,9 +1,47 @@
+//espace variables globales
+TabIngredients = new Array();
+TabQteIngredient = new Array();
+incrementeurIng = 0;
+
+TabFiches = new Array(); // variable globale qui contient les sous fiches
+var ordreFiche = 0;
+
+TabProgressions = new Array();
+ordreProgressions = 0;
+/*-----------*/ 
 
 function DeleteRow(o) {
     //no clue what to put here?
     var p=o.parentNode.parentNode;
     p.parentNode.removeChild(p);
 }
+
+// initialiser la variable globale tableau de l'ingredient et tabQte avec les valeurs de la BD 
+document.addEventListener('DOMContentLoaded',function(){
+  if(document.getElementById('readonly')){ // si on fait un update 
+    var tableIngredients = document.getElementById('bodyIngredients');
+    for(var i = 0,row;row=tableIngredients.rows[i]; i++){ // pour chaque ligne as row
+      var QteIng = $(row.cells[3]).find("input").val(); // on recupere la quantite de l'ing $(col).find("input").val();
+      var CodeIng = row.cells[6].id;
+      TabIngredients.push(CodeIng);
+      TabQteIngredient.push(QteIng);
+    } // fin pour ingredient
+    console.log("Tab initiale ing : " + TabIngredients);
+    console.log("Tab initiale QteIng : " + TabQteIngredient);
+    var tableSousFiche = document.getElementById("bodyFiche");
+    for(var i = 0, row;row=tableSousFiche.rows[i]; i++){
+      var CodeSousFiche = row.cells[5].id;
+      TabFiches.push(CodeSousFiche); // on push le code dans le tableau
+    }// fin pour fiche
+    console.log("Tab initiale Fiches : " + TabFiches);
+    var tableProg = document.getElementById("bodyProgressions");
+    for(var i = 0, row;row=tableProg.rows[i]; i++){
+      var CodeProg= row.cells[2].id;
+      TabProgressions.push(CodeProg); // on push le code dans le tableau
+    }// fin pour prog
+    console.log("Tab initiale Prog : " + TabProgressions);
+  }// fin if
+});
 
 
 /* verifier si l'ingredient à déja été choisi, ene parametre :
@@ -24,10 +62,6 @@ function DeleteRow(o) {
     /* Elle prend la table de la création des ingredient :
   - elle rajoute une ligne à la fin du tableau
   - si l'input n'existe pas dans la datalist de la barre de recherche, le rajout de la ligne n'est pas accepté */
-  TabIngredients = new Array();
-  TabQteIngredient = new Array();
-  incrementeurIng = 0;
-
 
   function CreateLigneIngredient() {
     options = null;
@@ -55,7 +89,6 @@ function DeleteRow(o) {
     if(ingredienttrouver == true){
     var row = table.insertRow(table.length);
     var cell1 = row.insertCell(0);
-    console.log("cell1 : " + cell1);
     var cell2 = row.insertCell(1);
     var cell3 = row.insertCell(2);
     var cell4 = row.insertCell(3);
@@ -65,17 +98,20 @@ function DeleteRow(o) {
     cell1.innerHTML = AllergeneIng;
     cell2.innerHTML = NomChoisi;
     cell3.innerHTML = UniteIng;
-    cell4.innerHTML = ' <input type="number" step="any" class="form-control w-50" id="QteIng" placeholder="Qté...">';
-    console.log("input : " + cell4.lastChild);
+    var inputQte = document.createElement("input"); //input qui contiendra la qte
+    inputQte.setAttribute("type","number");
+    inputQte.setAttribute("step","any");
+    inputQte.setAttribute("class","form-control w-50");
+    inputQte.setAttribute("id","QteIng");
+    inputQte.setAttribute("placeholder","Qté..");
+    //cell4.innerHTML = ' <input type="number" step="any" class="form-control w-50" id="QteIng" placeholder="Qté...">';
+    cell4.appendChild(inputQte);
     cell5.innerHTML = PrixU;
-    console.log("cell 5 value : " + cell5.innerHTML);
     cell6.innerHTML =  "$PTHT";
     cell7.innerHTML = '<button class="btn btn-danger" type="button" onclick="DeleteRowIngredients(this)"><i class="bi bi-trash" style="font-size: 1rem;" ></i></button>';
     cell7.id = CodeIngredient;
     TabIngredients.push(CodeIngredient); // on rajoute le Code de lingredient rajouté par lutilisateur dans le tableau TabIngredients
     TabQteIngredient.push("");
-    console.log("id ingredient qu'on va push : " + cell7.id);
-    console.log("Ingredient rajouté : " + TabIngredients);
     }
     else{
       if($IngredientInTable){
@@ -91,16 +127,16 @@ TabIng = new Array();
 document.addEventListener("click",function(){
         var tableIngredients = document.getElementById('bodyIngredients');
         for(var i = 0,row;row=tableIngredients.rows[i]; i++){ // pour chaque ligne as row
-          var QteIng = row.cells[3].lastChild.value; // on recupere la quantite de l'ing
-          var CodeIngredient = row.cells[6].id;
-          for(y=0; y<TabIngredients.length; y++){
+          var QteIng = $(row.cells[3]).find("input").val(); // on recupere la quantite de l'ing $(col).find("input").val();
+          var CodeIngredient = row.cells[6].id; // on recupere lo code de ling
+          for(y=0; y<TabIngredients.length; y++){ //pour chque element du cookie 
             if(TabIngredients[y]==CodeIngredient && QteIng!=""){
               TabQteIngredient.splice(y,1,QteIng);
             }
           }
         }
-        console.log(TabIngredients);
-        console.log(TabQteIngredient);
+        console.log("TabIngredient : "+TabIngredients);
+        console.log("TabQteIng : "+TabQteIngredient);
         document.cookie = ('TabIng=' + JSON.stringify(TabIngredients) + '; path=/'); // cookie
         document.cookie = ('TabQteIng=' + JSON.stringify(TabQteIngredient) + '; path=/'); // cookie
       });
@@ -112,10 +148,10 @@ function submit(){
 function DeleteRowIngredients(o) {
   // supprimer dans le tableau
   var index = TabIngredients.indexOf(o.parentNode.id); // trouver l'index de l'id à supprimer dans la TabFiches
-  console.log(o.parentNode.id);
+  console.log("id a spurrimer : " + o.parentNode.id);
   var rem = TabIngredients.splice(index,1); // supprimer un element qui se trouve à la position index
   TabQteIngredient.splice(index,1);
-  console.log("Ingredient supprime : " + TabIngredients);
+  console.log("TabIngredient après supprime : " + TabIngredients);
   incrementeurIng = incrementeurIng - 1;
   // supprimer la ligne
   var p=o.parentNode.parentNode;
@@ -141,7 +177,7 @@ document.addEventListener("click",function(){
   console.log("cout fluide : " + CoutFluide);
   //commencer le calcul
   for(var i = 0,row;row=tableIngredients.rows[i]; i++){ // pour chaque ligne as row
-    var QteIng = row.cells[3].lastChild.value; // on recupere la quantite de l'ing
+    var QteIng = $(row.cells[3]).find("input").val(); // on recupere la quantite de l'ing $(col).find("input").val();
     var prixU = parseFloat(row.cells[4].innerHTML); // on recupere son prixU
     var ptht = QteIng * prixU; // on calcul sn ptht
     row.cells[5].innerHTML = ptht; // on met le ptht dans la bonne colonne
@@ -164,8 +200,7 @@ document.addEventListener("click",function(){
   tablePrix.rows[6].cells[1].innerHTML = CoutProductionPortion;
 });
 
-  TabFiches = new Array(); // variable globale qui contient les sous fiches
-  var ordreFiche = 0;
+
 /* Elle prend la table de la création des fiches techniques :
   - elle rajoute une ligne à la fin du tableau
   - si l'input n'existe pas dans la datalist de la barre de recherche, le rajout de la ligne n'est pas accepté */
@@ -208,16 +243,15 @@ document.addEventListener("click",function(){
     cell5.innerHTML = CategorieFiche;
     cell6.innerHTML = '<button class="btn btn-danger" type="button" onclick="DeleteRowFiches(this)"><i class="bi bi-trash" style="font-size: 1rem;" ></i></button>';
     cell6.id = codeFiche; // on attribut le code de la fiche qui vient detre rajouté dans le front comme id à la case qui contient le bouton supprimer 
-    console.log(cell6.id);
+    console.log("id sous fiche créée : " + cell6.id);
     TabFiches.push(codeFiche); // on rajoute le Code de la fiche rajouté par lutilisateur dans le tableau TabFiches
-    console.log(TabFiches.length);
-    console.log("Fiche ajouté : " + TabFiches);
+    console.log("TabFiche après ajouté : " + TabFiches);
     
     //document.cookie = "TabFiches=; expires=Thu, 01 Jan 1970 00:00:00 GMT; SameSite=None; Secure";
     document.cookie = 'TabFiches=' + JSON.stringify(TabFiches) + '; path=/'; // cookie
     //envoyer la TabFiche vers la pageHtml avec la method setAttribute
-    document.getElementById("inputTableIngredients").setAttribute("name",TabFiches);
-    console.log(document.getElementById("inputTableIngredients").getAttribute("name"));
+    //document.getElementById("inputTableIngredients").setAttribute("name",TabFiches);
+    //console.log(document.getElementById("inputTableIngredients").getAttribute("name"));
     }
     else{
     alert('fiche non trouvé, veuillez réessayer'); 
@@ -227,9 +261,8 @@ document.addEventListener("click",function(){
   function DeleteRowFiches(o) {
     // supprimer dans le tableau
     var index = TabFiches.indexOf(o.parentNode.id); // trouver l'index de l'id à supprimer dans la TabFiches
-    console.log(o.parentNode.id);
     var rem = TabFiches.splice(index,1); // supprimer un element qui se trouve à la position index
-    console.log("Fiche supprime " + TabFiches);
+    console.log("TabFiche après supprime " + TabFiches);
     // supprimer la ligne
     var p=o.parentNode.parentNode;
     p.parentNode.removeChild(p);
@@ -239,8 +272,7 @@ document.addEventListener("click",function(){
     /* Elle prend la table de la création des fiches techniques :
   - elle rajoute une ligne à la fin du tableau
   - si l'input n'existe pas dans la datalist de la barre de recherche, le rajout de la ligne n'est pas accepté */
-  TabProgressions = new Array();
-  ordreProgressions = 0;
+
   function CreateLigneProgressionExistante() {
     options = null;
     options = document.querySelectorAll('#listeDesProgressions .nomProgression'); //les noms des progressions dans la BD
@@ -279,9 +311,8 @@ document.addEventListener("click",function(){
 function DeleteRowProgressions(o) {
   // supprimer dans le tableau
   var index = TabProgressions.indexOf(o.parentNode.id); // trouver l'index de l'id à supprimer dans la TabFiches
-  console.log(o.parentNode.id);
   var rem = TabProgressions.splice(index,1); // supprimer un element qui se trouve à la position index
-  console.log("étape supprime " + TabProgressions);
+  console.log("TABétape après supprime " + TabProgressions);
   // supprimer la ligne
   var p=o.parentNode.parentNode;
   p.parentNode.removeChild(p);
