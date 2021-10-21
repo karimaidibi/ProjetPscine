@@ -19,6 +19,7 @@ class ControllerFicheTechnique{
         $tab_u = ModelFicheTechnique::selectAll();     //appel au modèle pour gerer la BD  //"redirige" vers la vue
 		//$tabFiches = JSON_decode($_COOKIE['TabFiches']);  // debogage
 		//$tabProgressions = JSON_decode($_COOKIE['TabProgressions']);  // debogage
+		//$TabIng = json_decode(($_COOKIE['TabIng'])); //debogage
 		//$NumProg = ModelEtape::selectNumOf('numopp'); // debogage
 		//print_r($NumProg);
         $view='list';
@@ -64,7 +65,7 @@ class ControllerFicheTechnique{
 			//print_r($numFiche);
 			$ordre = $ordre + 1;
 			ControllerInclure::create($NumeroFiche,$numFiche,$ordre); //crée les relations inclure en BDD (inclure c'est la relation entre une fiche et les sousfiches)
-		//setcookie('TabFiches','',time()-3600);
+		setcookie('TabFiches','',time()-3600);
 		}
 	}
 
@@ -74,6 +75,8 @@ class ControllerFicheTechnique{
 		for($i=0;$i<count($TabIng);$i++) {
 			ControllerComposer::create($NumeroFiche,$TabIng[$i],$TabQteIng[$i]); //crée les relations composer en BDD 
 		}
+		setcookie('TabIng','',time()-3600);
+		setcookie('TabQteIng','',time()-3600);
 	}
 
 	public static function saveProgressions($NumeroFiche){
@@ -99,7 +102,7 @@ class ControllerFicheTechnique{
 				ControllerContenir::create($NumeroFiche,$NumProg,$ordre); //crée les relations inclure en BDD (inclure c'est la relation entre une fiche et les sousfiches)			
 			}	
 		}				
-		setcookie('TabProgressions','',time()-3600);
+		setcookie('TabProgressions','null',time()-3600);
 	}
 
 	public static function updated(){

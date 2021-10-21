@@ -24,19 +24,20 @@ if($type=='readonly'){
 
 }
 
-echo '<!--Titré création de fiche technique -->
-      <div class="container mt-5 bg-dark bg-gradient" align=center>
+echo '
+    <div class="container mt-5 ps-4 pe-3 bg-light bg-gradient">
+      <!--Titré création de fiche technique -->
+      <div class="container-fluid mt-5 bg-dark bg-gradient" align=center>
           <p class="fs-2" style="color:white;"> Création d\'une fiche technique </p>
       </div>
 
       <!---la division qui  contient tout le form de création de la fiche technique
             - en appuyant sur submit, tout le contenu de ce form va etre validé en meme temps-->
-      <div class="container-fluid mt-5 ps-4 pe-3 bg-light bg-gradient">
-        <form>
+        <form class= "was-validated">
             <!--liste d input des  Descriptifs et des coeff -->
             <div class="row row-cols-2 justify-content-around pt-4">
                 <!-- la liste d inpput des descriptifs dans une colonne-->
-                <div class="col-6 bg-dark" >
+                <div class="col-6 " >
                     <ul class="list-group list-group-flush">
                         <!-- Descriptifs-->
                         <li class="list-group-item"><strong>Descriptifs</strong></li>
@@ -54,7 +55,7 @@ echo '<!--Titré création de fiche technique -->
                                 <div class="col-auto">';
                                 if($type=='readonly'){
                                   echo '<input type="hidden" id="NumeroFiche_id" name="NumeroFiche" class="form-control" value="'. $NumeroFiche . '" required/>';
-                                    echo '<input type="text" id="NomFiche_id" name="NomFiche" class="form-control" value="' . $NomFiche . '">';
+                                    echo '<input type="text" id="NomFiche_id" name="NomFiche" class="form-control" value="' . $NomFiche . '" required/>';
                                 }
                                 else{
                                   echo '<input type="text" id="NomFiche_id" name="NomFiche" class="form-control" placeholder="Ajoutez un nom" required/>';
@@ -75,10 +76,10 @@ echo '<!--Titré création de fiche technique -->
                                 <!-- Deuxième sous colonne -->
                                 <div class="col-auto">';
                                 if($type=='readonly'){
-                                    echo '<input type="number" id="NbreCouverts_id" name="NbreCouverts" class="form-control" value="' . $NbreCouverts . '">';
+                                    echo '<input type="number" id="NbreCouverts_id" name="NbreCouverts" class="form-control" value="' . $NbreCouverts . '" required/>';
                                   }
                                   else{
-                                    echo '<input type="number" id="NbreCouverts_id" name="NbreCouverts" class="form-control" placeholder="Ajoutez un nombre de couverts" required/>';
+                                    echo '<input type="number" id="NbreCouverts_id" name="NbreCouverts" class="form-control" placeholder="Ajoutez un nombre de couverts" required />';
                                   }
                                 echo '</div>
                             </div>   
@@ -96,10 +97,10 @@ echo '<!--Titré création de fiche technique -->
                             <!-- Deuxième sous colonne -->
                             <div class="col-auto">';
                             if($type=='readonly'){
-                              echo '<input type="text" id="NomAuteur_id" name="NomAuteur" class="form-control" value="' . $NomAuteur . '">';
+                              echo '<input type="text" id="NomAuteur_id" name="NomAuteur" class="form-control" value="' . $NomAuteur . '" required>';
                             }
                             else{
-                              echo '<input type="text" id="NomAuteur_id" name="NomAuteur" class="form-control" placeholder="Ajoutez le nom de l\'auteur" required/>';
+                              echo '<input type="text" id="NomAuteur_id" name="NomAuteur" class="form-control" placeholder="Ajoutez le nom de l\'auteur" required>';
                             }
                             echo '</div>
                           </div>
@@ -121,7 +122,10 @@ echo '<!--Titré création de fiche technique -->
                               foreach($categories as $cat){
                                 $NumCategorie = $cat->getNumeroCatFiche();
                                 $NomCategorie = $cat->getNomCatFiche();
-                                if($NumCategorie==$FK_NumeroCatFiche){
+                                if(empty($FK_NumeroCatFiche)){
+                                  echo '<option value="">--choisissez une catégorie--</option>' ;
+                                }
+                                elseif($NumCategorie==$FK_NumeroCatFiche){
                                   echo '<option selected value = "'.$FK_NumeroCatFiche.'"> '.$NomCatFiche.' </option>';
                                 }
                                 else{
@@ -130,6 +134,7 @@ echo '<!--Titré création de fiche technique -->
                                 }
                               }
                             }else{
+                              echo '<option value="">--choisissez une catégorie--</option>';
                               foreach($categories as $cat){
                                 $NumCategorie = $cat->getNumeroCatFiche();
                                 $NomCategorie = $cat->getNomCatFiche();
@@ -161,7 +166,7 @@ echo '<!--Titré création de fiche technique -->
                               </div>
                               <!-- Deuxième sous colonne -->
                               <div class="col-auto">
-                              <select id="coeffASS" name="CodeCoeffAss" class="form-select">';
+                              <select id="coeffASS" name="CodeCoeffAss" class="form-select" required>';
                             if($type=='readonly'){
                               foreach($coefficientsAss as $c){ // pour chaque coefficients dans la BD 
                                 $CodeCoeff = $c->getCodeCoeffAss();
@@ -198,7 +203,7 @@ echo '<!--Titré création de fiche technique -->
                               </div>
                               <!-- Deuxième sous colonne -->
                               <div class="col-auto">
-                              <select id="coeffCoutPersonnel" name="CodeCoeffCoutPersonnel" class="form-select">';
+                              <select id="coeffCoutPersonnel" name="CodeCoeffCoutPersonnel" class="form-select" required>';
                               if($type=='readonly'){
                                 foreach($coefficientsCoutPersonnel as $c){ // pour chaque coefficients dans la BD 
                                   $CodeCoeff = $c->getCodeCoeffCoutPersonnel();
@@ -236,7 +241,7 @@ echo '<!--Titré création de fiche technique -->
                               <!-- Deuxième sous colonne -->
                               <div class="col-auto">';
                               if($type=='readonly'){
-                                echo '<input type="number" step="any" id="CoutFluide_id" name="CoutFluide" class="form-control" value="' . $CoutFluide . '">';   
+                                echo '<input type="number" step="any" id="CoutFluide_id" name="CoutFluide" class="form-control" value="' . $CoutFluide . '" required>';   
                               }
                               else{
                                 echo '<input type="number" step="any" id="CoutFluide_id" name="CoutFluide" class="form-control" placeholder="Ajoutez un coût fluide" required/>';
@@ -430,7 +435,7 @@ echo '<!--Titré création de fiche technique -->
                                       <td>' .$NomUnite. '</td>
                                       <!-- 4èmme colonne (Qté_Ing)-->
                                       <td>
-                                      <input type="number" step="any" class="form-control w-50" id="QteIng" value ="' .$Ing["QuantiteIngredient"]. '">
+                                      <input type="number" step="any" class="form-control w-50" id="QteIng" value ="' .$Ing["QuantiteIngredient"]. '" required>
                                       </td>
                                       <!-- 5ème colonne (PrixU)-->
                                       <td> ' .$Ing["prixUnitaireIng"]. ' </td>
@@ -464,31 +469,31 @@ echo '<!--Titré création de fiche technique -->
                     <tbody id="bodyPrix">
                         <tr>
                         <th scope="row">Total Denrées</th>
-                        <td></td>
+                        <td>0</td>
                         </tr>
                         <tr>
                         <th scope="row">ASS 5%</th>
-                        <td></td>
+                        <td>0</td>
                         </tr>
                         <tr>
                         <th scope="row">Cout Matières</th>
-                        <td></td>
+                        <td>0</td>
                         </tr>
                         <tr>
                         <th scope="row">Cout Personnel</th>
-                        <td></td>
+                        <td>0</td>
                         </tr>
                         <tr>
                         <th scope="row">Cout Fluide</th>
-                        <td></td>
+                        <td>0</td>
                         </tr>
                         <tr>
                         <th scope="row">Cout de production Total</th>
-                        <td></td>
+                        <td>0</td>
                         </tr>
                         <tr>
                         <th scope="row">Cout de production portion</th>
-                        <td></td>
+                        <td>0</td>
                         </tr>
                     </tbody>
                   </table> 
@@ -571,18 +576,22 @@ echo '<!--Titré création de fiche technique -->
             </div>
               <!-- validation -->
           <div class="mt-3 mb-5 " align=center>
-            <button class="btn btn-dark" type="button" onclick="submit()">
-              <i class="bi bi-folder-plus"></i>
               <input type=\'hidden\' name=\'controller\' value=\'ficheTechnique\'>';
               if($type=='readonly'){
-                echo '<input type=\'hidden\' name=\'action\' value=\'updated\'>';
-                echo '<input class="btn btn-dark" type="submit" value="Modifier la fiche technique" />';
+                echo '<button class="btn btn-dark" type="submit" onclick="submit()">
+                <input type=\'hidden\' name=\'action\' value=\'updated\'>
+                    <i class="bi bi-cloud-arrow-up"></i>
+                    Modifier la fiche 
+                    </button>';
               }
               else{
-                echo '<input type=\'hidden\' name=\'action\' value=\'created\'>';
-                echo '<input class="btn btn-dark" type="submit" value="Créer la fiche technique" />';
+                echo '<button class="btn btn-dark" type="submit" >
+                <input type=\'hidden\' name=\'action\' value=\'created\'>
+                  <i class="bi bi-cloud-arrow-up"></i>
+                  Créer la fiche
+                    </button>';
               }
-          echo '           
+          echo '         
           </div>
         </form>
       </div>';

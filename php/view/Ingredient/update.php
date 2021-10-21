@@ -16,7 +16,7 @@ if($type=='readonly'){
             </div>
             <!-- Formulaire pour lajout et/ou la modification dun ingrédient-->
             <div class="container-fluid mt-5 ps-4 pe-3 bg-light bg-gradient">
-            <form>
+            <form class ="was-validated">
                 <!--Liste dinput des caractéristiques de lingrédient-->
                 <div class="row row-cols-2 justify-content-around pt-4">
                     <!-- liste dinput présents sur la même colonne-->
@@ -270,10 +270,9 @@ if($type=='readonly'){
                 </div>
                 <!--Validation du formulmaire et donc de l\'ajout de l\'ingrédient-->
                 <div class="mt-3 mb-5 " align=center>
-                    <button class="btn btn-dark" type="button">
+                    <button class="btn btn-dark" type="submit">
                     <i class="bi bi-cloud-arrow-up-fill"></i>
                     <input type="hidden" name="controller" value="Ingredient">';
-                    
                     if($type=='readonly'){
                         echo '<input type="hidden" name="action" value="updated">';
                         echo '<input class="btn btn-dark" type="submit" value="Modifier l\'ingrédient" />';

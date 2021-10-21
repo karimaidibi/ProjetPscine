@@ -153,7 +153,7 @@ CREATE TABLE IF NOT EXISTS `fichetechnique` (
   `NbreCouverts` int(11) NOT NULL,
   `NomAuteur` varchar(60) NOT NULL,
   `CoutFluide` float NOT NULL,
-  `FK_NumeroCatFiche` int(11) NOT NULL,
+  `FK_NumeroCatFiche` int(11),
   `FK_CodeCoeffAss` int(11) NOT NULL,
   `FK_CodeCoeffCoutPersonnel` int(11) NOT NULL,
   PRIMARY KEY (`NumeroFiche`),

@@ -89,7 +89,7 @@ ini_set('display_errors', 'on');
         $TVA = ModelTVA::select($FK_CodeTVA)->getCoefTVA();
         $Allergene = ModelAllergene::select($FK_NumAllergene);
         if(empty($Allergene)){
-            $NomAllergene = "";
+            $NomAllergene = "pas d'allergène";
         } else {
             $NomAllergene = $Allergene->getNomAllergene();
         }
@@ -103,8 +103,13 @@ ini_set('display_errors', 'on');
       echo '<tr>
                 <td>' .$NomIng. '</td>
                 <td>' .$NomCategorie. '</td>
-                <td>' .$Unite. '</td>
-                <td >'.$NomAllergene.'</td>
+                <td>' .$Unite. '</td>';
+            if(empty($Allergene)){
+                echo '<td  class="text-muted"><em>'.$NomAllergene.'</em></td>';
+                }else{
+                    echo '<td >'.$NomAllergene.'</td>';
+                }
+            echo '
                 <td>' .$PrixUnitaire. '</td>
                 <td>' .$TVA*100 .'%</td>
                 <td>

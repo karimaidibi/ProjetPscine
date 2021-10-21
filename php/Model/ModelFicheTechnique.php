@@ -90,6 +90,7 @@ class ModelFicheTechnique extends Model{
         $this->FK_NumeroCatFiche = $FK_NumeroCatFiche;
         $this->FK_CodeCoeffAss = $FK_CodeCoeffAss;
         $this->FK_CodeCoeffCoutPersonnel = $FK_CodeCoeffCoutPersonnel;
+        $this->NumeroFiche = self::configNumeroFicheTechnique()+1;
         }
   	}
 
@@ -118,12 +119,10 @@ class ModelFicheTechnique extends Model{
 
     public function save() {
         try {
-            $sql = "INSERT INTO FicheTechnique (NumeroFiche ,NomFiche, NbreCouverts, NomAuteur, CoutFluide, FK_NumeroCatFiche, FK_CodeCoeffAss, FK_CodeCoeffCoutPersonnel) VALUES (:NumeroFiche, :NomFiche, :NbreCouverts, :NomAuteur, :CoutFluide, :FK_NumeroCatFiche, :FK_CodeCoeffAss, :FK_CodeCoeffCoutPersonnel)";
+            $sql = "INSERT INTO FicheTechnique (NomFiche, NbreCouverts, NomAuteur, CoutFluide, FK_NumeroCatFiche, FK_CodeCoeffAss, FK_CodeCoeffCoutPersonnel) VALUES (:NomFiche, :NbreCouverts, :NomAuteur, :CoutFluide, :FK_NumeroCatFiche, :FK_CodeCoeffAss, :FK_CodeCoeffCoutPersonnel)";
             // Préparation de la requête
             $req_prep = Model::$pdo->prepare($sql);
-            $NumeroFiche = self::configNumeroFicheTechnique() + 1;
             $values = array(
-                "NumeroFiche" => $NumeroFiche,
                 "NomFiche" => $this->NomFiche,
                 "NbreCouverts" => $this->NbreCouverts,
                 "NomAuteur" => $this->NomAuteur,
@@ -132,8 +131,7 @@ class ModelFicheTechnique extends Model{
                 "FK_CodeCoeffAss" => $this->FK_CodeCoeffAss,
                 "FK_CodeCoeffCoutPersonnel" => $this->FK_CodeCoeffCoutPersonnel
             );
-            self::setNumeroFiche($NumeroFiche);
-            // On donne les valeurs et on exécute la requête     
+            // On donne les valeurs et on exécute la requête 
             $req_prep->execute($values);
         } catch (PDOException $e) {
             if (Conf::getDebug()) {

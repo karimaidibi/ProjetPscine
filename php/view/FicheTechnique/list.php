@@ -2,6 +2,7 @@
 <?php
 //echo $_COOKIE['TabFiches'];
 //echo $_COOKIE['TabProgressions'];
+//echo $_COOKIE['TabIng'];
 echo '<div class=" container mt-5 bg-dark bg-gradient" align=center style="color:whitesmoke;">
         <p class="fs-5"> Chercher par catégorie, par fiche ou par auteur ! </p>
       </div>
@@ -88,7 +89,12 @@ foreach ($tab_u as $u)
     $NumCategorieFiche = $u->getFK_NumeroCatFiche();
 
     $categorieFiche = ModelCategorie_Fiche::select($NumCategorieFiche);
-    $NomCategorieFiche =  $categorieFiche -> getNomCatFiche(); //une ligne = objet
+    if(!empty($categorieFiche)){
+        $NomCategorieFiche =  $categorieFiche -> getNomCatFiche(); //une ligne = objet
+    }else{
+        $NomCategorieFiche = "pas de catégorie";
+    }
+
 
   
         echo '<tr>
@@ -117,9 +123,9 @@ foreach ($tab_u as $u)
                 </td>
             </tr>';
 }
-    echo "</tbody>
+    echo '</tbody>
         </table>
-        </div>";
+        </div>';
 ?>
 
 <script src="../../../javascript/AffichageFiches.js"></script>
