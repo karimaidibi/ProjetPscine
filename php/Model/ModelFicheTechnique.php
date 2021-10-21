@@ -1,4 +1,6 @@
 <?php
+ini_set('display_errors', 'on'); 
+require_once "lib/File.php";
 require_once File::build_path(array("model", "Model.php"));
 class ModelFicheTechnique extends Model{
 
@@ -11,6 +13,8 @@ class ModelFicheTechnique extends Model{
     private $NomAuteur;
     private $CoutFluide;
     private $FK_NumeroCatFiche;
+    private $FK_CodeCoeffAss;
+    private $FK_CodeCoeffCoutPersonnel;
 
 	public function getNumeroFiche(){
 		return $this->NumeroFiche;
@@ -34,6 +38,14 @@ class ModelFicheTechnique extends Model{
 
     public function getFK_NumeroCatFiche(){
         return $this->FK_NumeroCatFiche;
+    }
+
+    public function getFK_CodeCoeffAss(){
+        return $this->FK_CodeCoeffAss;
+    }
+
+    public function getFK_CodeCoeffCoutPersonnel(){
+        return $this->FK_CodeCoeffCoutPersonnel;
     }
 
 	public function setNumeroFiche($NumeroFiche2){
@@ -60,13 +72,25 @@ class ModelFicheTechnique extends Model{
         $this->$FK_NumeroCatFiche = $NumeroCatFiche2;
     }
 
-	public function __construct($NomFiche = NULL, $NbreCouverts = NULL, $NomAuteur = NULL, $CoutFluide = NULL, $FK_NumeroCatFiche = NULL) {
+    public function setFK_CodeCoeffAss($CodeCoeffAss2){
+        $this->$FK_CodeCoeffAss = $CodeCoeffAss2;
+    }
+
+    public function setFK_CodeCoeffCoutPersonnel($CodeCoeffCoutPersonnel2){
+        $this->$FK_CodeCoeffCoutPersonnel = $CodeCoeffCoutPersonnel2;
+    }
+
+
+	public function __construct($NomFiche = NULL, $NbreCouverts = NULL, $NomAuteur = NULL, $CoutFluide = NULL, $FK_NumeroCatFiche = NULL, $FK_CodeCoeffAss = NULL, $FK_CodeCoeffCoutPersonnel = NULL) {
   	if (!is_null($NomFiche)) {
         $this->NomFiche = $NomFiche;
         $this->NbreCouverts = $NbreCouverts;
         $this->NomAuteur = $NomAuteur;
         $this->CoutFluide = $CoutFluide;
         $this->FK_NumeroCatFiche = $FK_NumeroCatFiche;
+        $this->FK_CodeCoeffAss = $FK_CodeCoeffAss;
+        $this->FK_CodeCoeffCoutPersonnel = $FK_CodeCoeffCoutPersonnel;
+        $this->NumeroFiche = self::configNumeroFicheTechnique()+1;
         }
   	}
 
@@ -95,18 +119,19 @@ class ModelFicheTechnique extends Model{
 
     public function save() {
         try {
-            $sql = "INSERT INTO FicheTechnique (NomFiche, NbreCouverts, NomAuteur, CoutFluide, FK_NumeroCatFiche) VALUES (:NomFiche, :NbreCouverts, :NomAuteur, :CoutFluide, :FK_NumeroCatFiche)";
+            $sql = "INSERT INTO FicheTechnique (NomFiche, NbreCouverts, NomAuteur, CoutFluide, FK_NumeroCatFiche, FK_CodeCoeffAss, FK_CodeCoeffCoutPersonnel) VALUES (:NomFiche, :NbreCouverts, :NomAuteur, :CoutFluide, :FK_NumeroCatFiche, :FK_CodeCoeffAss, :FK_CodeCoeffCoutPersonnel)";
             // Préparation de la requête
             $req_prep = Model::$pdo->prepare($sql);
-
             $values = array(
                 "NomFiche" => $this->NomFiche,
                 "NbreCouverts" => $this->NbreCouverts,
                 "NomAuteur" => $this->NomAuteur,
                 "CoutFluide" => $this->CoutFluide,
                 "FK_NumeroCatFiche" => $this->FK_NumeroCatFiche,
+                "FK_CodeCoeffAss" => $this->FK_CodeCoeffAss,
+                "FK_CodeCoeffCoutPersonnel" => $this->FK_CodeCoeffCoutPersonnel
             );
-            // On donne les valeurs et on exécute la requête     
+            // On donne les valeurs et on exécute la requête 
             $req_prep->execute($values);
         } catch (PDOException $e) {
             if (Conf::getDebug()) {
@@ -117,5 +142,63 @@ class ModelFicheTechnique extends Model{
             die();
         }
     }
+
+    /*Requette pour recuperer toutes les progressions appartenant à une fiche donnée
+        - cette requette n'est pas generique à toute les tables, de ce fait j'ai choisit de la mettre ici */
+    public static function selectProgressionsOf($NumeroFiche){
+        try{
+            //select DescriptionEtape from contenir join Etape on FK_NumEtape = NumEtape where NumeroFiche = $NumeroFiche
+            $sql = "SELECT * FROM etape e JOIN contenir c ON e.NumEtape = c.FK_NumEtape WHERE c.FK_NumeroFiche = $NumeroFiche ORDER BY ordre ASC";
+            $req_prep = Model::$pdo->prepare($sql);
+            $req_prep->execute();
+        } catch (PDOException $e){
+            if (Conf::getDebug()) {
+                echo $e->getMessage(); // affiche un message d'erreur
+            } else {
+                echo 'Une erreur est survenue <a href=""> retour a la page d\'accueil </a>';
+            }
+            die();
+        }
+	    return $req_prep->fetchAll();
+    }
+
+    /*Requette pour recuperer touts les ingredients appartenant à une fiche donnée
+        - cette requette n'est pas generique à toute les tables, de ce fait j'ai choisit de la mettre ici */
+        public static function selectIngredientsOf($NumeroFiche){
+            try{
+                // select touts les coefficients dans la table coefficients ayant comme code un code utilisé par une fiche technique précise
+                $sql = "SELECT * FROM ingredient i JOIN composer c ON i.NumIngredient = c.FK_NumIngredient WHERE c.FK_NumeroFiche = $NumeroFiche";
+                $req_prep = Model::$pdo->prepare($sql);
+                $req_prep->execute();
+            } catch (PDOException $e){
+                if (Conf::getDebug()) {
+                    echo $e->getMessage(); // affiche un message d'erreur
+                } else {
+                    echo 'Une erreur est survenue <a href=""> retour a la page d\'accueil </a>';
+                }
+                die();
+            }
+            return $req_prep->fetchAll();
+        }
+
+    /*Requette pour recuperer toutes les fiches appartenante à une fiche donnée
+        - cette requette n'est pas generique à toute les tables, de ce fait j'ai choisit de la mettre ici */
+        public static function selectSousFichesOf($NumeroFiche){
+            try{
+
+                $sql = "SELECT * FROM inclure i JOIN fichetechnique f ON i.FK_NumeroSousFiche = f.NumeroFiche WHERE i.FK_NumeroFiche = $NumeroFiche ORDER BY ordre ASC";
+                $req_prep = Model::$pdo->prepare($sql);
+                $req_prep->execute();
+            } catch (PDOException $e){
+                if (Conf::getDebug()) {
+                    echo $e->getMessage(); // affiche un message d'erreur
+                } else {
+                    echo 'Une erreur est survenue <a href=""> retour a la page d\'accueil </a>';
+                }
+                die();
+            }
+            return $req_prep->fetchAll();
+        }
+
 }
 ?>

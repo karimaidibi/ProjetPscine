@@ -25,10 +25,9 @@ class ModelCategorie_Fiche extends Model{
 		$this->NomCatFiche = $NomCatFiche2;
 	}
 
-	public function __construct($nom = NULL, $NumeroCatFiche = NULL) {
+	public function __construct($nom = NULL) {
   	if (!is_null($nom)) {
 	    $this->NomCatFiche = $nom;
-        $this->NumeroCatFiche = $NumeroCatFiche;
     	}
   	}
 

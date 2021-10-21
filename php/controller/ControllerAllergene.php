@@ -12,8 +12,8 @@ class ControllerAllergene{
     }
 
     public static function read(){
-    	if(!is_null(myGet('idA'))){
-	    	$idA = myGet('idA');
+    	if(!is_null(myGet('NumAllergene'))){
+	    	$NumAllergene = myGet('NumAllergene');
 	    	$u = ModelAllergene::select($idAllergene);
 	    	if($u==false){
         		$view='error';
@@ -22,7 +22,7 @@ class ControllerAllergene{
 	    	}
 	    	else{
         		$view='detail';
-        		$pagetitle='Catégorie ' . $idA;
+        		$pagetitle='Catégorie ' . $NumAllergene;
 	    		require_once File::build_path(array("view", "view.php"));
 	    	}
     	}
@@ -34,13 +34,13 @@ class ControllerAllergene{
 	}
 
 	public static function delete(){
-		if(!is_null(myGet('idA'))){
+		if(!is_null(myGet('NumAllergene'))){
         	$view='error';
         	$pagetitle='Page 404';
 	    	require_once File::build_path(array("view", "view.php"));
 		}
 		else{
-			$idA = myGet('idA');
+			$NumAllergene = myGet('NumAllergene');
 			ModelAllergene::delete($idAllergene);
 			$tab_u = ModelAllergene::selectAll();
 	        $view='deleted';
@@ -52,7 +52,7 @@ class ControllerAllergene{
 	public static function create($nomA){
         $v1 = new ModelAllergene($nomA);
 		$v1->save();
-		return $v1->getIdAllergene();
+		return $v1->getNumAllergene();
 	}
 }
 ?>

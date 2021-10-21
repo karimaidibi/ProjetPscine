@@ -12,9 +12,9 @@ class ControllerUnite{
     }
 
     public static function read(){
-    	if(!is_null(myGet('idU'))){
-	    	$idU = myGet('idU');
-	    	$u = ModelUnite::select($idUnite);
+    	if(!is_null(myGet('NumUnite'))){
+	    	$NumUnite = myGet('NumUnite');
+	    	$u = ModelUnite::select($NumUnite);
 	    	if($u==false){
         		$view='error';
         		$pagetitle='Page 404';
@@ -22,7 +22,7 @@ class ControllerUnite{
 	    	}
 	    	else{
         		$view='detail';
-        		$pagetitle='Catégorie ' . $idU;
+        		$pagetitle='Catégorie ' . $NumUnite;
 	    		require_once File::build_path(array("view", "view.php"));
 	    	}
     	}
@@ -34,14 +34,14 @@ class ControllerUnite{
 	}
 
 	public static function delete(){
-		if(!is_null(myGet('idU'))){
+		if(!is_null(myGet('NumUnite'))){
         	$view='error';
         	$pagetitle='Page 404';
 	    	require_once File::build_path(array("view", "view.php"));
 		}
 		else{
-			$idU = myGet('idU');
-			ModelUnite::delete($idUnite);
+			$NumUnite = myGet('NumUnite');
+			ModelUnite::delete($NumUnite);
 			$tab_u = ModelUnite::selectAll();
 	        $view='deleted';
 	        $pagetitle='Catégorie supprimé';

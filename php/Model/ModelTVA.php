@@ -33,10 +33,9 @@ class ModelTVA extends Model{
         $this->CoefTVA = $CoefTVA2;
     }
 
-	public function __construct($nom = NULL, $CodeTVA = NULL, $coef = NULL) {
+	public function __construct($nom = NULL, $coef = NULL) {
   	if (!is_null($nom)) {
 	    $this->NomTVA = $nom;
-        $this->CodeTVA = $CodeTVA;
         $this->CoefTVA = $coef;
     	}
   	}
@@ -66,7 +65,7 @@ class ModelTVA extends Model{
 
     public function save() {
         try {
-            $sql = "INSERT INTO TVA VALUES (:NomTVA, :CodeTVA, :CoefTVA)";
+            $sql = "INSERT INTO TVA VALUES (:CodeTVA, :NomTVA, :CoefTVA)";
             // Préparation de la requête
             $req_prep = Model::$pdo->prepare($sql);
 

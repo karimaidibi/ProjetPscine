@@ -2,7 +2,7 @@
 -- version 5.0.2
 -- https://www.phpmyadmin.net/
 --
--- Hôte : 127.0.0.1:3306
+-- HÃ´te : 127.0.0.1:3306
 -- Genere le : mer. 06 oct. 2021 a 12:16
 -- Version du serveur :  5.7.31
 -- Version de PHP : 7.3.21
@@ -64,15 +64,27 @@ CREATE TABLE IF NOT EXISTS `categorie_ingredient` (
 -- --------------------------------------------------------
 
 --
--- Structure de la table `coefficient`
+-- Structure de la table `coefficientAss`
 --
 
-DROP TABLE IF EXISTS `coefficient`;
-CREATE TABLE IF NOT EXISTS `coefficient` (
-  `CodeCoeff` int(11) NOT NULL AUTO_INCREMENT,
-  `valeurCoefficient` float NOT NULL,
-  PRIMARY KEY (`CodeCoeff`)
+DROP TABLE IF EXISTS `coeffAss`;
+CREATE TABLE IF NOT EXISTS `coeffAss` (
+  `CodeCoeffAss` int(11) NOT NULL AUTO_INCREMENT,
+  `valeurCoeffAss` float NOT NULL,
+  PRIMARY KEY (`CodeCoeffAss`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+--
+-- Structure de la table `coefficientCoutFluide`
+--
+
+DROP TABLE IF EXISTS `coeffCoutPersonnel`;
+CREATE TABLE IF NOT EXISTS `coeffCoutPersonnel` (
+  `CodeCoeffCoutPersonnel` int(11) NOT NULL AUTO_INCREMENT,
+  `valeurCoeffCoutPersonnel` float NOT NULL,
+  PRIMARY KEY (`CodeCoeffCoutPersonnel`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
 
 -- --------------------------------------------------------
 
@@ -141,14 +153,20 @@ CREATE TABLE IF NOT EXISTS `fichetechnique` (
   `NbreCouverts` int(11) NOT NULL,
   `NomAuteur` varchar(60) NOT NULL,
   `CoutFluide` float NOT NULL,
-  `FK_NumeroCatFiche` int(11) NOT NULL,
+  `FK_NumeroCatFiche` int(11),
+  `FK_CodeCoeffAss` int(11) NOT NULL,
+  `FK_CodeCoeffCoutPersonnel` int(11) NOT NULL,
   PRIMARY KEY (`NumeroFiche`),
-  key `FK_fichetechnique_FK_NumeroCatFiche` (`FK_NumeroCatFiche`)
+  key `FK_fichetechnique_FK_NumeroCatFiche` (`FK_NumeroCatFiche`),
+  key `FK_fichetechnique_FK_CodeCoeffAss` (`FK_CodeCoeffAss`),
+  key `FK_fichetechnique_FK_CodeCoeffCoutPersonnel` (`FK_CodeCoeffCoutPersonnel`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 -- definir les FK pour la table fichetechnique 
 ALTER TABLE `fichetechnique`
-  ADD CONSTRAINT `FK_fichetechnique_FK_NumeroCatFiche` FOREIGN KEY (`FK_NumeroCatFiche`) REFERENCES `categorie_fiche` (`NumeroCatFiche`);
+  ADD CONSTRAINT `FK_fichetechnique_FK_NumeroCatFiche` FOREIGN KEY (`FK_NumeroCatFiche`) REFERENCES `categorie_fiche` (`NumeroCatFiche`),
+  ADD CONSTRAINT `FK_fichetechnique_FK_CodeCoeffAss` FOREIGN KEY (`FK_CodeCoeffAss`) REFERENCES `coeffAss` (`CodeCoeffAss`),
+  ADD CONSTRAINT `FK_fichetechnique_FK_CodeCoeffCoutPersonnel` FOREIGN KEY (`FK_CodeCoeffCoutPersonnel`) REFERENCES `coeffCoutPersonnel` (`CodeCoeffCoutPersonnel`);
 -- --------------------------------------------------------
 
 --
@@ -159,7 +177,7 @@ DROP TABLE IF EXISTS `inclure`;
 CREATE TABLE IF NOT EXISTS `inclure` (
   `FK_NumeroFiche` int(11) NOT NULL,
   `FK_NumeroSousFiche` int(11) NOT NULL,
-  `ordre` int(11) NOT NULL AUTO_INCREMENT,
+  `ordre` int(11) NOT NULL,
   PRIMARY KEY (`FK_NumeroFiche`,`FK_NumeroSousFiche`,`ordre`),
   key `FK_inclure_FK_NumeroFiche` (`FK_NumeroFiche`),
   key `FK_inclure_FK_NumeroSousFiche` (`FK_NumeroSousFiche`)
@@ -182,9 +200,9 @@ CREATE TABLE IF NOT EXISTS `ingredient` (
   `prixUnitaireIng` float NOT NULL,
   `QteStockIngredient` float NOT NULL,
   `FK_NumUnite` int(11) NOT NULL,
-  `FK_NumAllergene` int(11) NOT NULL,
+  `FK_NumAllergene` int(11),
   `FK_CodeTVA` int(11) NOT NULL,
-  `FK_NumCategorie` int(11) NOT NULL,
+  `FK_NumCategorie` int(11),
   PRIMARY KEY (`NumIngredient`),
   key `FK_ingredient_FK_NumUnite` (`FK_NumUnite`),
   key `FK_ingredient_FK_NumAllergene` (`FK_NumAllergene`),
@@ -227,24 +245,6 @@ CREATE TABLE IF NOT EXISTS `unite` (
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
-
---
--- Structure de la table `utiliser`
---
-
-DROP TABLE IF EXISTS `utiliser`;
-CREATE TABLE IF NOT EXISTS `utiliser` (
-  `FK_CodeCoeff` int(11) NOT NULL,
-  `FK_NumeroFiche` int(11) NOT NULL,
-  PRIMARY KEY (`FK_CodeCoeff`,`FK_NumeroFiche`),
-  key `FK_utiliser_FK_CodeCoeff` (`FK_CodeCoeff`),
-  key `FK_utiliser_FK_NumeroFiche` (`FK_NumeroFiche`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
-
--- les FK pour la table utiliser
-ALTER TABLE `utiliser`
-  ADD CONSTRAINT `FK_utiliser_FK_CodeCoeff` FOREIGN KEY (`FK_CodeCoeff`) REFERENCES `coefficient` (`CodeCoeff`),
-  ADD CONSTRAINT `FK_utiliser_FK_NumeroFiche` FOREIGN KEY (`FK_NumeroFiche`) REFERENCES `fichetechnique` (`NumeroFiche`);
 
 COMMIT;
 

@@ -49,8 +49,8 @@ class ControllerTVA{
 		}
 	}
 
-	public static function create($nomTVA, $coefTVA){
-        $v1 = new ModelTVA($nomTVA, $coefTVA);
+	public static function create($NomTVA, $CoefTVA){
+        $v1 = new ModelTVA($NomTVA, $CoefTVA);
 		$v1->save();
 		return $v1->getIdTVA();
 	}

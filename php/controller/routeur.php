@@ -5,13 +5,14 @@
 	require_once File::build_path(array("lib","File.php"));	
 	require_once File::build_path(array("controller","ControllerFicheTechnique.php"));
 	require_once File::build_path(array("controller","ControllerIngredient.php"));	
+	require_once File::build_path(array("controller","ControllerAcceuil.php"));	
 
 	/*SI ON NE TROUVE PAS CONTROLLR SPECIFIQUE =>
 		- on affiche la page d'acceuil
 		- sinon on récupère le controller trouvé (demandé par l'utilisateur)*/
 
 	if(!isset($_GET['controller'])){
-		$controller = "FicheTechnique";
+		$controller = "Acceuil";
 	}
 	else{
 		$controller = $_GET['controller'];
@@ -24,7 +25,7 @@
 	else
 	{
 		if(!isset($_GET['action'])){
-			ControllerFicheTechnique::readAll();
+			ControllerAcceuil::readAll();
 		}
 		else{
 			$action = $_GET['action'];

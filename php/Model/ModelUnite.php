@@ -24,10 +24,9 @@ class ModelUnite extends Model{
 		$this->NomUnite = $NomUnite2;
 	}
 
-	public function __construct($nom = NULL, $NumUnite = NULL) {
+	public function __construct($nom = NULL) {
   	if (!is_null($nom)) {
 	    $this->NomUnite = $nom;
-        $this->NumUnite = $NumUnite;
     	}
   	}
 
@@ -56,7 +55,7 @@ class ModelUnite extends Model{
 
     public function save() {
         try {
-            $sql = "INSERT INTO Unite VALUES (:NomUnite, :NumUnite)";
+            $sql = "INSERT INTO Unite VALUES (:NumUnite, :NomUnite)";
             // Préparation de la requête
             $req_prep = Model::$pdo->prepare($sql);
 
@@ -64,6 +63,7 @@ class ModelUnite extends Model{
                 "NumUnite" => self::configNumUnite()+1,
                 "NomUnite" => $this->NomUnite,
             );
+            self::setNumUnite(self::configNumUnite() + 1);
             // On donne les valeurs et on exécute la requête     
             $req_prep->execute($values);
             // echo $sql;

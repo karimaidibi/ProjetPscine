@@ -1,6 +1,6 @@
 <?php
 require_once File::build_path(array("model", "ModelCategorie.php"));
-class ControllerCategorie{
+class ControllerCategorie_Ingredient{
 
 	protected static $object='categorie';
 
@@ -12,8 +12,8 @@ class ControllerCategorie{
     }
 
     public static function read(){
-    	if(!is_null(myGet('idC'))){
-	    	$idC = myGet('idC');
+    	if(!is_null(myGet('NumCategorie'))){
+	    	$NumCategorie = myGet('NumCategorie');
 	    	$u = ModelCategorie::select($idCategorie);
 	    	if($u==false){
         		$view='error';
@@ -22,7 +22,7 @@ class ControllerCategorie{
 	    	}
 	    	else{
         		$view='detail';
-        		$pagetitle='Catégorie ' . $idC;
+        		$pagetitle='Catégorie ' . $NumCategorie;
 	    		require_once File::build_path(array("view", "view.php"));
 	    	}
     	}
@@ -34,13 +34,13 @@ class ControllerCategorie{
 	}
 
 	public static function delete(){
-		if(!is_null(myGet('idC'))){
+		if(!is_null(myGet('NumCategorie'))){
         	$view='error';
         	$pagetitle='Page 404';
 	    	require_once File::build_path(array("view", "view.php"));
 		}
 		else{
-			$idC = myGet('idC');
+			$NumCategorie = myGet('NumCategorie');
 			ModelCategorie::delete($idCategorie);
 			$tab_u = ModelCategorie::selectAll();
 	        $view='deleted';
@@ -50,9 +50,9 @@ class ControllerCategorie{
 	}
 
 	public static function create($nomC){
-        $v1 = new ModelCategorie($nomC);
+        $v1 = new ModelCategorie_Ingredient($nomC);
 		$v1->save();
-		return $v1->getIdCategorie();
+		return $v1->getNumCategorie();
 	}
 }
 ?>

@@ -30,6 +30,7 @@ class Model{
 	    return $rep->fetchAll();
   	}
 
+	//pour réuperer les ingredients d'une fiche spécifique par exemple 
   	public static function select2($primary_value) {
   		$table_name = static::$object;
   		$class_name = 'Model' . ucfirst($table_name);

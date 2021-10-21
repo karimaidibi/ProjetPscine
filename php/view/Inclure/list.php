@@ -1,8 +1,5 @@
 
 <?php
-//echo $_COOKIE['TabFiches'];
-//echo $_COOKIE['TabProgressions'];
-//echo $_COOKIE['TabIng'];
 echo '<div class=" container mt-5 bg-dark bg-gradient" align=center style="color:whitesmoke;">
         <p class="fs-5"> Chercher par catégorie, par fiche ou par auteur ! </p>
       </div>
@@ -22,7 +19,7 @@ echo '<div class=" container mt-5 bg-dark bg-gradient" align=center style="color
                     </div>
                     <div class="flex-fill ms-3 ">
                         <div class="input-group">
-                            <select class="form-select btn btn-dark" type="button" id="chercherpar" >
+                            <select class="form-select btn btn-danger" type="button" id="chercherpar" >
                                 <option selected > Chercher par : </option>
                                 <option>Nom fiche</option>
                                 <option>Auteur</option>
@@ -89,12 +86,7 @@ foreach ($tab_u as $u)
     $NumCategorieFiche = $u->getFK_NumeroCatFiche();
 
     $categorieFiche = ModelCategorie_Fiche::select($NumCategorieFiche);
-    if(!empty($categorieFiche)){
-        $NomCategorieFiche =  $categorieFiche -> getNomCatFiche(); //une ligne = objet
-    }else{
-        $NomCategorieFiche = "pas de catégorie";
-    }
-
+    $NomCategorieFiche =  $categorieFiche -> getNomCatFiche(); //une ligne = objet
 
   
         echo '<tr>
@@ -123,9 +115,9 @@ foreach ($tab_u as $u)
                 </td>
             </tr>';
 }
-    echo '</tbody>
+    echo "</tbody>
         </table>
-        </div>';
+        </div>";
 ?>
 
 <script src="../../../javascript/AffichageFiches.js"></script>

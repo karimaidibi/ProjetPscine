@@ -1,6 +1,6 @@
 <?php
 require_once File::build_path(array("model", "ModelUtiliser.php"));
-class ControllerComposer{
+class ControllerUtiliser{
 
 	protected static $object='Utiliser';
 
@@ -12,9 +12,10 @@ class ControllerComposer{
     }
 
     public static function read(){
-    	if(!is_null(myGet('NumeroFiche'))){
-	    	$NumeroFiche = myGet('NumeroFiche');
-	    	$u = ModelUtiliser::select($NumeroFiche);
+    	if(!is_null(myGet('FK_NumeroFiche')) && !is_null(myGet('FK_CodeCoeff'))){
+	    	$FK_NumeroFiche = myGet('FK_NumeroFiche');
+			$FK_CodeCoeff = myGet('FK_CodeCoeff');
+	    	$u = ModelUtiliser::selectV2($FK_CodeCoeff,$FK_NumeroFiche);
 	    	if($u==false){
         		$view='error';
         		$pagetitle='Page 404';
@@ -22,7 +23,7 @@ class ControllerComposer{
 	    	}
 	    	else{
         		$view='detail';
-        		$pagetitle='Utiliser ' . $NumeroFiche;
+        		$pagetitle='Utiliser ' . $FK_NumeroFiche;
 	    		require_once File::build_path(array("view", "view.php"));
 	    	}
     	}
@@ -34,14 +35,15 @@ class ControllerComposer{
 	}
 
 	public static function delete(){
-		if(!is_null(myGet('NumeroFiche'))){
+		if(!is_null(myGet('FK_NumeroFiche')) && !is_null(myGet('FK_CodeCoeff'))){
         	$view='error';
         	$pagetitle='Page 404';
 	    	require_once File::build_path(array("view", "view.php"));
 		}
 		else{
-			$NumeroFiche = myGet('NumeroFiche');
-			ModelUtiliser::delete($NumeroFiche);
+			$FK_NumeroFiche = myGet('FK_NumeroFiche');
+			$FK_CodeCoeff = myGet('FK_CodeCoeff');
+			ModelUtiliser::deleteV2($FK_CodeCoeff  ,$FK_NumeroFiche);
 			$tab_u = ModelUtiliser::selectAll();
 	        $view='deleted';
 	        $pagetitle='les coeeficients de cette fiche sont supprimés';
@@ -49,8 +51,8 @@ class ControllerComposer{
 		}
 	}
 
-	public static function create($CodeCoeff,$NumeroFiche){
-        $v1 = new ModelUtiliser($CodeCoeff,$NumeroFiche);
+	public static function create($FK_CodeCoeff,$FK_NumeroFiche){
+        $v1 = new ModelUtiliser($FK_CodeCoeff,$FK_NumeroFiche);
 		$v1->save();
 		return $v1->getNumeroFiche();
 	}
