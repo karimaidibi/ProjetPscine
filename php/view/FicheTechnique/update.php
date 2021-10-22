@@ -332,6 +332,17 @@ echo '
                     <div class="flex-shrink-0 mt-1">
                             <i class="bi bi-search"></i>
                     </div>
+                    <datalist id="compositions" >';
+                    foreach($compositions as $c){
+                      $FK_NumeroFiche = $c->getFK_NumeroFiche();
+                      $FK_NumIngredient = $c->getFK_NumIngredient();
+                      $QuantiteIngredient = $c->getQuantiteIngredient();
+
+                      echo '<input type="hidden" value ="'.$FK_NumeroFiche.'" class="FK_NumeroFiche">
+                          <input type="hidden" value ="'.$FK_NumIngredient.'" class="FK_NumeroIngredient">
+                          <input type="hidden" value ="'.$QuantiteIngredient.'" class="QuantiteIngredient">';
+                      }
+                      echo  '</datalist>
                     <!-- La barre de recherche -->
                     <div class="flex-grow-1 ms-3 ">
                       <!-- Input group qui rassemble le bouton d\'ajout a la barre de recherche -->
@@ -360,11 +371,20 @@ echo '
                           }
                           //$TVA = ModelTVA::select($FK_CodeTVA)->getCoefTVA();
                           //$Categorie = ModelCategorie_Ingredient::select($FK_NumCategorie)->getNomCategorie();
+                          //<option value="'.$NomIng.'" class="nomIngredient">
                           echo '<option value="'.$NomIng.'" class="nomIngredient">
                                 <input type="hidden" value ="'.$NumIngredient.'" class="NumIngredient">
                                 <input type="hidden" value ="'.$PrixUnitaire.'" class="PrixUnitaire">
                                 <input type="hidden" value ="'.$Unite.'" class="Unite">
-                                <input type="hidden" value ="'.$NomAllergene.'" class="Allergene">';
+                                <input type="hidden" value ="'.$NomAllergene.'" class="Allergene">
+                                <datalist id=associerIngredient>
+                                    <input type="hidden" value ="'.$NomAllergene.'" class="NomAllergene2">
+                                    <input type="hidden" value ="'.$Ing["NomIng"].'" class="NomIngredient2">
+                                    <input type="hidden" value ="'.$NomUnite.'" class="Unite2">
+                                    <input type="hidden" value ="'.$Ing["QuantiteIngredient"].'" class="QuantiteIngredient2">
+                                    <input type="hidden" value ="'.$Ing["prixUnitaireIng"].'" class="PrixUnitaire2">
+                                  </datalist>';
+
                         }
                   echo' </datalist>
                       </div> 
@@ -447,7 +467,8 @@ echo '
                                       <i class="bi bi-trash" style="font-size: 1rem;" ></i>
                                       </button>
                                       </td>
-                                  </tr>';
+                                  </tr>
+                                  ';
                       }
                     }
                     echo '

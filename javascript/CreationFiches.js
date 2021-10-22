@@ -7,6 +7,7 @@ TabFiches = new Array(); // variable globale qui contient les sous fiches
 var ordreFiche = 0;
 
 TabProgressions = new Array();
+document.cookie = 'TabProgressions=' + JSON.stringify(TabProgressions) + '; path=/'; // cookie
 ordreProgressions = 0;
 /*-----------*/ 
 
@@ -232,18 +233,24 @@ document.addEventListener("click",function(){
     var fichetrouver = false;
     var NomChoisi = document.getElementById('inputFiches').value; // le nom que le client met dans la barre de recherche
     while(i<options.length && !fichetrouver){
-    if(options[i].value === NomChoisi){ // si le nom se trouve dans la liste
-        fichetrouver = true;
-        ordreFiche = ordreFiche +  1 ; // on incremente lordre des fiches
-        var codeFiche = optionsNum[i].value; // le code de la fiche
-        var CouvFiche = optionsCouv[i].value; // le code de la fiche
-        var AuteurFiche = optionsAuteur[i].value; // le code de la fiche
-        //var FluideFiche = optionsFluide[i].value; // le code de la fiche
-        var CategorieFiche = optionsCat[i].value; // le code de la fiche
+      if(options[i].value === NomChoisi){ // si le nom se trouve dans la liste
+          fichetrouver = true;
+          ordreFiche = ordreFiche +  1 ; // on incremente lordre des fiches
+          var codeFiche = optionsNum[i].value; // le code de la fiche
+          var CouvFiche = optionsCouv[i].value; // le code de la fiche
+          var AuteurFiche = optionsAuteur[i].value; // le code de la fiche
+          //var FluideFiche = optionsFluide[i].value; // le code de la fiche
+          var CategorieFiche = optionsCat[i].value; // le code de la fiche
+      }
+      i = i + 1;
     }
-    i = i + 1;
+    dejaPresent = false;
+    for(var i=0; i<TabFiches.length; i++){
+      if(TabFiches[i]==codeFiche){
+        dejaPresent=true;
+      }
     }
-    if(fichetrouver == true){
+    if(fichetrouver == true && !dejaPresent){
     var table = document.getElementById("bodyFiche");
     var row = table.insertRow(table.length);
     var cell1 = row.insertCell(0);
@@ -261,6 +268,7 @@ document.addEventListener("click",function(){
     cell6.id = codeFiche; // on attribut le code de la fiche qui vient detre rajouté dans le front comme id à la case qui contient le bouton supprimer 
     console.log("id sous fiche créée : " + cell6.id);
     TabFiches.push(codeFiche); // on rajoute le Code de la fiche rajouté par lutilisateur dans le tableau TabFiches
+    associerIngredient(TabFiches);
     console.log("TabFiche après ajouté : " + TabFiches);
     
     //document.cookie = "TabFiches=; expires=Thu, 01 Jan 1970 00:00:00 GMT; SameSite=None; Secure";
@@ -273,6 +281,101 @@ document.addEventListener("click",function(){
     alert('fiche non trouvé, veuillez réessayer'); 
     }
 }
+
+  var tabingredientsPushed = [];
+
+  function associerIngredient(TabFiches){
+    options = document.querySelectorAll('#listeDesIngredients .nomIngredient') //les noms des ingredients dans la BD
+    console.log(options);
+    optionsNum = document.querySelectorAll('#listeDesIngredients .NumIngredient')  // les num des ingredients dans ma BD
+    optionsPrixU = document.querySelectorAll('#listeDesIngredients .PrixUnitaire') //les prixU des ing dans la BD
+    optionsUnite = document.querySelectorAll('#listeDesIngredients .Unite') // les Unite des ing dans la BD
+    optionsAllergene = document.querySelectorAll('#listeDesIngredients .Allergene') //les allergene des ingredients dans la BD
+    FK_NumeroFiche = document.querySelectorAll('#compositions .FK_NumeroFiche');
+    FK_NumeroIngredient = document.querySelectorAll('#compositions .FK_NumeroIngredient');
+    QuantiteIngredient = document.querySelectorAll('#compositions .QuantiteIngredient');
+    var table = document.getElementById("bodyIngredients");
+    if(TabFiches.length>tabingredientsPushed.length){
+      if(tabingredientsPushed.length==0){
+        indexFiche = 0;
+      }
+      else{
+        indexFiche = TabFiches.length - tabingredientsPushed.length;
+      }
+      for(var i=0; i<FK_NumeroFiche.length; i++){
+        //console.log(FK_NumeroFiche[i].value);
+        //console.log(TabFiches[indexFiche]);
+        if(FK_NumeroFiche[i].value==TabFiches[indexFiche]){
+          console.log(FK_NumeroFiche[i].value);
+          console.log(FK_NumeroIngredient[i].value);
+          console.log(TabFiches[indexFiche]);
+          for(var y=0; y<optionsNum.length; y++){
+            console.log(optionsNum.length);
+            console.log(y);
+            console.log('y');
+            if(optionsNum[y].value==FK_NumeroIngredient[i].value){
+              console.log('hfdiiiiiiiiiiii');
+              console.log(optionsNum[y].value);
+              CodeIngredient = FK_NumeroIngredient[i].value;
+              nomIngredient = options[y].value;
+              PrixUnitaire = optionsPrixU[y].value; // on recupere son PrixU
+              Unite = optionsUnite[y].value;
+              Allergene = optionsAllergene[y].value;
+              Quantite = QuantiteIngredient[i].value;
+              console.log(ingredientInTable(CodeIngredient));
+              if(!ingredientInTable(CodeIngredient)){
+                var row = table.insertRow(table.length);
+                var cell1 = row.insertCell(0);
+                var cell2 = row.insertCell(1);
+                var cell3 = row.insertCell(2);
+                var cell4 = row.insertCell(3);
+                var cell5 = row.insertCell(4);
+                var cell6 = row.insertCell(5);
+                var cell7 = row.insertCell(6);
+                cell1.innerHTML = Allergene;
+                cell2.innerHTML = nomIngredient;
+                cell3.innerHTML = Unite;
+                inputQte = document.createElement("input"); //input qui contiendra la qte
+                inputQte.setAttribute("type","number");
+                inputQte.setAttribute("step","any");
+                inputQte.setAttribute("class","form-control w-50");
+                inputQte.setAttribute("id","QteIng");
+                inputQte.setAttribute("value",Quantite);
+                //cell4.innerHTML = ' <input type="number" step="any" class="form-control w-50" id="QteIng" placeholder="Qté...">';
+                cell4.appendChild(inputQte);
+                cell5.innerHTML = PrixUnitaire;
+                cell6.innerHTML =  "$PTHT";
+                cell7.innerHTML = '<button class="btn btn-danger" type="button" onclick="DeleteRowIngredients(this)"><i class="bi bi-trash" style="font-size: 1rem;" ></i></button>';
+                cell7.id = CodeIngredient;
+                TabIngredients.push(CodeIngredient); // on rajoute le Code de lingredient rajouté par lutilisateur dans le tableau TabIngredients
+                TabQteIngredient.push("");
+                console.log(TabIngredients);
+              }
+            }
+            /*
+            else{
+            console.log("cell");
+            console.log(cell+ingredientInTable(CodeIngredient)[1]);
+            }*/
+          }
+        }
+      }
+    }
+  }
+
+  function ingredientInTable(CodeIngredient){
+    for(var i=0; i<TabIngredients.length; i++){
+      console.log('TabIngredients');
+      console.log(TabIngredients[i]);
+      console.log(i);
+      if(CodeIngredient==TabIngredients[i]){
+        return true;
+      }
+    }
+    return false;
+  }
+
+
 
   function DeleteRowFiches(o) {
     // supprimer dans le tableau

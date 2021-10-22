@@ -48,7 +48,7 @@ class Model{
     	if (empty($tab_voit)){
         	return false;
     	}
-    	return $tab_voit;
+    	return $tab_voit[0];
 	}
 
 	public static function select($primary_value) {

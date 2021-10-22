@@ -15,7 +15,7 @@ class ModelComposer extends Model{
 	}
 
 	public function getFK_NumeroFiche(){
-		return $this->NumeroFiche;
+		return $this->FK_NumeroFiche;
 	}
 
 	public function setFK_NumIngredient($NumIngredient2){
