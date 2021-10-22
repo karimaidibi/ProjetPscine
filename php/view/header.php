@@ -1,11 +1,20 @@
     <!---------------------- The navigation bar---------------------->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark bg-gradient">
       <div class="container-fluid">
-        <a class="navbar-brand" href="#">Restaurant du chef</a>
+        <a class="navbar-brand" href="#">
+                  <!--Logo de notre site-->
+            <div class="position-relative">
+                <div class="ponslate-middle-y">
+                    <div class="mt-3 ms-3" >
+                        <img src="../../../html/view/img/restaura_logo1.png" class="rounded mx-auto d-block" alt="Logo de notre site" style="width:170px; height:170px;">
+                    </div>
+                </div>  
+            </div>
+        </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
-        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+        <div class="collapse navbar-collapse ms-3" id="navbarNavAltMarkup">
           <!--Division pour centrer la nav-->
           <div class ="mx-auto">
             <!-- Division qui contient les elements de navigations-->
@@ -28,5 +37,15 @@
             </div>
           </div>
         </div>
+        <a class="navbar-brand" href="#">
+                  <!--Logo de notre site-->
+            <div class="position-relative">
+                <div class="ponslate-middle-y">
+                    <div class="mt-3 me-4" >
+                        <img src="../../../html/view/img/restaura_logo1.png" class="rounded mx-auto d-block" alt="Logo de notre site" style="width:170px; height:170px;">
+                    </div>
+                </div>  
+            </div>
+        </a>
       </div>
     </nav>

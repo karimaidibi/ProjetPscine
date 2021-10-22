@@ -19,6 +19,10 @@ function DeleteRow(o) {
 
 // initialiser la variable globale tableau de l'ingredient et tabQte avec les valeurs de la BD 
 document.addEventListener('DOMContentLoaded',function(){
+  document.cookie = ('TabIng=' + JSON.stringify(TabIngredients) + '; path=/'); // cookie
+  document.cookie = ('TabQteIng=' + JSON.stringify(TabQteIngredient) + '; path=/'); // cookie
+  document.cookie = 'TabFiches=' + JSON.stringify(TabFiches) + '; path=/'; // cookie
+  document.cookie = 'TabProgressions=' + JSON.stringify(TabProgressions) + '; path=/'; // cookie
   if(document.getElementById('readonly')){ // si on fait un update 
     var tableIngredients = document.getElementById('bodyIngredients');
     for(var i = 0,row;row=tableIngredients.rows[i]; i++){ // pour chaque ligne as row
@@ -34,12 +38,14 @@ document.addEventListener('DOMContentLoaded',function(){
       var CodeSousFiche = row.cells[5].id;
       TabFiches.push(CodeSousFiche); // on push le code dans le tableau
     }// fin pour fiche
+    document.cookie = 'TabFiches=' + JSON.stringify(TabFiches) + '; path=/'; // cookie
     console.log("Tab initiale Fiches : " + TabFiches);
     var tableProg = document.getElementById("bodyProgressions");
     for(var i = 0, row;row=tableProg.rows[i]; i++){
       var CodeProg= row.cells[2].id;
       TabProgressions.push(CodeProg); // on push le code dans le tableau
     }// fin pour prog
+    document.cookie = 'TabProgressions=' + JSON.stringify(TabProgressions) + '; path=/'; // cookie
     console.log("Tab initiale Prog : " + TabProgressions);
   }// fin if
 });
@@ -105,10 +111,11 @@ document.addEventListener('DOMContentLoaded',function(){
     inputQte.setAttribute("class","form-control w-50");
     inputQte.setAttribute("id","QteIng");
     inputQte.setAttribute("placeholder","Qté..");
+    inputQte.required = true;
     //cell4.innerHTML = ' <input type="number" step="any" class="form-control w-50" id="QteIng" placeholder="Qté...">';
     cell4.appendChild(inputQte);
     cell5.innerHTML = PrixU;
-    cell6.innerHTML =  "$PTHT";
+    cell6.innerHTML =  "0";
     cell7.innerHTML = '<button class="btn btn-danger" type="button" onclick="DeleteRowIngredients(this)"><i class="bi bi-trash" style="font-size: 1rem;" ></i></button>';
     cell7.id = CodeIngredient;
     TabIngredients.push(CodeIngredient); // on rajoute le Code de lingredient rajouté par lutilisateur dans le tableau TabIngredients
@@ -142,9 +149,12 @@ document.addEventListener("click",function(){
         document.cookie = ('TabQteIng=' + JSON.stringify(TabQteIngredient) + '; path=/'); // cookie
       });
 
-function submit(){
+/*document.addEventListener('submit',function(){
   document.cookie = ('TabIng=' + JSON.stringify(TabIng) + '; path=/'); // cookie
-}
+  document.cookie = ('TabQteIng=' + JSON.stringify(TabQteIngredient) + '; path=/'); // cookie
+});*/
+
+
 
 function DeleteRowIngredients(o) {
   // supprimer dans le tableau
@@ -181,15 +191,21 @@ document.addEventListener("click",function(){
     var QteIng = $(row.cells[3]).find("input").val(); // on recupere la quantite de l'ing $(col).find("input").val();
     var prixU = parseFloat(row.cells[4].innerHTML); // on recupere son prixU
     var ptht = QteIng * prixU; // on calcul sn ptht
+    ptht = Math.round(ptht * 100) / 100;
     row.cells[5].innerHTML = ptht; // on met le ptht dans la bonne colonne
     TotalDenree = TotalDenree + ptht;
   }
   //calculer les autres prix 
   var ASS = CoeffAss * TotalDenree; 
+  ASS = Math.round(ASS * 100) / 100;
   var CoutMatiere = TotalDenree + ASS;
+  CoutMatiere = Math.round(CoutMatiere * 100) / 100;
   var CoutPersonnel = CoeffPerso *16.74;
+  CoutPersonnel = Math.round(CoutPersonnel * 100) / 100;
   var CoutProductionTotale = CoutMatiere + CoutPersonnel + CoutFluide;
+  CoutProductionTotale = Math.round(CoutProductionTotale * 100) / 100;
   var CoutProductionPortion = CoutProductionTotale * 0.1;
+  CoutProductionPortion = Math.round(CoutProductionPortion * 100) / 100;
   // maintenant,, mettre les prix dans leur table de prix 
   var tablePrix = document.getElementById('bodyPrix');
   tablePrix.rows[0].cells[1].innerHTML = TotalDenree;

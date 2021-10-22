@@ -10,17 +10,17 @@ if($type=='readonly'){
     $FK_NumCategorie = $ingredient->getFK_NumCategorie();
 }
     echo'
+        <div class="container mt-5 ps-4 pe-3 bg-light bg-gradient border border-dark">
             <!--Titre ajout et modification dun ingrédient -->
-            <div class="container mt-5 bg-dark bg-gradient" align=center>
-            <p class="fs-2" style="color:white;"> Ajout ou modification dun ingrédient </p>
+            <div class="container  bg-dark bg-gradient" align=center>
+                <p class="fs-2" style="color:white;"> Création d\'un ingrédient </p>
             </div>
             <!-- Formulaire pour lajout et/ou la modification dun ingrédient-->
-            <div class="container-fluid mt-5 ps-4 pe-3 bg-light bg-gradient">
-            <form>
+            <form class ="was-validated">
                 <!--Liste dinput des caractéristiques de lingrédient-->
-                <div class="row row-cols-2 justify-content-around pt-4">
+                <div class="row row-cols-2 justify-content-around pt-4 bg-secondary bg-gradient">
                     <!-- liste dinput présents sur la même colonne-->
-                    <div class="col-6 bg-dark" >
+                    <div class="col-6 " >
                         <ul class="list-group list-group-flush">
                             <!-- Input Nom -->
                             <li class="list-group-item list-group-item-dark">
@@ -36,7 +36,7 @@ if($type=='readonly'){
                                     <div class="col-auto">';
                                     if($type=='readonly'){
                                         echo '<input type="hidden" id="NumIngredient_id" name="NumIngredient" class="form-control" value="'. $NumIngredient . '" required/>';
-                                        echo '<input type="text" id="NomIng_id" name="NomIng" class="form-control" value="' . $NomIng . '">';
+                                        echo '<input type="text" id="NomIng_id" name="NomIng" class="form-control" value="' . $NomIng . '"required/>';
                                     }
                                     else{
                                         echo '<input type="text" id="NomIng_id" name="NomIng" class="form-control" placeholder="Ajouter un text..." required/>';
@@ -56,7 +56,7 @@ if($type=='readonly'){
                                     </div>
                                     <!-- Deuxième sous colonne -->
                                     <div class="col-auto">
-                                        <select name="FK_NumUnite" id="FK_NumUnite_id">
+                                        <select name="FK_NumUnite" id="FK_NumUnite_id" required>
                                             <option value="">--Choisissez une unité--</option>';
                                         if($type=='readonly'){
                                             foreach($liste_unite as $unite){
@@ -94,7 +94,7 @@ if($type=='readonly'){
                                 <!-- Deuxième sous colonne -->
                                 <div class="col-auto">';
                                 if($type=='readonly'){
-                                    echo '<input type="text" id="prixUnitaireIng_id" name="prixUnitaireIng" class="form-control" value="' . $prixUnitaireIng . '">';
+                                    echo '<input type="text" id="prixUnitaireIng_id" name="prixUnitaireIng" class="form-control" value="' . $prixUnitaireIng . '"required/>';
                                 }
                                 else{
                                     echo '<input type="number" id="prixUnitaireIng_id" name="prixUnitaireIng" class="form-control" placeholder="Ajouter un nombre..." required/>';
@@ -143,7 +143,7 @@ if($type=='readonly'){
                         </ul>
                     </div>
                     <!-- Liste dinput des caractéristiques des ingrédients-->
-                    <div class="col-6">
+                    <div class="col-6 pb-5">
                         <ul class="list-group list-group-flush">
                             <!-- input Quantité présente dans le stock -->
                             <li class="list-group-item list-group-item-dark">
@@ -158,10 +158,10 @@ if($type=='readonly'){
                                     <!-- Deuxième sous colonne -->
                                     <div class="col-auto">';
                                     if($type=='readonly'){
-                                        echo '<input type="text" id="QteStockIngredient_id" name="QteStockIngredient" class="form-control" value="' . $QteStockIngredient . '">';
+                                        echo '<input type="text" id="QteStockIngredient_id" name="QteStockIngredient" class="form-control" value="' . $QteStockIngredient . '"required/>';
                                     }
                                     else{
-                                        echo '<input type="number" id="QteStockIngredient_id" name="QteStockIngredient" class="form-control" placeholder="Ajouter un nombre...">';
+                                        echo '<input type="number" id="QteStockIngredient_id" name="QteStockIngredient" class="form-control" placeholder="Ajouter un nombre..."required/>';
                                     }
                                     echo '</div>
                                 </div>  
@@ -178,7 +178,7 @@ if($type=='readonly'){
                                     </div>
                                     <!-- Deuxième sous colonne -->
                                     <div class="col-auto">
-                                    <select name="FK_CodeTVA" id="FK_CodeTVA_id">
+                                    <select name="FK_CodeTVA" id="FK_CodeTVA_id" required/>
                                         <option value="">--Choisissez une TVA--</option>';
                                     if($type=='readonly'){
                                         foreach ($liste_TVA as $TVA) {
@@ -218,11 +218,11 @@ if($type=='readonly'){
                                     <!-- Deuxième sous colonne -->
                                     <div class="col-auto">
                                     <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1">
+                                        <input class="form-check-input" type="radio" name="AllergeneOuiNon" id="Allergene" value="OUI"onclick="AfficherAllergene()">
                                         <label class="form-check-label" for="inlineRadio1">Oui</label>
                                         </div>
                                         <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2">
+                                        <input class="form-check-input" type="radio" name="AllergeneOuiNon" id="AllergeneNon" value="NON" onclick="SupprimerAllergene()">
                                         <label class="form-check-label" for="inlineRadio2">Non</label>
                                         </div>           
                                     </div>
@@ -231,7 +231,7 @@ if($type=='readonly'){
                             <!--input pour le type dallergène si il a été indiqué que lingrédient été un allergène-->
                             <li class="list-group-item">
                                 <!-- Ligne contenante deux colonnes, un label et un input -->
-                                <div class="row g-2 align-items-center">
+                                <div class="row g-2 align-items-center" id="AllergeneDiv">
                                     <!-- première sous colonne -->
                                     <div class="col-auto">
                                     <label for="FK_NumAllergene" class="col-form-label">
@@ -270,10 +270,9 @@ if($type=='readonly'){
                 </div>
                 <!--Validation du formulmaire et donc de l\'ajout de l\'ingrédient-->
                 <div class="mt-3 mb-5 " align=center>
-                    <button class="btn btn-dark" type="button">
+                    <button class="btn btn-dark" type="submit">
                     <i class="bi bi-cloud-arrow-up-fill"></i>
                     <input type="hidden" name="controller" value="Ingredient">';
-                    
                     if($type=='readonly'){
                         echo '<input type="hidden" name="action" value="updated">';
                         echo '<input class="btn btn-dark" type="submit" value="Modifier l\'ingrédient" />';
@@ -288,3 +287,4 @@ if($type=='readonly'){
             </div>';
 
 ?>
+<script src="../../../javascript/CreationIngredient.js"></script>

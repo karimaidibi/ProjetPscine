@@ -15,6 +15,7 @@ document.addEventListener("change", function(){
 
   var dateFabricationJAVASCRIPT = new Date(dateFabrication);
   console.log("avant changement: " + dateFabricationJAVASCRIPT);
+  if(!isNaN(dateFabricationJAVASCRIPT)){
   var dayA = dateFabricationJAVASCRIPT.getDate();
   var monthA = dateFabricationJAVASCRIPT.getMonth()+1;
   console.log(monthA);
@@ -33,10 +34,11 @@ document.addEventListener("change", function(){
   var datePeremtion = day+'/'+month+'/'+year;
   console.log(datePeremtion);
 
-  document.getElementById('DateFabric').style.display = "none";
-  document.getElementById('DateFabricCache').innerText = dateFabrication;
-  document.getElementById("DatePeremption").innerText = datePeremtion;
 
+    document.getElementById('DateFabric').style.display = "none";
+    document.getElementById('DateFabricCache').innerText = dateFabrication;
+    document.getElementById("DatePeremption").innerText = datePeremtion;
+  }
   //var lala = moment(dateFabrication);
   //var lalao = moment(lala).add(3,days);
 

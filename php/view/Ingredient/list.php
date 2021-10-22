@@ -2,7 +2,8 @@
 ini_set('display_errors', 'on'); 
 
     echo '<!--Label pour laffichage des ingrédients-->
-        <div class=" container mt-5 bg-dark bg-gradient" align=center style="color:whitesmoke;">
+    <div class="container bg-light bg-gradient border border-dark mt-5">
+        <div class=" container-fluid bg-dark bg-gradient" align=center style="color:whitesmoke;">
         <p class="fs-5"> Liste des ingrédients </p>
         </div>
         <!--Barre de recherche dingrédents et boutton ajouter un ingrédient-->
@@ -16,19 +17,21 @@ ini_set('display_errors', 'on');
                             <i class="bi bi-search"></i>
                     </div>
                     <div class="flex-fill ms-3 ">
-                        <select class="form-select btn btn-dark  bg-gradient" type="button" id="chercherpar" >
-                            <option selected >Chercher par : </option>
-                            <option>Nom Ingredient</option>
-                            <option>Categorie</option>
-                            <option>Unite</option>
-                            <option>Type allergene</option>
-                            <option>PrixUnitaire</option>
-                            <option>TVA</option>
-                        </select>
-                        <input class="form-control" list="datalistOptions" placeholder="Chercher un ingrédient..." type="text" id="chercherIngredient" onkeyup="recherche()">
-                        <datalist id="datalistOptions">
-                            <option value="">
-                        </datalist> 
+                        <div class="input-group">
+                            <select class="form-select btn btn-dark" type="button" id="chercherpar" >
+                                <option selected >Chercher par : </option>
+                                <option>Nom Ingredient</option>
+                                <option>Categorie</option>
+                                <option>Unite</option>
+                                <option>Type allergene</option>
+                                <option>PrixUnitaire</option>
+                                <option>TVA</option>
+                            </select>
+                            <input class="form-control" list="datalistOptions" placeholder="Chercher un ingrédient..." type="text" id="chercherIngredient" onkeyup="recherche()">
+                            <datalist id="datalistOptions">
+                                <option value="">
+                            </datalist> 
+                        </div>
                     </div>                   
                 </div>
             </div>
@@ -89,7 +92,7 @@ ini_set('display_errors', 'on');
         $TVA = ModelTVA::select($FK_CodeTVA)->getCoefTVA();
         $Allergene = ModelAllergene::select($FK_NumAllergene);
         if(empty($Allergene)){
-            $NomAllergene = "";
+            $NomAllergene = "Non allergène";
         } else {
             $NomAllergene = $Allergene->getNomAllergene();
         }
@@ -101,32 +104,44 @@ ini_set('display_errors', 'on');
         }
 
       echo '<tr>
-                <td>' .$NomIng. '</td>
-                <td>' .$NomCategorie. '</td>
-                <td>' .$Unite. '</td>
-                <td >'.$NomAllergene.'</td>
+                <td>' .$NomIng. '</td>';
+            if(empty($Categorie)){
+                echo '<td  class="text-muted"><em>'.$NomCategorie.'</em></td>';
+            }else{
+                echo '<td >'.$NomCategorie.'</td>';
+            }     
+            echo '
+                <td>' .$Unite. '</td>';
+            if(empty($Allergene)){
+                echo '<td  class="text-muted"><em>'.$NomAllergene.'</em></td>';
+                }else{
+                    echo '<td >'.$NomAllergene.'</td>';
+                }
+            echo '
                 <td>' .$PrixUnitaire. '</td>
                 <td>' .$TVA*100 .'%</td>
                 <td>
             <!-- Boutons stock -->
+                    <form>
                     <div class="input-group pt-2">
-                        <button type="button" class="btn btn-danger">
-                            <i class="bi bi-dash-square"></i>
+                        <input name="QteStockIngredient" type="number" style="width: 14%;" value="'.$QuantiteStock.'">
+                        <input type="hidden" name="NumIngredient" value = "'.$NumIngredient.'">
+                        <button type="submit" class="btn btn-primary me-2">
+                            <input type="hidden" name="controller" value="Ingredient">
+                            <input type="hidden" name="action" value="updateStock">
+                            OK 
                         </button>
-                        <input type="number" style="width: 12.5%;" value="'.$QuantiteStock.'">
-                        <button type="button" class="btn btn-primary me-2">
-                            <i class="bi bi-plus-square"></i>
-                        </button>
+                    </form>
                         <!--Boutons modifier et supprimer-->
                         <div class="d-grid gap-2 d-md-block">
                             <button class="btn btn-success" type="button">
                                 <a href="index.php?controller=Ingredient&action=update&NumIngredient=' . $NumIngredient . '">
-                                <i class="bi bi-pencil" style="font-size: 1rem; color:black;" ></i>
+                                <i class="bi bi-pencil" style="font-size: 1rem; color:white;" ></i>
                                 </a>
                             </button>
                             <button class="btn btn-danger" type="button">
                                 <a href="index.php?controller=Ingredient&action=delete&NumIngredient=' . $NumIngredient . ' ">
-                                <i class="bi bi-trash" style="font-size: 1rem; color:black;" ></i>
+                                <i class="bi bi-trash" style="font-size: 1rem; color:white;" ></i>
                                 </a>  
                             </button>
                         </div>
@@ -138,7 +153,8 @@ ini_set('display_errors', 'on');
     echo '            
             </tbody>
         </table>
-        </div> ';
+        </div> 
+    </div>';
 
 ?>
 

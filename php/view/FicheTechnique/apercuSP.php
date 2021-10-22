@@ -42,22 +42,22 @@
                     Aperçu de la fiche technique
                     </button>
                     <ul class="dropdown-menu" aria-labelledby="Aperçu">
-                        <li><button class="dropdown-item" type="button" >Fiche avec prix</button></li>
                         <li>
-                            <a href="index.php?controller=ficheTechnique&action=apercuSP&NumeroFiche=' .$NumeroFiche . ' " style="color:white; text-decoration:none">
-                                <button class="dropdown-item" type="button">Fiche sans prix</button>
+                            <a href="index.php?controller=ficheTechnique&action=apercu&NumeroFiche=' . myGet('NumeroFiche') . ' " style="color:white; text-decoration:none">                    
+                                <button class="dropdown-item" type="button" >Fiche avec prix</button>
                             </a>
                         </li>
+                        <li><button class="dropdown-item" type="button">Fiche sans prix</button></li>
                         <li>
                             <a href="index.php?controller=ficheTechnique&action=apercuEtiquette&NumeroFiche=' .$NumeroFiche . ' " style="color:white; text-decoration:none">
-                            <button class="dropdown-item" type="button">Etiquette</button>
+                                <button class="dropdown-item" type="button">Etiquette</button>
                             </a>
                         </li>
                     </ul>
                 </div>
             </div>
             <!---la division qui va etre imprimée contenant toutes les informations à propos de la fiche technique,-->
-            <div class="container mt-5 ps-4 pe-3 bg-light bg-gradient border border-dark" id="imprimer ">
+    <div class="container mt-5 ps-4 pe-3 bg-light bg-gradient border border-dark" id="imprimer ">
             <!--liste des  Descriptifs et des coeff -->
             <div class="row row-cols-2 justify-content-around pt-4">
                 <!-- la liste des descriptifs-->
@@ -135,10 +135,6 @@
                             <th scope="col">UNITE</th>
                             <!-- 5ème colonne-->
                             <th scope="col">QUANTITE</th>
-                            <!-- 6ème colonne-->
-                            <th scope="col">PRIXU</th>
-                            <!-- 7ème colonne-->
-                            <th scope="col">PTHT</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -158,8 +154,8 @@
                         $CategorieIng = "Autre";
                     }
                     $NomUnite = ModelUnite::select($Ing["FK_NumUnite"]) -> getNomUnite(); //recuperer son nom unité
-                    $PTHT = $Ing["QuantiteIngredient"] * $Ing["prixUnitaireIng"]; // calculer son PTHT
-                    $TotalDenree = $TotalDenree + $PTHT;
+                    //$PTHT = $Ing["QuantiteIngredient"] * $Ing["prixUnitaireIng"]; // calculer son PTHT
+                    //$TotalDenree = $TotalDenree + $PTHT;
                         echo 
                             '<tr>
                                 <!-- Première colonne (code) -->
@@ -172,10 +168,6 @@
                                 <td>' .$NomUnite. '</td>
                                 <!-- 5èmme colonne (Qté_Ing)-->
                                 <td> ' .$Ing["QuantiteIngredient"]. '</td>
-                                <!-- 5ème colonne (PrixU)-->
-                                <td> ' .$Ing["prixUnitaireIng"]. ' </td>
-                                <!-- 7èmme colonne(PTHT)-->
-                                <td> '.$PTHT.' </td>
                             </tr>';
                 }
                 echo ' 
@@ -183,55 +175,7 @@
                     </table>
                 </div>
             </div>';
-            // les prix dans la table des prix 
-                $ASS = $valeurCoeffAss * $TotalDenree;
-                $CoutMatiere = $TotalDenree + $ASS;
-                $CoutPersonnel = $valeurCoeffCoutPersonnel * 16.74;
-                $CoutProductionTotale = $CoutMatiere + $CoutPersonnel + $CoutFluide;
-                $CoutProductionPortion = $CoutProductionTotale * 0.1;
             echo '
-                <!-- La table qui contient les prix totales et une table contenante les fiches techniques -->
-                <div class="row row-cols-2 ms-3 ">
-                <!-- les prix-->
-                    <div class="col-4">
-                        <table class="table table-striped table-hover align-middle">
-                            <thead>
-                                <tr>
-                                <th scope="col" colspan="2">Prix</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                <th scope="row">Total Denrées</th>
-                                <td >'.$TotalDenree.'</td>
-                                </tr>
-                                <tr>
-                                <th scope="row">ASS 5%</th>
-                                <td>'.$ASS.'</td>
-                                </tr>
-                                <tr>
-                                <th scope="row">Cout Matières</th>
-                                <td>'.$CoutMatiere.'</td>
-                                </tr>
-                                <tr>
-                                <th scope="row">Cout Personnel</th>
-                                <td>'.$CoutPersonnel.'</td>
-                                </tr>
-                                <tr>
-                                <th scope="row">Cout Fluide</th>
-                                <td>'.$CoutFluide.'</td>
-                                </tr>
-                                <tr>
-                                <th scope="row">Cout de production Total</th>
-                                <td>'.$CoutProductionTotale.'</td>
-                                </tr>
-                                <tr>
-                                <th scope="row">Cout de production portion</th>
-                                <td>'.$CoutProductionPortion.'</td>
-                                </tr>
-                            </tbody>
-                        </table> 
-                    </div>
                     <!-- les fiches techniques -->
                     <div class="col-8">
                         <!------LA TABLE QUI CONTIENT LES FICHES TECHNIQUES--------->
