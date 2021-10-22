@@ -13,7 +13,7 @@ class ControllerIngredient{
 	public static function readAll() {
         $tab_u = ModelIngredient::selectAll();     //appel au modèle pour gerer la BD  //"redirige" vers la vue
         $view='list';
-        $pagetitle='Liste des catégories';
+        $pagetitle='Liste des ingrédients';
         require_once File::build_path(array("view", "view.php"));
     }
 
@@ -41,19 +41,22 @@ class ControllerIngredient{
 
 	public static function delete(){
 		if(is_null(myGet('NumIngredient'))){
-        	$view='error';
-        	$pagetitle='Page 404';
-	    	require_once File::build_path(array("view", "view.php"));
-		}
-		else{
+			ControllerFicheTechnique::error();
+		}else{
 			$NumIngredient = myGet('NumIngredient');
 			$Ingredient = ModelIngredient::select($NumIngredient);
-			$NomIng = $Ingredient->getNomIng();
-			ModelIngredient::delete($NumIngredient);
-			$tab_u = ModelIngredient::selectAll();
-	        $view='deleted';
-	        $pagetitle='Ingredient supprimé';
-		    require_once File::build_path(array("view", "view.php"));
+			if(empty($Ingredient)){
+				ControllerFicheTechnique::error();
+			}else{
+				$NumIngredient = myGet('NumIngredient');
+				$Ingredient = ModelIngredient::select($NumIngredient);
+				$NomIng = $Ingredient->getNomIng();
+				ModelIngredient::delete($NumIngredient);
+				$tab_u = ModelIngredient::selectAll();
+				$view='deleted';
+				$pagetitle='Ingredient supprimé';
+				require_once File::build_path(array("view", "view.php"));
+			}	
 		}
 	}
 
@@ -69,17 +72,22 @@ class ControllerIngredient{
 		$QteStockIngredient=myGet('QteStockIngredient');
 		$FK_NumAllergene=myGet('FK_NumAllergene');
 		$FK_NumUnite=myGet('FK_NumUnite');
-		if(empty($FK_NumAllergene)){
+		if(empty($FK_NumAllergene)){ //gestion d'erreur
 			$FK_NumAllergene = NULL;
 		}
 		$FK_CodeTVA=myGet('FK_CodeTVA');
 		$FK_NumCategorie=myGet('FK_NumCategorie');
-		if(empty($FK_NumCategorie)){
+		if(empty($FK_NumCategorie)){ //gestion d'erreur
 		$FK_NumCategorie = NULL;
 		}
 		$Ingredient = new ModelIngredient($NomIng,$prixUnitaireIng,$QteStockIngredient,$FK_NumUnite,$FK_NumAllergene,$FK_CodeTVA,$FK_NumCategorie);
 		$Ingredient->save();
-		self::readAll();
+		$tab_u = ModelIngredient::selectAll();
+		$NomIng = $Ingredient->getNomIng(); //recuperer son nom 
+		$type = "created";
+		$view = 'created';
+		$pagetitle='Ingredient crée';
+		require_once File::build_path(array("view", "view.php"));
 	}
 
 	public static function updated(){
@@ -124,8 +132,9 @@ class ControllerIngredient{
 			"FK_NumCategorie" => $FK_NumCategorie
 		);
 		ModelIngredient::update($data);
-	    $view='list';
-	    $pagetitle='Mise à jour de la recette';
+		$type="modified";
+	    $view='created';
+	    $pagetitle='Mise à jour de l\'ingrédient';
 	    $tab_u = ModelIngredient::selectAll();
 		require_once File::build_path(array("view", "view.php"));
 	}
@@ -161,6 +170,33 @@ class ControllerIngredient{
 	        $action = 'updated';
 
 	    	require_once File::build_path(array("view", "view.php"));
+		}
+	}
+
+	public static function updateStock(){
+		if(!is_null(myGet('NumIngredient'))){
+			$NumIngredient=myGet('NumIngredient');
+		}
+		if(!is_null(myGet('QteStockIngredient'))){
+			$QteStockIngredient=myGet('QteStockIngredient');
+		}
+		$data = array(
+			"primary" => $NumIngredient,
+			"QteStockIngredient" => $QteStockIngredient,
+		);
+		ModelIngredient::update($data);
+		//recuperer l'ingredient
+		$ingredient = ModelIngredient::select($NumIngredient);
+		if(!empty($ingredient)){
+			$NomIng = $ingredient -> getNomIng();
+			$type="modifiedStock";
+			$view='created';
+			$pagetitle='Mise à jour de l\'ingrédient';
+			$tab_u = ModelIngredient::selectAll();
+			require_once File::build_path(array("view", "view.php"));
+		}
+		else{
+			ControllerFicheTechnique::error();
 		}
 	}
 }

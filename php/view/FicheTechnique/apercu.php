@@ -34,8 +34,9 @@
     //les ingrédients?
 
         echo'
+
             <!--Bouton aperçu fiche avec prix, sans prix, ou etiquette -->
-            <div class="container-fluid mt-5" align=center>
+            <div class="container mt-5" align=center>
                 <div class="dropdown">
                     <button class="btn btn-dark dropdown-toggle" type="button" id="Aperçu" data-bs-toggle="dropdown" aria-expanded="false">
                     Aperçu de la fiche technique
@@ -51,9 +52,8 @@
                     </ul>
                 </div>
             </div>
-
             <!---la division qui va etre imprimée contenant toutes les informations à propos de la fiche technique,-->
-            <div class="container-fluid mt-5 ps-4 pe-3 bg-light bg-gradient" id="imprimer">
+            <div class="container mt-5 ps-4 pe-3 bg-light bg-gradient border border-dark" id="imprimer ">
             <!--liste des  Descriptifs et des coeff -->
             <div class="row row-cols-2 justify-content-around pt-4">
                 <!-- la liste des descriptifs-->
@@ -104,7 +104,7 @@
                     </table>
                 </div>
                 <!-- Deuxème colonne (colonne des ingrédients ) -->
-                <div class ="col-8">
+                <div class ="col-8 pe-5">
                 <!-- Les Ingrédients de la fiche sous forme dune table, en colonne
                     - Dénomination : 
                         -  Code | Ingrédient | Unité 

@@ -119,10 +119,11 @@ class ModelFicheTechnique extends Model{
 
     public function save() {
         try {
-            $sql = "INSERT INTO FicheTechnique (NomFiche, NbreCouverts, NomAuteur, CoutFluide, FK_NumeroCatFiche, FK_CodeCoeffAss, FK_CodeCoeffCoutPersonnel) VALUES (:NomFiche, :NbreCouverts, :NomAuteur, :CoutFluide, :FK_NumeroCatFiche, :FK_CodeCoeffAss, :FK_CodeCoeffCoutPersonnel)";
+            $sql = "INSERT INTO FicheTechnique (NumeroFiche,NomFiche, NbreCouverts, NomAuteur, CoutFluide, FK_NumeroCatFiche, FK_CodeCoeffAss, FK_CodeCoeffCoutPersonnel) VALUES (:NumeroFiche, :NomFiche, :NbreCouverts, :NomAuteur, :CoutFluide, :FK_NumeroCatFiche, :FK_CodeCoeffAss, :FK_CodeCoeffCoutPersonnel)";
             // Préparation de la requête
             $req_prep = Model::$pdo->prepare($sql);
             $values = array(
+                "NumeroFiche" => $this->NumeroFiche,
                 "NomFiche" => $this->NomFiche,
                 "NbreCouverts" => $this->NbreCouverts,
                 "NomAuteur" => $this->NomAuteur,

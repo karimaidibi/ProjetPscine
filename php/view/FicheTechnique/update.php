@@ -25,9 +25,9 @@ if($type=='readonly'){
 }
 
 echo '
-    <div class="container mt-5 ps-4 pe-3 bg-light bg-gradient">
+    <div class="container mt-5 ps-4 pe-3 bg-light bg-gradient border border-dark">
       <!--Titré création de fiche technique -->
-      <div class="container-fluid mt-5 bg-dark bg-gradient" align=center>
+      <div class="container-fluid  bg-dark bg-gradient" align=center>
           <p class="fs-2" style="color:white;"> Création d\'une fiche technique </p>
       </div>
 

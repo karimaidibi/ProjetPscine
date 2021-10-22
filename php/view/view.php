@@ -22,7 +22,7 @@
 
   <body>
       <main>
-          <div >
+          <div>
               <?php
               $filepath = File::build_path(array("view", static::$object , "$view.php"));
               require $filepath;
@@ -32,9 +32,13 @@
   </body>
 
   <footer>
-    <?php
-      include("footer.php");
-    ?>
+
+  <!--Logo de notre site-->
+      <div class="mt-3 ms-3">
+          <img src="../../../html/view/img/restaura_logo1.png" class="rounded mx-auto d-block" alt="Logo de notre site" >
+      </div>
+ 
+
 	</footer>
   
   <!-- Optional JavaScript; choose one of the two! -->

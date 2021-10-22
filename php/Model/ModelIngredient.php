@@ -116,10 +116,11 @@ class ModelIngredient extends Model{
 
     public function save() {
         try {
-            $sql = "INSERT INTO Ingredient (NomIng, prixUnitaireIng, QteStockIngredient, FK_NumUnite, FK_NumAllergene, FK_CodeTVA, FK_NumCategorie) VALUES (:NomIng, :prixUnitaireIng, :QteStockIngredient, :FK_NumUnite, :FK_NumAllergene, :FK_CodeTVA, :FK_NumCategorie)";
+            $sql = "INSERT INTO Ingredient (NumIngredient, NomIng, prixUnitaireIng, QteStockIngredient, FK_NumUnite, FK_NumAllergene, FK_CodeTVA, FK_NumCategorie) VALUES (:NumIngredient ,:NomIng, :prixUnitaireIng, :QteStockIngredient, :FK_NumUnite, :FK_NumAllergene, :FK_CodeTVA, :FK_NumCategorie)";
             // Préparation de la requête
             $req_prep = Model::$pdo->prepare($sql);
             $values = array(
+                "NumIngredient" => $this->NumIngredient,
                 "NomIng" => $this->NomIng,
                 "prixUnitaireIng" => $this->prixUnitaireIng,
                 "QteStockIngredient" => $this->QteStockIngredient,

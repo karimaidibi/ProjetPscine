@@ -20,8 +20,14 @@
                     </li>
                 </ul>
             </div>
-        </div>
+        </div>';
 
+    if($type=="ticketUsed"){
+        echo '<div class="alert alert-success mt-5" role="alert">
+		<p align="center">les étiquettes ont bien été pris en compte ! </p>	
+		</div>';
+    }
+echo '
         <!--Division pour le formulaire complet de létiquette qui va etre imprimé-->
         <div class="ms-5 me-5 mt-5 " id="imprimer">
             <!--carte qui contient létiquette-->
@@ -61,7 +67,7 @@
                     if(is_null($NumAllergene)){
                         echo $NomIngredient. ', ';
                     }else{
-                        echo ' <strong> ' .$NomIngredient. ' </strong>';
+                        echo ' <strong> ' .$NomIngredient. ', </strong>';
                     }
                 }
                 echo '
@@ -71,12 +77,37 @@
             </div>
         </div>
 
-                
+    <form class="was-validated">
+        <!-- Ligne contenant deux colonnes  -->
+        <div class="row g-2 align-items-center card">
+            <!-- première sous colonne -->
+            <div class="col-auto">
+                <label for="nbreTickets" class="col-form-label">
+                <p><strong>Donner le nombre d\'étiquettes que vous voulez imprimer, on s\'occupe du stock : </strong></p>
+                </label>
+            </div>
+            <!-- Deuxième sous colonne -->
+            <div class="col-auto">
+                <input type="number" id="nbreTickets" class="form-control" name="nbreTickets" placeholder="ajouter" required/>
+                <input type="hidden" name="NumeroFiche" value = "'.$NumeroFiche.'" required/>
+            </div>
+            <div class ="col-auto">
+                <button type="submit" class="btn btn-warning me-2" onclick="imprimer()">
+                        <input type="hidden" name="controller" value="FicheTechnique">
+                        <input type="hidden" name="action" value="gererStockEtiquette">
+                        <i class="bi bi-file-earmark-arrow-down" style="font-size: 1rem; color:black;"></i>
+                        Utiliser les étiquettes et imprimer 
+                </button>
+            <div>
+        </div>
+    </form>
+
+              
         <!-- Bouton imprimer  -->
         <div class="mx-auto mt-3 mb-5" align=center>
             <button class="btn btn-dark" type="button" value="Imprimer" onClick="imprimer()">
                 <i class="bi bi-printer"></i>
-                Imprimer 
+                Seulement Imprimer 
             </button>              
         </div>';
 

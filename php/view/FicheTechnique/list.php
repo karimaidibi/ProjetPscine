@@ -3,7 +3,11 @@
 //echo $_COOKIE['TabFiches'];
 //echo $_COOKIE['TabProgressions'];
 //echo $_COOKIE['TabIng'];
-echo '<div class=" container mt-5 bg-dark bg-gradient" align=center style="color:whitesmoke;">
+echo 
+
+    '
+    <div class="container bg-body bg-gradient border border-dark mt-5 rounded border-1 shadow-lg">
+    <div class=" container bg-dark bg-gradient" align=center style="color:whitesmoke;">
         <p class="fs-5"> Chercher par catégorie, par fiche ou par auteur ! </p>
       </div>
 
@@ -106,25 +110,74 @@ foreach ($tab_u as $u)
                     <div class="d-grid gap-2 d-md-block">
                         <button class="btn btn-success" type="button">
                             <a href="index.php?controller=ficheTechnique&action=update&NumeroFiche=' . $NumeroFiche . '">
-                            <i class="bi bi-pencil" style="font-size: 1rem; color:black;" ></i>
+                            <i class="bi bi-pencil" style="font-size: 1rem; color:white;" ></i>
                             </a>
                         </button>
                         <button class="btn btn-danger" type="button">
                             <a href="index.php?controller=ficheTechnique&action=delete&NumeroFiche=' . $NumeroFiche . ' ">
-                            <i class="bi bi-trash" style="font-size: 1rem; color:black;" ></i>
+                            <i class="bi bi-trash" style="font-size: 1rem; color:white;" ></i>
                             </a>                    
                         </button>
                         <button class="btn btn-primary" type="button">
                         <a href="index.php?controller=ficheTechnique&action=apercu&NumeroFiche=' . $NumeroFiche . ' ">
-                            <i class="bi bi-eye" style="font-size: 1rem; color:black;" ></i>    
+                            <i class="bi bi-eye" style="font-size: 1rem; color:white;" ></i>    
                         </a>                
                         </button>
+                        <button type="button" class="btn btn-warning me-2" data-bs-toggle="offcanvas" data-bs-target="#offcanvasWithBothOptions" aria-controls="offcanvasWithBothOptions">
+                            <i class="bi bi-file-earmark-arrow-down" style="font-size: 1rem; color:black;"></i>
+                            Utiliser cette fiche 
+                        </button>
+                        <!---- canvas from the right---->
+                        <div class="offcanvas offcanvas-end" data-bs-scroll="true" tabindex="-1" id="offcanvasWithBothOptions" aria-labelledby="offcanvasWithBothOptionsLabel">
+                             <div class="offcanvas-header">
+                                 <h5 class="offcanvas-title" id="offcanvasWithBothOptionsLabel">Utiliser cette fiche</h5>
+                                 <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                             </div>
+                             <div class="offcanvas-body">
+                                 <p>Si vous utilisez cette fiche, les quantités des ingrédients qui sont utilsés dans cette fiche vont etre décrémentées des quantités de stock globaux :  </p>
+                                 <!--table dingrédient-->
+                                 <table class="table table-striped w-auto">
+                                 <thead class = "table-light">
+                                     <tr>
+                                         <th scope="col">Nom</th>
+                                         <th scope="col">Qte utilisé</th>
+                                         <th scope="col">Stock avant</th>
+                                         <th scope="col">Stock après</th>
+                                     </tr>
+                                 </thead>
+                                 <tbody>';
+                                 $Ingredients = ModelFicheTechnique::selectIngredientsOf($NumeroFiche);
+                                 if(!empty($Ingredients)){
+                                     foreach($Ingredients as $Ing){
+                                    $StockFinal = $Ing["QteStockIngredient"] - $Ing["QuantiteIngredient"] ;
+                                 echo '
+                                         <tr>
+                                             <td>' .$Ing["NomIng"]. '</td>
+                                             <td>' .$Ing["QuantiteIngredient"]. '</td>
+                                             <td>' .$Ing["QteStockIngredient"]. '</td>
+                                             <td>' .$StockFinal. '</td>
+                                         </tr>';
+                                         
+                                     }//fin for
+                                 }
+                             echo '
+                                 </tbody>
+                                 </table>
+                                 <button class="btn btn-danger" type="button">
+                                    <a href="index.php?controller=ficheTechnique&action=gererStock&NumeroFiche=' . $NumeroFiche . ' " style="color:white; text-decoration:none">
+                                        Confirmer
+                                    </a>                    
+                                </button>
+                             </div>
+                         </div>
+                         <!-- FIN CANVASSS-->
                     </div>
                 </td>
             </tr>';
 }
     echo '</tbody>
         </table>
+        </div>
         </div>';
 ?>
 

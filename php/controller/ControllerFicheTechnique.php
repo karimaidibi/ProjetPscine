@@ -20,6 +20,7 @@ class ControllerFicheTechnique{
 		//$tabFiches = JSON_decode($_COOKIE['TabFiches']);  // debogage
 		//$tabProgressions = JSON_decode($_COOKIE['TabProgressions']);  // debogage
 		//$TabIng = json_decode(($_COOKIE['TabIng'])); //debogage
+		//$TabQteIng = json_decode(($_COOKIE['TabQteIng'])); //debogage
 		//$NumProg = ModelEtape::selectNumOf('numopp'); // debogage
 		//print_r($NumProg);
         $view='list';
@@ -61,20 +62,20 @@ class ControllerFicheTechnique{
 		$tabFiches = JSON_decode($_COOKIE['TabFiches']);  // récupère les sous-fiches liées à la fiche
 		//print_r($tabFiches);
 		$ordre = 0;
-		foreach ($tabFiches as $numFiche) {
-			//print_r($numFiche);
-			$ordre = $ordre + 1;
-			ControllerInclure::create($NumeroFiche,$numFiche,$ordre); //crée les relations inclure en BDD (inclure c'est la relation entre une fiche et les sousfiches)
+			foreach ($tabFiches as $numFiche) {
+				//print_r($numFiche);
+				$ordre = $ordre + 1;
+				ControllerInclure::create($NumeroFiche,$numFiche,$ordre); //crée les relations inclure en BDD (inclure c'est la relation entre une fiche et les sousfiches)
+			}
 		setcookie('TabFiches','',time()-3600);
-		}
 	}
 
 	public static function saveIngredients($NumeroFiche){
 		$TabIng = json_decode(($_COOKIE['TabIng']));
 		$TabQteIng = json_decode(($_COOKIE['TabQteIng']));
-		for($i=0;$i<count($TabIng);$i++) {
-			ControllerComposer::create($NumeroFiche,$TabIng[$i],$TabQteIng[$i]); //crée les relations composer en BDD 
-		}
+			for($i=0;$i<count($TabIng);$i++) {
+				$obj = ControllerComposer::create($NumeroFiche,$TabIng[$i],$TabQteIng[$i]); //crée les relations composer en BDD 
+			}
 		setcookie('TabIng','',time()-3600);
 		setcookie('TabQteIng','',time()-3600);
 	}
@@ -87,21 +88,21 @@ class ControllerFicheTechnique{
 		//echo '</pre>';
 		$ordre = 0;
 		//$reg = "abc";
-		foreach($tabProgressions as $numProgression){
-			if(!is_numeric($numProgression)){
-				ControllerEtape::create($numProgression);
+			foreach($tabProgressions as $numProgression){
+				if(!is_numeric($numProgression)){
+					ControllerEtape::create($numProgression);
+				}
 			}
-		}
-		foreach ($tabProgressions as $numProgression){
-			$ordre = $ordre + 1;
-			if(is_numeric($numProgression)){
-				ControllerContenir::create($NumeroFiche,$numProgression,$ordre); //crée les relations inclure en BDD (inclure c'est la relation entre une fiche et les sousfiches)
-			}else{
-				$obj = ModelEtape::selectNumOf($numProgression);
-				$NumProg = $obj[0][0];
-				ControllerContenir::create($NumeroFiche,$NumProg,$ordre); //crée les relations inclure en BDD (inclure c'est la relation entre une fiche et les sousfiches)			
-			}	
-		}				
+			foreach ($tabProgressions as $numProgression){
+				$ordre = $ordre + 1;
+				if(is_numeric($numProgression)){
+					ControllerContenir::create($NumeroFiche,$numProgression,$ordre); //crée les relations inclure en BDD (inclure c'est la relation entre une fiche et les sousfiches)
+				}else{
+					$obj = ModelEtape::selectNumOf($numProgression);
+					$NumProg = $obj[0][0];
+					ControllerContenir::create($NumeroFiche,$NumProg,$ordre); //crée les relations inclure en BDD (inclure c'est la relation entre une fiche et les sousfiches)			
+				}	
+			}			
 		setcookie('TabProgressions','null',time()-3600);
 	}
 
@@ -120,6 +121,9 @@ class ControllerFicheTechnique{
 		}
 		if(!is_null(myGet('FK_NumeroCatFiche'))){
 			$FK_NumeroCatFiche=myGet('FK_NumeroCatFiche');
+		}
+		if(empty($FK_NumeroCatFiche)){
+			$FK_NumeroCatFiche = NULL;
 		}
 		if(!is_null(myGet('CoutFluide'))){
 			$CoutFluide=myGet('CoutFluide');
@@ -148,9 +152,11 @@ class ControllerFicheTechnique{
 		self::saveProgressions($NumeroFiche);
 		self::saveIngredients($NumeroFiche);	
 		self::saveSousFiches($NumeroFiche);
-	    $view='list';
-	    $pagetitle='Mise à jour de la recette';
-	    $tab_u = ModelFicheTechnique::selectAll();
+		//phase de confirmation
+		$tab_u = ModelFicheTechnique::selectAll();
+		$type = "modified";
+		$view = 'created';
+		$pagetitle='fiche créée';
 		require_once File::build_path(array("view", "view.php"));
 	}
 
@@ -160,6 +166,9 @@ class ControllerFicheTechnique{
 		$NomAuteur=myGet('NomAuteur');
 		$CoutFluide=myGet('CoutFluide');
 		$FK_NumeroCatFiche=myGet('FK_NumeroCatFiche');
+		if(empty($FK_NumeroCatFiche)){
+			$FK_NumeroCatFiche = NULL;
+		}
 		$FK_CodeCoeffAss = myGet('CodeCoeffAss');
 		$FK_CodeCoeffCoutPersonnel = myGet('CodeCoeffCoutPersonnel');
 		$Fiche = new ModelFicheTechnique($NomFiche,$NbreCouverts,$NomAuteur,$CoutFluide,$FK_NumeroCatFiche,$FK_CodeCoeffAss,$FK_CodeCoeffCoutPersonnel);
@@ -169,6 +178,13 @@ class ControllerFicheTechnique{
 		self::saveProgressions($NumeroFiche);
 		self::saveIngredients($NumeroFiche);
 		self::readAll();
+		//phase de confirmation
+		$NomFiche = $Fiche->getNomFiche(); //recuperer son nom 
+		$tab_u = ModelFicheTechnique::selectAll();
+		$type = 'created';
+		$view = 'created';
+		$pagetitle='fiche créée';
+		require_once File::build_path(array("view", "view.php"));
 	} 
 
 	//supprimer les progressions de la table CONTENIR
@@ -194,18 +210,19 @@ class ControllerFicheTechnique{
 			$NumeroFiche = myGet('NumeroFiche'); //numero de cette fiche
 			$Fiche = ModelFicheTechnique::select($NumeroFiche); //objet fiche
 			if(empty($Fiche)){
-				$NomFiche = "Inexistante";
+				$view = "error";
+				require_once File::build_path(array("view", "view.php"));
 			}else{
 				$NomFiche = $Fiche->GetNomFiche(); //le nom de la fiche
+				self::deleteProgressionsOf($NumeroFiche);
+				self::deleteIngredientsOf($NumeroFiche);
+				self::deleteSousFichesOf($NumeroFiche);
+				ModelFicheTechnique::delete($NumeroFiche); //supprimer la ligne concernant cette fiche dans la table des fiches BD 
+				$tab_u = ModelFicheTechnique::selectAll();
+				$view='deleted';
+				$pagetitle='FicheTechnique supprimée';
+				require_once File::build_path(array("view", "view.php"));
 			}
-			self::deleteProgressionsOf($NumeroFiche);
-			self::deleteIngredientsOf($NumeroFiche);
-			self::deleteSousFichesOf($NumeroFiche);
-			ModelFicheTechnique::delete($NumeroFiche); //supprimer la ligne concernant cette fiche dans la table des fiches BD 
-			$tab_u = ModelFicheTechnique::selectAll();
-	        $view='deleted';
-	        $pagetitle='FicheTechnique supprimée';
-		    require_once File::build_path(array("view", "view.php"));
 		}
 	}
 
@@ -261,6 +278,7 @@ class ControllerFicheTechnique{
 		$cetteFiche = ModelFicheTechnique::select($NumeroFiche); // recuperer lobjet fiche ayant ce numero 
 		$Ingredients = ModelFicheTechnique::selectIngredientsOf($NumeroFiche);
 		$view ='apercuEtiquette';
+		$type="";
 		require_once File::build_path(array("view", "view.php"));
 	}
 
@@ -278,5 +296,89 @@ class ControllerFicheTechnique{
 		ControllerEtape::create($DescrEtape);
 		self::update();
 	}
+
+	//gestion d'erreur :
+	public static function error(){
+		$view='error';
+        $pagetitle='erreur 404';
+        require_once File::build_path(array("view", "view.php"));
+	}
+
+	//gestion de stock
+	public static function gererStock(){
+		if(is_null(myGet('NumeroFiche'))){
+        	$view='error';
+        	$pagetitle='Page 404';
+	    	require_once File::build_path(array("view", "view.php"));
+		}
+		else{
+			$NumeroFiche = myGet('NumeroFiche'); //numero de cette fiche
+			$Fiche = ModelFicheTechnique::select($NumeroFiche); //objet fiche
+			if(empty($Fiche)){
+				$view = "error";
+				require_once File::build_path(array("view", "view.php"));
+			}else{
+				$Ingredients = ModelFicheTechnique::selectIngredientsOf($NumeroFiche);
+				if(!empty($Ingredients)){
+					foreach($Ingredients as $Ing){
+						$StockFinal = $Ing["QteStockIngredient"] - $Ing["QuantiteIngredient"] ; //on calcul le stock final
+						$NumIngredient = $Ing["NumIngredient"];
+						$data = array(
+							"primary" => $NumIngredient,
+							"QteStockIngredient" => $StockFinal
+						);
+						ModelIngredient::update($data);
+					}
+					$NomFiche = $Fiche ->getNomFiche();
+					$tab_u = ModelFicheTechnique::selectAll();
+					$type="StockUpdated";
+					$view='created';
+					$pagetitle='stock updated';
+					require_once File::build_path(array("view", "view.php"));
+				}
+			}
+		}
+	}
+
+	//gestion stock etiquette
+		//gestion de stock
+		public static function gererStockEtiquette(){
+			if(is_null(myGet('NumeroFiche'))){
+				$view='error';
+				$pagetitle='Page 404';
+				require_once File::build_path(array("view", "view.php"));
+			}
+			else{
+				$NumeroFiche = myGet('NumeroFiche'); //numero de cette fiche
+				$Fiche = ModelFicheTechnique::select($NumeroFiche); //objet fiche
+				if(empty($Fiche)){ //gestion d'erreur
+					$view = "error";
+					require_once File::build_path(array("view", "view.php"));
+				}else{
+					$Ingredients = ModelFicheTechnique::selectIngredientsOf($NumeroFiche);
+					if(!empty($Ingredients)){ //si ce ticjet possède des ingredients 
+						$NbreTickets = myGet('nbreTickets'); //nombre de tickets à imprimer
+						for($i=0;$i<$NbreTickets;$i++){ //pour chaque ticket
+							foreach($Ingredients as $Ing){ //pour chaque ingredient appartenant au ticket
+								$StockFinal = $Ing["QteStockIngredient"] - $Ing["QuantiteIngredient"] ; //on calcul le stock final
+								$NumIngredient = $Ing["NumIngredient"];
+								$data = array(
+									"primary" => $NumIngredient,
+									"QteStockIngredient" => $StockFinal
+								);
+								ModelIngredient::update($data);
+							}
+						}
+						$type='ticketUsed';
+						$NumeroFiche = myGet('NumeroFiche'); //recuperer le num de la fiche actuelle
+						$cetteFiche = ModelFicheTechnique::select($NumeroFiche); // recuperer lobjet fiche ayant ce numero 
+						$Ingredients = ModelFicheTechnique::selectIngredientsOf($NumeroFiche);
+						$view ='apercuEtiquette';
+						$pagetitle='etiquette utilisé';
+						require_once File::build_path(array("view", "view.php"));
+					}
+				}
+			}
+		}
 }
 ?>

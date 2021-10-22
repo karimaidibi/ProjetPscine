@@ -18,6 +18,10 @@ function DeleteRow(o) {
 
 // initialiser la variable globale tableau de l'ingredient et tabQte avec les valeurs de la BD 
 document.addEventListener('DOMContentLoaded',function(){
+  document.cookie = ('TabIng=' + JSON.stringify(TabIngredients) + '; path=/'); // cookie
+  document.cookie = ('TabQteIng=' + JSON.stringify(TabQteIngredient) + '; path=/'); // cookie
+  document.cookie = 'TabFiches=' + JSON.stringify(TabFiches) + '; path=/'; // cookie
+  document.cookie = 'TabProgressions=' + JSON.stringify(TabProgressions) + '; path=/'; // cookie
   if(document.getElementById('readonly')){ // si on fait un update 
     var tableIngredients = document.getElementById('bodyIngredients');
     for(var i = 0,row;row=tableIngredients.rows[i]; i++){ // pour chaque ligne as row
@@ -33,12 +37,14 @@ document.addEventListener('DOMContentLoaded',function(){
       var CodeSousFiche = row.cells[5].id;
       TabFiches.push(CodeSousFiche); // on push le code dans le tableau
     }// fin pour fiche
+    document.cookie = 'TabFiches=' + JSON.stringify(TabFiches) + '; path=/'; // cookie
     console.log("Tab initiale Fiches : " + TabFiches);
     var tableProg = document.getElementById("bodyProgressions");
     for(var i = 0, row;row=tableProg.rows[i]; i++){
       var CodeProg= row.cells[2].id;
       TabProgressions.push(CodeProg); // on push le code dans le tableau
     }// fin pour prog
+    document.cookie = 'TabProgressions=' + JSON.stringify(TabProgressions) + '; path=/'; // cookie
     console.log("Tab initiale Prog : " + TabProgressions);
   }// fin if
 });
@@ -142,9 +148,10 @@ document.addEventListener("click",function(){
         document.cookie = ('TabQteIng=' + JSON.stringify(TabQteIngredient) + '; path=/'); // cookie
       });
 
-document.addEventListener('submit',function(){
+/*document.addEventListener('submit',function(){
   document.cookie = ('TabIng=' + JSON.stringify(TabIng) + '; path=/'); // cookie
-});
+  document.cookie = ('TabQteIng=' + JSON.stringify(TabQteIngredient) + '; path=/'); // cookie
+});*/
 
 
 

@@ -27,6 +27,7 @@ class ModelUnite extends Model{
 	public function __construct($nom = NULL) {
   	if (!is_null($nom)) {
 	    $this->NomUnite = $nom;
+        $this->NumUnite = self::configNumUnite()+1;
     	}
   	}
 
@@ -60,10 +61,9 @@ class ModelUnite extends Model{
             $req_prep = Model::$pdo->prepare($sql);
 
             $values = array(
-                "NumUnite" => self::configNumUnite()+1,
-                "NomUnite" => $this->NomUnite,
+                "NumUnite" => $this->NumUnite,
+                "NomUnite" => $this->NomUnite
             );
-            self::setNumUnite(self::configNumUnite() + 1);
             // On donne les valeurs et on exécute la requête     
             $req_prep->execute($values);
             // echo $sql;
