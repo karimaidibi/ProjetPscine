@@ -272,6 +272,17 @@ class ControllerFicheTechnique{
 		require_once File::build_path(array("view", "view.php"));
 	}
 
+	//apercu de la fiche (page pour imprimer la fiche avec les prix)
+	public static function apercuSP(){
+		$NumeroFiche = myGet('NumeroFiche'); //recuperer le num de la fiche actuelle
+		$Progressions = ModelFicheTechnique::selectProgressionsOf($NumeroFiche);
+		$Ingredients = ModelFicheTechnique::selectIngredientsOf($NumeroFiche);
+		$SousFiches = ModelFicheTechnique::selectSousFichesOf($NumeroFiche);
+		$view ='apercuSP';
+		$cetteFiche = ModelFicheTechnique::select($NumeroFiche); // recuperer lobjet fiche ayant ce numero 
+		require_once File::build_path(array("view", "view.php"));
+	}
+
 	//apercu de letiquette
 	public static function apercuEtiquette(){
 		$NumeroFiche = myGet('NumeroFiche'); //recuperer le num de la fiche actuelle
@@ -358,15 +369,20 @@ class ControllerFicheTechnique{
 					$Ingredients = ModelFicheTechnique::selectIngredientsOf($NumeroFiche);
 					if(!empty($Ingredients)){ //si ce ticjet possède des ingredients 
 						$NbreTickets = myGet('nbreTickets'); //nombre de tickets à imprimer
-						for($i=0;$i<$NbreTickets;$i++){ //pour chaque ticket
-							foreach($Ingredients as $Ing){ //pour chaque ingredient appartenant au ticket
-								$StockFinal = $Ing["QteStockIngredient"] - $Ing["QuantiteIngredient"] ; //on calcul le stock final
-								$NumIngredient = $Ing["NumIngredient"];
-								$data = array(
-									"primary" => $NumIngredient,
-									"QteStockIngredient" => $StockFinal
-								);
-								ModelIngredient::update($data);
+						if(!empty($NbreTickets)){
+							for($i=0;$i<$NbreTickets;$i++){ //pour chaque ticket
+								$Ingredients = ModelFicheTechnique::selectIngredientsOf($NumeroFiche); //on recupere la nouvelle qte de stock
+								foreach($Ingredients as $Ing){ //pour chaque ingredient appartenant au ticket
+									$StockFinal = $Ing["QteStockIngredient"] - $Ing["QuantiteIngredient"] ; //on calcul le stock final
+									$NumIngredient = $Ing["NumIngredient"];
+									$data = array(
+										"primary" => $NumIngredient,
+										"QteStockIngredient" => $StockFinal
+									);
+									ModelIngredient::update($data);
+									sleep(0.1);
+								}
+								sleep(0.1);
 							}
 						}
 						$type='ticketUsed';

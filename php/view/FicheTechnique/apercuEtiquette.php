@@ -14,7 +14,11 @@
                             <button class="dropdown-item" type="button" >Fiche avec prix</button>
                         </a>
                     </li>
-                    <li><button class="dropdown-item" type="button">Fiche sans prix</button></li>
+                    <li>
+                        <a href="index.php?controller=ficheTechnique&action=apercuSP&NumeroFiche=' .$NumeroFiche . ' " style="color:white; text-decoration:none">
+                            <button class="dropdown-item" type="button">Fiche sans prix</button>
+                        </a>
+                    </li>
                     <li>
                         <button class="dropdown-item" type="button">Etiquette</button>
                     </li>
@@ -105,7 +109,7 @@ echo '
               
         <!-- Bouton imprimer  -->
         <div class="mx-auto mt-3 mb-5" align=center>
-            <button class="btn btn-dark" type="button" value="Imprimer" onClick="imprimer()">
+            <button class="btn btn-dark" type="button" value="Imprimer" onclick="imprimer()">
                 <i class="bi bi-printer"></i>
                 Seulement Imprimer 
             </button>              
