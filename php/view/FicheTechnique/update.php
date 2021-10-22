@@ -257,7 +257,7 @@ echo '
                 - une colonne pour ajouter des ingrédients dans la table Ingrédients avec les prix etc -->
             <div class="row row-cols-2 justify-content-around pt-4">
               <!-- 1ère colonne (colonne des progressions ) -->
-              <div class ="col-4 pt-4 ">
+              <div class ="col-auto pt-4 ">
                   <!-- Area text pour une nouvelle progression-->
                   <!-- Premier group d input -->
                   <label for="inputProgressionInDB" class="form-label">J\'ajoute une nouvelle progression : </label>
@@ -289,7 +289,7 @@ echo '
                     </datalist>
                   </div>
                   <!-- Les progressions de la fiche sous forme d\'une table-->
-                  <div class="container-fluid mt-3">
+                  <div class="container mt-3">
                     <table class="table table-striped table-hover">
                       <thead class="table-dark">
                         <tr>

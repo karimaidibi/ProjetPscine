@@ -8,6 +8,37 @@ function imprimer() {
     popupcontenu.document.close();
   }
 
+  /*function imprimer(el){
+    var restorepage = $('body').html();
+    var printcontent = $('#' + el).clone();
+    $('body').empty().html(printcontent);
+    window.print();
+    $('body').html(restorepage);
+    }*/
+  
+
+   /* function imprimer(printpage) {
+        var headstr = "<html><head><title></title></head><body>";
+        var footstr = "</body>";
+        var newstr = document.all.item(printpage).innerHTML;
+        var oldstr = document.body.innerHTML;
+        document.body.innerHTML = headstr + newstr + footstr;
+        window.print();
+        document.body.innerHTML = oldstr;
+        return false;
+    }*/ 
+
+    /*function imprimer(printdivname) {
+      var headstr = "<html><head><title>Booking Details</title></head><body>";
+      var footstr = "</body>";
+      var newstr = document.getElementById(printdivname).innerHTML;
+      var oldstr = document.body.innerHTML;
+      document.body.innerHTML = headstr+newstr+footstr;
+      window.print();
+      document.body.innerHTML = oldstr;
+      return false;
+  } */
+
 document.addEventListener("change", function(){
   // avant
   var dateFabrication = document.getElementById('DateFabric').value;
