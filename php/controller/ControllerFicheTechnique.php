@@ -57,14 +57,15 @@ class ControllerFicheTechnique{
 	}
 
 	public static function saveSousFiches($NumeroFiche){
+		$tabFiches = [];
 		$tabFiches = JSON_decode($_COOKIE['TabFiches']);  // récupère les sous-fiches liées à la fiche
 		//print_r($tabFiches);
 		$ordre = 0;
-		foreach ($tabFiches as $numFiche) {
-			//print_r($numFiche);
-			$ordre = $ordre + 1;
-			ControllerInclure::create($NumeroFiche,$numFiche,$ordre); //crée les relations inclure en BDD (inclure c'est la relation entre une fiche et les sousfiches)
-		//setcookie('TabFiches','',time()-3600);
+		if(count($tabFiches)>0){
+			foreach ($tabFiches as $numFiche) {
+				$ordre = $ordre + 1;
+				ControllerInclure::create($NumeroFiche,$numFiche,$ordre); //crée les relations inclure en BDD (inclure c'est la relation entre une fiche et les sousfiches)
+			}
 		}
 	}
 
@@ -72,33 +73,31 @@ class ControllerFicheTechnique{
 		$TabIng = json_decode(($_COOKIE['TabIng']));
 		$TabQteIng = json_decode(($_COOKIE['TabQteIng']));
 		for($i=0;$i<count($TabIng);$i++) {
-			ControllerComposer::create($NumeroFiche,$TabIng[$i],$TabQteIng[$i]); //crée les relations composer en BDD 
+			$ingredient = ControllerComposer::create($NumeroFiche,$TabIng[$i],$TabQteIng[$i]); //crée les relations composer en BDD 
 		}
 	}
 
 	public static function saveProgressions($NumeroFiche){
-		//echo $NumeroFiche;
-		$tabProgressions = JSON_decode($_COOKIE['TabProgressions']);  // récupère les sous-fiches liées à la fiche
-		//echo '<pre>';
-		//print_r($tabProgressions);
-		//echo '</pre>';
+		$tabProgressions = [];
+		$tabProgressions = JSON_decode($_COOKIE['TabProgressions']);
 		$ordre = 0;
-		//$reg = "abc";
-		foreach($tabProgressions as $numProgression){
-			if(!is_numeric($numProgression)){
-				ControllerEtape::create($numProgression);
+		if($tabProgressions!=NULL){
+			foreach($tabProgressions as $numProgression){
+				if(!is_numeric($numProgression)){
+					ControllerEtape::create($numProgression);
+				}
 			}
-		}
-		foreach ($tabProgressions as $numProgression){
-			$ordre = $ordre + 1;
-			if(is_numeric($numProgression)){
-				ControllerContenir::create($NumeroFiche,$numProgression,$ordre); //crée les relations inclure en BDD (inclure c'est la relation entre une fiche et les sousfiches)
-			}else{
-				$obj = ModelEtape::selectNumOf($numProgression);
-				$NumProg = $obj[0][0];
-				ControllerContenir::create($NumeroFiche,$NumProg,$ordre); //crée les relations inclure en BDD (inclure c'est la relation entre une fiche et les sousfiches)			
+			foreach ($tabProgressions as $numProgression){
+				$ordre = $ordre + 1;
+				if(is_numeric($numProgression)){
+					ControllerContenir::create($NumeroFiche,$numProgression,$ordre); //crée les relations inclure en BDD (inclure c'est la relation entre une fiche et les sousfiches)
+				}else{
+					$obj = ModelEtape::selectNumOf($numProgression);
+					$NumProg = $obj[0][0];
+					ControllerContenir::create($NumeroFiche,$NumProg,$ordre); //crée les relations inclure en BDD (inclure c'est la relation entre une fiche et les sousfiches)			
+				}	
 			}	
-		}				
+		}			
 		setcookie('TabProgressions','',time()-3600);
 	}
 
@@ -210,9 +209,10 @@ class ControllerFicheTechnique{
 		$LesFiches = ModelFicheTechnique::selectAll(); // toutes les fiches dans la BD 
 		$categories = ModelCategorie_Fiche::selectAll(); // toutes les categories dans la BD
 		$ingredients = ModelIngredient::selectAll(); //touts les ingredients dans la BD
-		$progressions = ModelEtape::selectAll(); // toutes les etapes dans la BD
+		$progressions = ModelEtape::selectAll(); // toutes les progressions dans la BD
 		$coefficientsAss = ModelCoeffAss::selectAll(); // touts les coeff Ass dans la BD
 		$coefficientsCoutPersonnel = ModelCoeffCoutPersonnel::selectAll(); // touts les coeff de cout personnel dans la BD 
+		$compositions = ModelComposer::selectAll();
 		if(is_null(myGet('NumeroFiche'))){ // si c'est pour créer
         	$view='update';
         	$pagetitle='Création d\'une Recette';
