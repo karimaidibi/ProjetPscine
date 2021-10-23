@@ -46,30 +46,35 @@ function imprimer() {
 
   var dateFabricationJAVASCRIPT = new Date(dateFabrication);
   console.log("avant changement: " + dateFabricationJAVASCRIPT);
-  if(!isNaN(dateFabricationJAVASCRIPT)){
   var dayA = dateFabricationJAVASCRIPT.getDate();
+  console.log("dayA " + dayA);
   var monthA = dateFabricationJAVASCRIPT.getMonth()+1;
-  console.log(monthA);
+  console.log("monthA " + monthA);
   var yearA = dateFabricationJAVASCRIPT.getFullYear();
+  console.log("yearA " + yearA);
   dateFabrication =  dayA+'/'+monthA+'/'+yearA;
+  console.log("dateFabricAv " + dateFabrication);
 
   //apres
   dateFabricationJAVASCRIPT.setDate(dateFabricationJAVASCRIPT.getDate()+3);
   console.log("apres changement: " + dateFabricationJAVASCRIPT);
 
   var day = dateFabricationJAVASCRIPT.getDate();
+  console.log("dayap " + day);
   var month = dateFabricationJAVASCRIPT.getMonth()+1;
-  console.log(month);
+  console.log("monthAPR " + month);
   var year = dateFabricationJAVASCRIPT.getFullYear();
-
+  console.log("yearAp" + year);
   var datePeremtion = day+'/'+month+'/'+year;
-  console.log(datePeremtion);
+  console.log("dateperemption" + datePeremtion);
 
 
     document.getElementById('DateFabric').style.display = "none";
+    document.getElementById('DateFabricCache').style.display="";
     document.getElementById('DateFabricCache').innerText = dateFabrication;
+    document.getElementById("DatePeremption").style.display="";
     document.getElementById("DatePeremption").innerText = datePeremtion;
-  }
+  
   //var lala = moment(dateFabrication);
   //var lalao = moment(lala).add(3,days);
 
