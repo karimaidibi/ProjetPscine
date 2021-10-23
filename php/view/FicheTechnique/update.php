@@ -149,7 +149,25 @@ echo '
                         </li>
                     </ul>
                 </div>
-                <!-- La liste d input des coefficients utilisés dans la fiche technique dans une colonne-->
+                <datalist id="compositions" >';
+                    foreach($compositions as $c){
+                      $FK_NumeroFiche = $c->getFK_NumeroFiche();
+                      $FK_NumIngredient = $c->getFK_NumIngredient();
+                      $QuantiteIngredient = $c->getQuantiteIngredient();
+
+                      echo '<input type="hidden" value ="'.$FK_NumeroFiche.'" class="FK_NumeroFiche">
+                          <input type="hidden" value ="'.$FK_NumIngredient.'" class="FK_NumeroIngredient">
+                          <input type="hidden" value ="'.$QuantiteIngredient.'" class="QuantiteIngredient">';
+                      }
+                      echo  '</datalist>
+                      <datalist id="listeDesProgressionsA" >';
+                      foreach($contenir as $ct){
+                        $NumEtape2 = $ct->getNumEtape();
+                        $NumeroFiche2 = $ct->getNumeroFiche();
+                        echo '<input type="hidden" value ="'.$NumEtape2.'" class="NumEtapeA">
+                        <input type="hidden" value ="'.$NumeroFiche2.'" class="NumeroFicheA"></datalist>';
+                      }
+                echo '<!-- La liste d input des coefficients utilisés dans la fiche technique dans une colonne-->
                 <div class="col-6">
                     <ul class="list-group list-group-flush">
                         <!-- La liste d input des Coefficients utilisés-->
@@ -330,25 +348,7 @@ echo '
                     <!-- L\'icon de recherche -->
                     <div class="flex-shrink-0 mt-1">
                             <i class="bi bi-search"></i>
-                    </div>
-                    <datalist id="compositions" >';
-                    foreach($compositions as $c){
-                      $FK_NumeroFiche = $c->getFK_NumeroFiche();
-                      $FK_NumIngredient = $c->getFK_NumIngredient();
-                      $QuantiteIngredient = $c->getQuantiteIngredient();
-
-                      echo '<input type="hidden" value ="'.$FK_NumeroFiche.'" class="FK_NumeroFiche">
-                          <input type="hidden" value ="'.$FK_NumIngredient.'" class="FK_NumeroIngredient">
-                          <input type="hidden" value ="'.$QuantiteIngredient.'" class="QuantiteIngredient">';
-                      }
-                      echo  '</datalist>
-                      <datalist id="listeDesProgressionsA" >';
-                      foreach($contenir as $ct){
-                        $NumEtape2 = $ct->getNumEtape();
-                        $NumeroFiche2 = $ct->getNumeroFiche();
-                        echo '<input type="hidden" value ="'.$NumEtape2.'" class="NumEtapeA">
-                        <input type="hidden" value ="'.$NumeroFiche2.'" class="NumeroFicheA"></datalist>';
-                      }
+                    </div>';                    
                     echo '<!-- La barre de recherche -->
                     <div class="flex-grow-1 ms-3 ">
                       <!-- Input group qui rassemble le bouton d\'ajout a la barre de recherche -->
