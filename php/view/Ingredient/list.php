@@ -67,7 +67,7 @@ ini_set('display_errors', 'on');
             <thead class = "table-dark">
             <tr>
                 <th scope="col">Nom</th>
-                <th scope="col">Catégorie</th>
+                <th scope="col"><a href="index.php?controller=categorie_Ingredient&action=readAll">Catégorie</a></th>
                 <th scope="col">Unité</th>
                 <th scope="col">Type d\'allergène</th>
                 <th scope="col">Prix Unitaire <em>(en €)</em></th>
@@ -119,7 +119,7 @@ ini_set('display_errors', 'on');
                 }
             echo '
                 <td>' .$PrixUnitaire. '</td>
-                <td>' .$TVA*100 .'%</td>
+                <td>' .$TVA.'%</td>
                 <td>
             <!-- Boutons stock -->
                     <form>

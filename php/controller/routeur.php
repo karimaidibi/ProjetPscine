@@ -5,7 +5,8 @@
 	require_once File::build_path(array("lib","File.php"));	
 	require_once File::build_path(array("controller","ControllerFicheTechnique.php"));
 	require_once File::build_path(array("controller","ControllerIngredient.php"));	
-	require_once File::build_path(array("controller","ControllerAcceuil.php"));	
+	require_once File::build_path(array("controller","ControllerAcceuil.php"));
+	require_once File::build_path(array("controller","ControllerCategorie_Ingredient.php"));
 
 	/*SI ON NE TROUVE PAS CONTROLLR SPECIFIQUE =>
 		- on affiche la page d'acceuil

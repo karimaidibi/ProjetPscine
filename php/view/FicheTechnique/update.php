@@ -428,9 +428,9 @@ echo '
                           <!-- Deuxième ligne-->
                           <tr>
                             <!-- première colonne-->
-                            <th scope="col">ALLERGENE</th>
-                            <!-- deuxième colonne-->
                             <th scope="col">INGREDIENT</th>
+                            <!-- deuxième colonne-->
+                            <th scope="col">ALLERGENE</th>
                             <!-- 3ème colonne-->
                             <th scope="col">UNITE</th>
                             <!-- 4ème colonne-->
@@ -468,9 +468,9 @@ echo '
                               echo 
                                   '<tr>
                                       <!-- Première colonne (code) -->
-                                      <th scope="row"> ' .$NomAllergene. '</th>
+                                      <th scope="row"> ' .$Ing["NomIng"]. '</th>
                                       <!-- deuxième colonne (ingrédient)-->
-                                      <td>' .$Ing["NomIng"]. '</td>
+                                      <td>' .$NomAllergene. '</td>
                                       <!-- 3ème colonne (Unitairé)-->
                                       <td>' .$NomUnite. '</td>
                                       <!-- 4èmme colonne (Qté_Ing)-->

@@ -56,12 +56,11 @@ class ModelCategorie_Ingredient extends Model{
 
     public function save() {
         try {
-            $sql = "INSERT INTO Categorie_Ingredient VALUES (:NumCategorie,:NomCategorie)";
+            $sql = "INSERT INTO Categorie_Ingredient(`NomCategorie`) VALUES (:NomCategorie)";
             // Préparation de la requête
             $req_prep = Model::$pdo->prepare($sql);
 
             $values = array(
-                "NumCategorie" => self::configNumCategorie()+1,
                 "NomCategorie" => $this->NomCategorie
             );
             // On donne les valeurs et on exécute la requête     
