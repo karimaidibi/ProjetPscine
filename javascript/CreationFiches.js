@@ -159,8 +159,9 @@ document.addEventListener("click",function(){
 function DeleteRowIngredients(o) {
   // supprimer dans le tableau
   var index = TabIngredients.indexOf(o.parentNode.id); // trouver l'index de l'id à supprimer dans la TabFiches
-  console.log("id a spurrimer : " + o.parentNode.id);
+  var index1 = tabingredientsPushed.indexOf(o.parentNode.id);
   var rem = TabIngredients.splice(index,1); // supprimer un element qui se trouve à la position index
+  var rem1 = tabingredientsPushed.splice(index1,1);
   TabQteIngredient.splice(index,1);
   console.log("TabIngredient après supprime : " + TabIngredients);
   incrementeurIng = incrementeurIng - 1;
@@ -286,6 +287,7 @@ document.addEventListener("click",function(){
   var tabingredientsPushed = [];
 
   function associerIngredient(TabFiches){
+    console.log('^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^');
     options = document.querySelectorAll('#listeDesIngredients .nomIngredient') //les noms des ingredients dans la BD
     console.log(options);
     optionsNum = document.querySelectorAll('#listeDesIngredients .NumIngredient')  // les num des ingredients dans ma BD
@@ -295,8 +297,6 @@ document.addEventListener("click",function(){
     FK_NumeroFiche = document.querySelectorAll('#compositions .FK_NumeroFiche');
     FK_NumeroIngredient = document.querySelectorAll('#compositions .FK_NumeroIngredient');
     QuantiteIngredient = document.querySelectorAll('#compositions .QuantiteIngredient');
-    console.log('gggggggggggggggggggggggggggggggggggggggggg');
-    console.log(options);
     var table = document.getElementById("bodyIngredients");
     if(TabFiches.length>tabingredientsPushed.length){
       if(tabingredientsPushed.length==0){
@@ -315,6 +315,8 @@ document.addEventListener("click",function(){
               Unite = optionsUnite[y].value;
               Allergene = optionsAllergene[y].value;
               Quantite = QuantiteIngredient[i].value;
+              console.log('gggggggggggggggggggggggggggggggggggggggggg');
+              console.log(ingredientInTable(CodeIngredient));
               if(!ingredientInTable(CodeIngredient)){
                 var row = table.insertRow(table.length);
                 var cell1 = row.insertCell(0);
@@ -373,6 +375,7 @@ document.addEventListener("click",function(){
     var index = TabFiches.indexOf(o.parentNode.id); // trouver l'index de l'id à supprimer dans la TabFiches
     var rem = TabFiches.splice(index,1); // supprimer un element qui se trouve à la position index
     console.log("TabFiche après supprime " + TabFiches);
+    console.log(TabFiches);
     // supprimer la ligne
     var p=o.parentNode.parentNode;
     p.parentNode.removeChild(p);
@@ -474,7 +477,9 @@ document.addEventListener("click",function(){
   function DeleteRowProgressions(o) {
     // supprimer dans le tableau
     var index = TabProgressions.indexOf(o.parentNode.id); // trouver l'index de l'id à supprimer dans la TabFiches
+    var index1 = tabProgressionsPushed.indexOf(o.parentNode.id);
     var rem = TabProgressions.splice(index,1); // supprimer un element qui se trouve à la position index
+    var rem1 = tabProgressionsPushed.splice(index1,1);
     console.log("TABétape après supprime " + TabProgressions);
     // supprimer la ligne
     var p=o.parentNode.parentNode;
