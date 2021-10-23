@@ -11,7 +11,11 @@
 
     //objet categorie
     $cetteCategorie = ModelCategorie_Fiche::select($NumeroCategorie);
-    $NomCategorie = $cetteCategorie -> getNomCatFiche();
+    if(!empty($cetteCategorie)){
+        $NomCategorie = $cetteCategorie -> getNomCatFiche();
+      }else{
+        $NomCategorie = "Pas de catégorie";
+      }
 
     //objet CoefficientsAss
     $coeffAss = ModelCoeffAss::select($FK_CodeCoeffAss);
@@ -84,7 +88,7 @@
             <!-- Une ligne qui contient :
                     - une colonne pour la table progression
                     - une colonne pour la table Ingrédients avec les pric etc -->
-            <div class="row row-cols-2  pt-4">
+            <div class="row row-cols-2 justify-content-evenly  pt-4">
                 <!-- 1ère colonne (colonne des progressions ) -->
                 <div class ="col-auto">
                     <!-- Les progressions de la fiche sous forme dune table-->
@@ -108,7 +112,7 @@
                     </table>
                 </div>
                 <!-- Deuxème colonne (colonne des ingrédients ) -->
-                <div class ="col-8 pe-5">
+                <div class ="col-auto pe-5">
                 <!-- Les Ingrédients de la fiche sous forme dune table, en colonne
                     - Dénomination : 
                         -  Code | Ingrédient | Unité 
@@ -178,7 +182,7 @@
             echo '
                 <div class="row justify-content-start">
                     <!-- les fiches techniques -->
-                    <div class="col-8">
+                    <div class="col-auto">
                         <!------LA TABLE QUI CONTIENT LES FICHES TECHNIQUES--------->
                         <table class="table table-striped table-hover align-middle">
                             <thead>

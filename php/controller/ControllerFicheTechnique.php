@@ -337,6 +337,9 @@ class ControllerFicheTechnique{
 				if(!empty($Ingredients)){
 					foreach($Ingredients as $Ing){
 						$StockFinal = $Ing["QteStockIngredient"] - $Ing["QuantiteIngredient"] ; //on calcul le stock final
+						if($StockFinal<0){
+							$StockFinal = 0;
+						}
 						$NumIngredient = $Ing["NumIngredient"];
 						$data = array(
 							"primary" => $NumIngredient,
@@ -379,6 +382,9 @@ class ControllerFicheTechnique{
 								foreach($Ingredients as $Ing){ //pour chaque ingredient appartenant au ticket
 									$StockFinal = $Ing["QteStockIngredient"] - $Ing["QuantiteIngredient"] ; //on calcul le stock final
 									$NumIngredient = $Ing["NumIngredient"];
+									if($StockFinal<0){
+										$StockFinal = 0;
+									}
 									$data = array(
 										"primary" => $NumIngredient,
 										"QteStockIngredient" => $StockFinal

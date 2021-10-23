@@ -13,7 +13,12 @@ if($type=='readonly'){
 
   //categorie de la fiche
   $categorie = ModelCategorie_Fiche::select($FK_NumeroCatFiche);
-  $NomCatFiche = $categorie -> getNomCatFiche();
+  if(!empty($categorie)){
+    $NomCatFiche = $categorie -> getNomCatFiche();
+  }else{
+    $NomCatFiche = "Pas de catégorie";
+  }
+
 
   //coefficients de la fiche
   $coeffAss = ModelCoeffAss::select($FK_CodeCoeffAss);
@@ -122,7 +127,7 @@ echo '
                               foreach($categories as $cat){
                                 $NumCategorie = $cat->getNumeroCatFiche();
                                 $NomCategorie = $cat->getNomCatFiche();
-                                if(empty($FK_NumeroCatFiche)){
+                                if(empty($categorie)){
                                   echo '<option value="">--choisissez une catégorie--</option>' ;
                                 }
                                 elseif($NumCategorie==$FK_NumeroCatFiche){
@@ -639,4 +644,4 @@ echo '
 
 ?>
 
-<script src="../javascript/CreationFiches.js" ></script>
+<script src="../../../javascript/CreationFiches.js" ></script>
