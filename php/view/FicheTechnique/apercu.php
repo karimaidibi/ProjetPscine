@@ -57,7 +57,7 @@
                 </div>
             </div>
             <!---la division qui va etre imprimée contenant toutes les informations à propos de la fiche technique,-->
-            <div class="container mt-5 ps-4 pe-3 bg-light bg-gradient border border-dark" id="imprimer ">
+            <div class="container mt-5 ps-4 pe-3 bg-light bg-gradient border border-dark" id="imprimer">
             <!--liste des  Descriptifs et des coeff -->
             <div class="row row-cols-2 justify-content-around pt-4">
                 <!-- la liste des descriptifs-->
@@ -86,7 +86,7 @@
                     - une colonne pour la table Ingrédients avec les pric etc -->
             <div class="row row-cols-2  pt-4">
                 <!-- 1ère colonne (colonne des progressions ) -->
-                <div class ="col-4">
+                <div class ="col-auto">
                     <!-- Les progressions de la fiche sous forme dune table-->
                     <table class="table table-hover table-striped align-middle">
                         <thead>
@@ -233,7 +233,7 @@
                         </table> 
                     </div>
                     <!-- les fiches techniques -->
-                    <div class="col-8">
+                    <div class="col-auto">
                         <!------LA TABLE QUI CONTIENT LES FICHES TECHNIQUES--------->
                         <table class="table table-striped table-hover align-middle">
                             <thead>
