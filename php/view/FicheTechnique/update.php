@@ -153,8 +153,26 @@ echo '
                           </div>
                         </li>
                     </ul>
-                </div>';
-         echo '<!-- La liste d input des coefficients utilisés dans la fiche technique dans une colonne-->
+                </div>
+                <datalist id="compositions" >';
+                    foreach($compositions as $c){
+                      $FK_NumeroFiche = $c->getFK_NumeroFiche();
+                      $FK_NumIngredient = $c->getFK_NumIngredient();
+                      $QuantiteIngredient = $c->getQuantiteIngredient();
+
+                      echo '<input type="hidden" value ="'.$FK_NumeroFiche.'" class="FK_NumeroFiche">
+                          <input type="hidden" value ="'.$FK_NumIngredient.'" class="FK_NumeroIngredient">
+                          <input type="hidden" value ="'.$QuantiteIngredient.'" class="QuantiteIngredient">';
+                      }
+                      echo  '</datalist>
+                      <datalist id="listeDesProgressionsA" >';
+                      foreach($contenir as $ct){
+                        $NumEtape2 = $ct->getNumEtape();
+                        $NumeroFiche2 = $ct->getNumeroFiche();
+                        echo '<input type="hidden" value ="'.$NumEtape2.'" class="NumEtapeA">
+                        <input type="hidden" value ="'.$NumeroFiche2.'" class="NumeroFicheA"></datalist>';
+                      }
+                echo '<!-- La liste d input des coefficients utilisés dans la fiche technique dans une colonne-->
                 <div class="col-6">
                     <ul class="list-group list-group-flush">
                         <!-- La liste d input des Coefficients utilisés-->
@@ -373,37 +391,31 @@ echo '
                         }
                   echo' </datalist>
                       </div> 
-                      <!--les autres données-->
-                        <datalist id=associerIngredient>
-                          <input type="hidden" value ="'.$NomAllergene.'" class="NomAllergene2">
-                          <input type="hidden" value ="'.$Ing["NomIng"].'" class="NomIngredient2">
-                          <input type="hidden" value ="'.$NomUnite.'" class="Unite2">
-                          <input type="hidden" value ="'.$Ing["QuantiteIngredient"].'" class="QuantiteIngredient2">
-                          <input type="hidden" value ="'.$Ing["prixUnitaireIng"].'" class="PrixUnitaire2">
-                        </datalist>
-                        <datalist id="compositions" >';
-                        foreach($compositions as $c){
-                          $FK_NumeroFiche = $c->getFK_NumeroFiche();
-                          $FK_NumIngredient = $c->getFK_NumIngredient();
-                          $QuantiteIngredient = $c->getQuantiteIngredient();
-    
-                          echo '<input type="hidden" value ="'.$FK_NumeroFiche.'" class="FK_NumeroFiche">
-                              <input type="hidden" value ="'.$FK_NumIngredient.'" class="FK_NumeroIngredient">
-                              <input type="hidden" value ="'.$QuantiteIngredient.'" class="QuantiteIngredient">';
-                          }
-              echo  '</datalist>
-                     <datalist id="listeDesProgressionsA" >';
-                          foreach($contenir as $ct){
-                            $NumEtape2 = $ct->getNumEtape();
-                            $NumeroFiche2 = $ct->getNumeroFiche();
-                            echo '<input type="hidden" value ="'.$NumEtape2.'" class="NumEtapeA">
-                            <input type="hidden" value ="'.$NumeroFiche2.'" class="NumeroFicheA">
-                      </datalist>';
-                          }
-                echo '
                     </div>                   
                   </div>
-                  <!-- Les Ingrédients de la fiche sous forme d une table, en colonne
+                  <datalist id=associerIngredient>';
+                  foreach($ingredients as $ing){
+                    $NumIngredient = $i->getNumIngredient();
+                    $NomIng = $i->getNomIng();
+                    $PrixUnitaire = $i->getPrixUnitaireIng();
+                    $QuantiteStock = $i->getQteStockIngredient();
+                    $FK_NumUnite = $i->getFK_NumUnite();
+                    $FK_NumAllergene = $i->getFK_NumAllergene();
+                    $objetAllergene = ModelAllergene::select($FK_NumAllergene); //recuperer son allergene si existe
+                    if(!empty($objetAllergene)){
+                        $NomAllergene = $objetAllergene ->getNomAllergene();
+                    }else{
+                        $NomAllergene = "";
+                    }
+                    echo '<input type="hidden" value ="'.$NomAllergene.'" class="NomAllergene2">
+                          <input type="hidden" value ="'.$NomIng.'" class="NomIngredient2">
+                          <input type="hidden" value ="'.$FK_NumUnite.'" class="Unite2">
+                          <input type="hidden" value ="'.$QuantiteStock.'" class="QuantiteIngredient2">
+                          <input type="hidden" value ="'.$PrixUnitaire.'" class="PrixUnitaire2">
+                      </datalist>';
+                    }
+
+                  echo '<!-- Les Ingrédients de la fiche sous forme d une table, en colonne
                       - Dénomination : 
                           -  Code | Ingrédient | Unité 
                       - Valorisation :
