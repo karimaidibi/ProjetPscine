@@ -382,20 +382,35 @@ echo '
                                 <input type="hidden" value ="'.$NumIngredient.'" class="NumIngredient">
                                 <input type="hidden" value ="'.$PrixUnitaire.'" class="PrixUnitaire">
                                 <input type="hidden" value ="'.$Unite.'" class="Unite">
-                                <input type="hidden" value ="'.$NomAllergene.'" class="Allergene">
-                                <datalist id=associerIngredient>
-                                    <input type="hidden" value ="'.$NomAllergene.'" class="NomAllergene2">
-                                    <input type="hidden" value ="'.$i["NomIng"].'" class="NomIngredient2">
-                                    <input type="hidden" value ="'.$NomUnite.'" class="Unite2">
-                                    <input type="hidden" value ="'.$Ing["QuantiteIngredient"].'" class="QuantiteIngredient2">
-                                    <input type="hidden" value ="'.$Ing["prixUnitaireIng"].'" class="PrixUnitaire2">
-                                </datalist>';
+                                <input type="hidden" value ="'.$NomAllergene.'" class="Allergene">';
                         }
                   echo' </datalist>
                       </div> 
                     </div>                   
                   </div>
-                  <!-- Les Ingrédients de la fiche sous forme d une table, en colonne
+                  <datalist id=associerIngredient>';
+                  foreach($ingredients as $ing){
+                    $NumIngredient = $i->getNumIngredient();
+                    $NomIng = $i->getNomIng();
+                    $PrixUnitaire = $i->getPrixUnitaireIng();
+                    $QuantiteStock = $i->getQteStockIngredient();
+                    $FK_NumUnite = $i->getFK_NumUnite();
+                    $FK_NumAllergene = $i->getFK_NumAllergene();
+                    $objetAllergene = ModelAllergene::select($FK_NumAllergene); //recuperer son allergene si existe
+                    if(!empty($objetAllergene)){
+                        $NomAllergene = $objetAllergene ->getNomAllergene();
+                    }else{
+                        $NomAllergene = "";
+                    }
+                    echo '<input type="hidden" value ="'.$NomAllergene.'" class="NomAllergene2">
+                          <input type="hidden" value ="'.$NomIng.'" class="NomIngredient2">
+                          <input type="hidden" value ="'.$FK_NumUnite.'" class="Unite2">
+                          <input type="hidden" value ="'.$QuantiteStock.'" class="QuantiteIngredient2">
+                          <input type="hidden" value ="'.$PrixUnitaire.'" class="PrixUnitaire2">
+                      </datalist>';
+                    }
+
+                  echo '<!-- Les Ingrédients de la fiche sous forme d une table, en colonne
                       - Dénomination : 
                           -  Code | Ingrédient | Unité 
                       - Valorisation :

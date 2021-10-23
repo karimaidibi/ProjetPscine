@@ -295,6 +295,8 @@ document.addEventListener("click",function(){
     FK_NumeroFiche = document.querySelectorAll('#compositions .FK_NumeroFiche');
     FK_NumeroIngredient = document.querySelectorAll('#compositions .FK_NumeroIngredient');
     QuantiteIngredient = document.querySelectorAll('#compositions .QuantiteIngredient');
+    console.log('gggggggggggggggggggggggggggggggggggggggggg');
+    console.log(options);
     var table = document.getElementById("bodyIngredients");
     if(TabFiches.length>tabingredientsPushed.length){
       if(tabingredientsPushed.length==0){
@@ -313,7 +315,6 @@ document.addEventListener("click",function(){
               Unite = optionsUnite[y].value;
               Allergene = optionsAllergene[y].value;
               Quantite = QuantiteIngredient[i].value;
-              console.log(ingredientInTable(CodeIngredient));
               if(!ingredientInTable(CodeIngredient)){
                 var row = table.insertRow(table.length);
                 var cell1 = row.insertCell(0);
@@ -358,8 +359,6 @@ document.addEventListener("click",function(){
   function ingredientInTable(CodeIngredient){
     for(var i=0; i<TabIngredients.length; i++){
       console.log('TabIngredients');
-      console.log(TabIngredients[i]);
-      console.log(i);
       if(CodeIngredient==TabIngredients[i]){
         return true;
       }
