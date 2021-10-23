@@ -389,7 +389,7 @@ echo '
                                     <input type="hidden" value ="'.$NomUnite.'" class="Unite2">
                                     <input type="hidden" value ="'.$Ing["QuantiteIngredient"].'" class="QuantiteIngredient2">
                                     <input type="hidden" value ="'.$Ing["prixUnitaireIng"].'" class="PrixUnitaire2">
-                                  </datalist>';
+                                </datalist>';
 
                         }
                   echo' </datalist>
