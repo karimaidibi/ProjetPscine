@@ -427,8 +427,6 @@ document.addEventListener("click",function(){
     optionsNum = document.querySelectorAll('#listeDesProgressions .NumProgression'); //les Num des progressions dans la BD
     ContenirFiche = document.querySelectorAll('#listeDesProgressionsA .NumeroFicheA');
     ContenirEtape = document.querySelectorAll('#listeDesProgressionsA .NumEtapeA');
-    console.log('ContenirFiche');
-    console.log(ContenirFiche);
     if(TabFiches.length>tabProgressionsPushed.length){
       if(tabingredientsPushed.length==0){
         indexFiche = 0;
@@ -436,15 +434,10 @@ document.addEventListener("click",function(){
       else{
         indexFiche = TabFiches.length - tabingredientsPushed.length;
       }
-      console.log('ContenirFiche.length');
-      console.log(ContenirFiche.length);
       for(var i=0; i<ContenirFiche.length; i++){
-        console.log('dzezfzfefezezfffzf');
         if(TabFiches[indexFiche]==ContenirFiche[i].value){
-          console.log('dzezfzfefezezfffzf');
           for(var y=0; y<ContenirEtape.length; y++){
             if(ContenirEtape[i].value==optionsNum[y].value){
-              console.log('hgyuuygugugujbkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkgyuy');
               description = options[y].value;
               ordreProgressions = ordreProgressions + 1;
               if(!ProgressionInTable(ContenirEtape[i].value)){
@@ -457,6 +450,11 @@ document.addEventListener("click",function(){
                 cell2.innerHTML = description;
                 cell3.innerHTML = '<button class="btn btn-danger" type="button" onclick="DeleteRowProgressions(this)"><i class="bi bi-trash" style="font-size: 1rem;" ></i></button>';
                 cell3.id = ContenirEtape[i].value;
+                tabProgressionsPushed.push(ContenirEtape[i].value);
+                TabProgressions.push(ContenirEtape[i].value);
+                console.log('TabProgressions');
+                console.log(TabProgressions);
+                document.cookie = 'TabProgressions=' + JSON.stringify(TabProgressions) + '; path=/'; // cookie
               }
             }
           }

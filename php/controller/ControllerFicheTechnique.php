@@ -89,6 +89,7 @@ class ControllerFicheTechnique{
 		if($tabProgressions!=NULL){
 		//$reg = "abc";
 			foreach($tabProgressions as $numProgression){
+				echo !is_numeric($numProgression);
 				if(!is_numeric($numProgression)){
 					ControllerEtape::create($numProgression);
 				}
