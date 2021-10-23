@@ -39,7 +39,7 @@ function imprimer() {
       return false;
   } */
 
-document.addEventListener("change", function(){
+ function confirmer(){
   // avant
   var dateFabrication = document.getElementById('DateFabric').value;
   console.log(dateFabrication);
@@ -73,4 +73,12 @@ document.addEventListener("change", function(){
   //var lala = moment(dateFabrication);
   //var lalao = moment(lala).add(3,days);
 
-});
+}
+
+function annuler(){
+  document.getElementById('DateFabric').style.display = "";
+  document.getElementById('DateFabricCache').innerText = 'jj/mm/aaaa';
+  document.getElementById('DateFabricCache').style.display="none";
+  document.getElementById("DatePeremption").innerText = 'jj/mm/aaaa';
+  document.getElementById("DatePeremption").style.display="none";
+}

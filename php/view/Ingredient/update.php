@@ -56,7 +56,7 @@ if($type=='readonly'){
                                     </div>
                                     <!-- Deuxième sous colonne -->
                                     <div class="col-auto">
-                                        <select name="FK_NumUnite" id="FK_NumUnite_id" required>
+                                        <select name="FK_NumUnite" id="FK_NumUnite_id" required/>
                                             <option value="">--Choisissez une unité--</option>';
                                         if($type=='readonly'){
                                             foreach($liste_unite as $unite){
@@ -241,7 +241,7 @@ if($type=='readonly'){
                                     <!-- Deuxième sous colonne -->
                                     <div class="col-auto">
                                     <select name="FK_NumAllergene" id="FK_NumAllergene_id">
-                                        <option value="">--Choisissez un allergène--</option>';
+                                        <option id="fist" value="">--Choisissez un allergène--</option>';
                                     if($type=='readonly'){
                                         foreach ($liste_allergene as $allergene) {
                                             $NumeroAllergene = $allergene->getNumAllergene();

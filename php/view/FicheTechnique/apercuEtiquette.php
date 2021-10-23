@@ -32,6 +32,16 @@
 		</div>';
     }
 echo '
+        <div class="container">
+        <!-Les boutons pour confirmer ou paas letiquette-->
+        <div class="float-end d-grid gap-2 d-md-block">
+            <button class="btn btn-dark" type="button" onclick="confirmer()">
+            <i class="bi bi-hand-thumbs-up"></i>
+            </button>  
+            <button class="btn btn-dark" type="button" onclick="annuler()">
+            <i class="bi bi-hand-thumbs-down"></i>
+            </button>  
+        </div>
         <!--Division pour le formulaire complet de létiquette qui va etre imprimé-->
         <div class="ms-5 me-5 mt-5 " id="imprimer">
             <!--carte qui contient létiquette-->
@@ -71,7 +81,8 @@ echo '
                     if(is_null($NumAllergene)){
                         echo $NomIngredient. ', ';
                     }else{
-                        echo ' <strong> ' .$NomIngredient. ', </strong>';
+                        $NomAllergene = ModelAllergene::select($NumAllergene) ->getNomAllergene();
+                        echo ' <strong> '.$NomIngredient.'</strong><em class="text-muted">('.$NomAllergene.'),</em></p>';
                     }
                 }
                 echo '
@@ -79,6 +90,7 @@ echo '
                         </div>
                 </div>
             </div>
+        </div>
         </div>
 
     <form class="was-validated">
@@ -95,6 +107,14 @@ echo '
                 <input type="number" id="nbreTickets" class="form-control" name="nbreTickets" placeholder="ajouter" required/>
                 <input type="hidden" name="NumeroFiche" value = "'.$NumeroFiche.'" required/>
             </div>
+            <div class ="col-auto mb-2">
+            <button type="submit" class="btn btn-warning me-2" >
+                    <input type="hidden" name="controller" value="FicheTechnique">
+                    <input type="hidden" name="action" value="gererStockEtiquette">
+                    <i class="bi bi-file-earmark-arrow-down" style="font-size: 1rem; color:black;"></i>
+                    seulement utiliser les étiquettes 
+            </button>
+            </div>
             <div class ="col-auto">
                 <button type="submit" class="btn btn-warning me-2" onclick="imprimer()">
                         <input type="hidden" name="controller" value="FicheTechnique">
@@ -102,7 +122,7 @@ echo '
                         <i class="bi bi-file-earmark-arrow-down" style="font-size: 1rem; color:black;"></i>
                         Utiliser les étiquettes et imprimer 
                 </button>
-            <div>
+            </div>
         </div>
     </form>
 
