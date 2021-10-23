@@ -286,8 +286,7 @@ echo '
                     
                   }
                   echo '
-                    </datalist>
-                  </div>
+                    </datalist></div>
                   <!-- Les progressions de la fiche sous forme d\'une table-->
                   <div class="container-fluid mt-3">
                     <table class="table table-striped table-hover">
@@ -343,7 +342,18 @@ echo '
                           <input type="hidden" value ="'.$QuantiteIngredient.'" class="QuantiteIngredient">';
                       }
                       echo  '</datalist>
-                    <!-- La barre de recherche -->
+                      <datalist id="listeDesProgressionsA" >';
+                      foreach($contenir as $ct){
+                        $NumEtape2 = $ct->getNumEtape();
+                        $NumeroFiche2 = $ct->getNumeroFiche();
+                        print_r($ct);
+                        echo $ct->getNumEtape();
+                        echo $NumEtape2;
+                        echo $NumeroFiche2;
+                        echo '<input type="hidden" value ="'.$NumEtape2.'" class="NumEtapeA">
+                        <input type="hidden" value ="'.$NumeroFiche2.'" class="NumeroFicheA"></datalist>';
+                      }
+                    echo '<!-- La barre de recherche -->
                     <div class="flex-grow-1 ms-3 ">
                       <!-- Input group qui rassemble le bouton d\'ajout a la barre de recherche -->
                       <div class="input-group">

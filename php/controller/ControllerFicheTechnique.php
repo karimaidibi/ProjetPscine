@@ -234,6 +234,7 @@ class ControllerFicheTechnique{
 		$progressions = ModelEtape::selectAll(); // toutes les progressions dans la BD
 		$coefficientsAss = ModelCoeffAss::selectAll(); // touts les coeff Ass dans la BD
 		$coefficientsCoutPersonnel = ModelCoeffCoutPersonnel::selectAll(); // touts les coeff de cout personnel dans la BD 
+		$contenir = ModelContenir::selectAll();
 		$compositions = ModelComposer::selectAll();
 		if(is_null(myGet('NumeroFiche'))){ // si c'est pour créer
         	$view='update';

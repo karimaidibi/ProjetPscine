@@ -269,6 +269,7 @@ document.addEventListener("click",function(){
     console.log("id sous fiche créée : " + cell6.id);
     TabFiches.push(codeFiche); // on rajoute le Code de la fiche rajouté par lutilisateur dans le tableau TabFiches
     associerIngredient(TabFiches);
+    associerProgressions();
     console.log("TabFiche après ajouté : " + TabFiches);
     
     //document.cookie = "TabFiches=; expires=Thu, 01 Jan 1970 00:00:00 GMT; SameSite=None; Secure";
@@ -303,19 +304,9 @@ document.addEventListener("click",function(){
         indexFiche = TabFiches.length - tabingredientsPushed.length;
       }
       for(var i=0; i<FK_NumeroFiche.length; i++){
-        //console.log(FK_NumeroFiche[i].value);
-        //console.log(TabFiches[indexFiche]);
         if(FK_NumeroFiche[i].value==TabFiches[indexFiche]){
-          console.log(FK_NumeroFiche[i].value);
-          console.log(FK_NumeroIngredient[i].value);
-          console.log(TabFiches[indexFiche]);
           for(var y=0; y<optionsNum.length; y++){
-            console.log(optionsNum.length);
-            console.log(y);
-            console.log('y');
             if(optionsNum[y].value==FK_NumeroIngredient[i].value){
-              console.log('hfdiiiiiiiiiiii');
-              console.log(optionsNum[y].value);
               CodeIngredient = FK_NumeroIngredient[i].value;
               nomIngredient = options[y].value;
               PrixUnitaire = optionsPrixU[y].value; // on recupere son PrixU
@@ -348,6 +339,7 @@ document.addEventListener("click",function(){
                 cell7.innerHTML = '<button class="btn btn-danger" type="button" onclick="DeleteRowIngredients(this)"><i class="bi bi-trash" style="font-size: 1rem;" ></i></button>';
                 cell7.id = CodeIngredient;
                 TabIngredients.push(CodeIngredient); // on rajoute le Code de lingredient rajouté par lutilisateur dans le tableau TabIngredients
+                tabingredientsPushed.push(CodeIngredient);
                 TabQteIngredient.push("");
                 console.log(TabIngredients);
               }
@@ -391,6 +383,7 @@ document.addEventListener("click",function(){
     /* Elle prend la table de la création des fiches techniques :
   - elle rajoute une ligne à la fin du tableau
   - si l'input n'existe pas dans la datalist de la barre de recherche, le rajout de la ligne n'est pas accepté */
+  ordreProgressions = 0;
 
   function CreateLigneProgressionExistante() {
     options = null;
@@ -427,16 +420,69 @@ document.addEventListener("click",function(){
     }
 }
 
-function DeleteRowProgressions(o) {
-  // supprimer dans le tableau
-  var index = TabProgressions.indexOf(o.parentNode.id); // trouver l'index de l'id à supprimer dans la TabFiches
-  var rem = TabProgressions.splice(index,1); // supprimer un element qui se trouve à la position index
-  console.log("TABétape après supprime " + TabProgressions);
-  // supprimer la ligne
-  var p=o.parentNode.parentNode;
-  p.parentNode.removeChild(p);
-  document.cookie = 'TabProgressions=' + JSON.stringify(TabFiches) + '; path=/'; // cookie renvoyé avec le tableau mis à jour
-}
+  tabProgressionsPushed = [];
+
+  function associerProgressions(){
+    options = document.querySelectorAll('#listeDesProgressions .nomProgression'); //les noms des progressions dans la BD
+    optionsNum = document.querySelectorAll('#listeDesProgressions .NumProgression'); //les Num des progressions dans la BD
+    ContenirFiche = document.querySelectorAll('#listeDesProgressionsA .NumeroFicheA');
+    ContenirEtape = document.querySelectorAll('#listeDesProgressionsA .NumEtapeA');
+    console.log('ContenirFiche');
+    console.log(ContenirFiche);
+    if(TabFiches.length>tabProgressionsPushed.length){
+      if(tabingredientsPushed.length==0){
+        indexFiche = 0;
+      }
+      else{
+        indexFiche = TabFiches.length - tabingredientsPushed.length;
+      }
+      console.log('ContenirFiche.length');
+      console.log(ContenirFiche.length);
+      for(var i=0; i<ContenirFiche.length; i++){
+        console.log('dzezfzfefezezfffzf');
+        if(TabFiches[indexFiche]==ContenirFiche[i].value){
+          console.log('dzezfzfefezezfffzf');
+          for(var y=0; y<ContenirEtape.length; y++){
+            if(ContenirEtape[i].value==optionsNum[y].value){
+              console.log('hgyuuygugugujbkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkgyuy');
+              description = options[y].value;
+              ordreProgressions = ordreProgressions + 1;
+              if(!ProgressionInTable(ContenirEtape[i].value)){
+                var table = document.getElementById("bodyProgressions");
+                var row = table.insertRow(table.length);
+                var cell1 = row.insertCell(0);
+                var cell2 = row.insertCell(1);
+                var cell3 = row.insertCell(2);
+                cell1.innerHTML = ordreProgressions;
+                cell2.innerHTML = description;
+                cell3.innerHTML = '<button class="btn btn-danger" type="button" onclick="DeleteRowProgressions(this)"><i class="bi bi-trash" style="font-size: 1rem;" ></i></button>';
+                cell3.id = ContenirEtape[i].value;
+              }
+            }
+          }
+        }
+      }
+  }
+
+  function ProgressionInTable(CodeProgression){
+    for(var i=0; i<TabProgressions.length; i++){
+      if(CodeProgression==TabProgressions[i]){
+        return true;
+      }
+    }
+    return false;
+  }
+
+  function DeleteRowProgressions(o) {
+    // supprimer dans le tableau
+    var index = TabProgressions.indexOf(o.parentNode.id); // trouver l'index de l'id à supprimer dans la TabFiches
+    var rem = TabProgressions.splice(index,1); // supprimer un element qui se trouve à la position index
+    console.log("TABétape après supprime " + TabProgressions);
+    // supprimer la ligne
+    var p=o.parentNode.parentNode;
+    p.parentNode.removeChild(p);
+    document.cookie = 'TabProgressions=' + JSON.stringify(TabFiches) + '; path=/'; // cookie renvoyé avec le tableau mis à jour
+  }
 
     /* Elle prend la table de la création des fiches techniques :
   - elle rajoute une ligne à la fin du tableau
@@ -479,5 +525,6 @@ function DeleteRowProgressions(o) {
         alert('Progression existe déja, veuillez la rajouter de la barre en dessous'); 
       }
     }
+  }
 }
 
