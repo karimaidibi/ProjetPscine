@@ -460,6 +460,7 @@ document.addEventListener("click",function(){
           }
         }
       }
+    }
   }
 
   function ProgressionInTable(CodeProgression){
@@ -524,5 +525,5 @@ document.addEventListener("click",function(){
       }
     }
   }
-}
+
 

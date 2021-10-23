@@ -346,10 +346,6 @@ echo '
                       foreach($contenir as $ct){
                         $NumEtape2 = $ct->getNumEtape();
                         $NumeroFiche2 = $ct->getNumeroFiche();
-                        print_r($ct);
-                        echo $ct->getNumEtape();
-                        echo $NumEtape2;
-                        echo $NumeroFiche2;
                         echo '<input type="hidden" value ="'.$NumEtape2.'" class="NumEtapeA">
                         <input type="hidden" value ="'.$NumeroFiche2.'" class="NumeroFicheA"></datalist>';
                       }
