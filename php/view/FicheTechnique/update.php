@@ -385,12 +385,11 @@ echo '
                                 <input type="hidden" value ="'.$NomAllergene.'" class="Allergene">
                                 <datalist id=associerIngredient>
                                     <input type="hidden" value ="'.$NomAllergene.'" class="NomAllergene2">
-                                    <input type="hidden" value ="'.$Ing["NomIng"].'" class="NomIngredient2">
+                                    <input type="hidden" value ="'.$i["NomIng"].'" class="NomIngredient2">
                                     <input type="hidden" value ="'.$NomUnite.'" class="Unite2">
                                     <input type="hidden" value ="'.$Ing["QuantiteIngredient"].'" class="QuantiteIngredient2">
                                     <input type="hidden" value ="'.$Ing["prixUnitaireIng"].'" class="PrixUnitaire2">
                                 </datalist>';
-
                         }
                   echo' </datalist>
                       </div> 
