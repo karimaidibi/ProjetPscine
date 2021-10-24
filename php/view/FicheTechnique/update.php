@@ -1,9 +1,8 @@
 <script src="../javascript/CreationFiches.js" ></script>
-<script src="../../../javascript/CreationFiches.js" ></script>
 
 <?php
 
-echo '<script src="../../../javascript/CreationFiches.js" ></script>';
+
 
 // si on update la fiche 
 if($type=='readonly'){
@@ -378,7 +377,12 @@ echo '
                           $FK_CodeTVA = $i->getFK_CodeTVA();
                           $FK_NumCategorie = $i->getFK_NumCategorie();
                   
-                          $Unite = ModelUnite::select($FK_NumUnite)->getNomUnite();
+                          $Unite = ModelUnite::select($FK_NumUnite);
+                          if(!empty($Unite)){
+                            $unite = $Unite->getNomUnite();
+                          }else{
+                            $unite = "pas d'unité";
+                          }
                           $objetAllergene = ModelAllergene::select($FK_NumAllergene); //recuperer son allergene si existe
                           if(!empty($objetAllergene)){
                               $NomAllergene = $objetAllergene ->getNomAllergene();
@@ -391,7 +395,7 @@ echo '
                           echo '<option value="'.$NomIng.'" class="nomIngredient">
                                 <input type="hidden" value ="'.$NumIngredient.'" class="NumIngredient">
                                 <input type="hidden" value ="'.$PrixUnitaire.'" class="PrixUnitaire">
-                                <input type="hidden" value ="'.$Unite.'" class="Unite">
+                                <input type="hidden" value ="'.$unite.'" class="Unite">
                                 <input type="hidden" value ="'.$NomAllergene.'" class="Allergene">';
                         }
                   echo' </datalist>
@@ -405,6 +409,9 @@ echo '
                     $PrixUnitaire = $i->getPrixUnitaireIng();
                     $QuantiteStock = $i->getQteStockIngredient();
                     $FK_NumUnite = $i->getFK_NumUnite();
+                    if(is_null($FK_NumUnite)){
+                      $FK_NumUnite = 0;
+                    }
                     $FK_NumAllergene = $i->getFK_NumAllergene();
                     $objetAllergene = ModelAllergene::select($FK_NumAllergene); //recuperer son allergene si existe
                     if(!empty($objetAllergene)){
@@ -609,7 +616,11 @@ echo '
                             $NumSousFiche = $sousfiche["FK_NumeroSousFiche"];
                             $NumCatFiche = $sousfiche["FK_NumeroCatFiche"];
                             $cetteCategorie = ModelCategorie_Fiche::select($NumCatFiche);
-                            $NomCategorie = $cetteCategorie -> getNomCatFiche();
+                            if(!empty($cetteCategorie)){
+                              $NomCategorie = $cetteCategorie -> getNomCatFiche();
+                            }else{
+                              $NomCategorie = "pas de catégorie";
+                            }
                             echo
                                '<tr>
                                     <th scope="row">' .$sousfiche["ordre"].'</th>

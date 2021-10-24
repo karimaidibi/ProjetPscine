@@ -7,7 +7,7 @@ TabFiches = new Array(); // variable globale qui contient les sous fiches
 var ordreFiche = 0;
 
 TabProgressions = new Array();
-document.cookie = 'TabProgressions=' + JSON.stringify(TabProgressions) + '; path=/'; // cookie
+//document.cookie = 'TabProgressions=' + JSON.stringify(TabProgressions) + '; path=/'; // cookie
 ordreProgressions = 0;
 /*-----------*/ 
 
@@ -407,7 +407,7 @@ document.addEventListener("click",function(){
       cell3.id = CodeProgression; // on attribut le code de la progression qui vient detre rajouté dans le front comme id à la case qui contient le bouton supprimer
       console.log("id etape ajouté : " + CodeProgression);
       TabProgressions.push(CodeProgression); // on push le code dans le tableau 
-      tabProgressionsPushed(CodeProgression);
+      tabProgressionsPushed.push(CodeProgression);
       console.log("Tab progression après ajout : " + TabProgressions);
       console.log(TabProgressions);
       console.log("TapProgressionPushed après ajout");

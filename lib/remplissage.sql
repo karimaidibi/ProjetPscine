@@ -5,6 +5,51 @@ DELETE FROM Categorie_Ingredient;
 DELETE FROM TVA;
 DELETE FROM coeffAss;
 DELETE FROM coeffCoutPersonnel;
+DELETE FROM etape;
+DELETE FROM fichetechnique;
+DELETE FROM ingredient;
+
+
+INSERT INTO fichetechnique VALUES('1','Meringues framboises cranberry','4','Maxime','1','1','1','1');
+INSERT INTO fichetechnique VALUES('2','Guimauve passion','8','Pierre','1','2','1','2');
+INSERT INTO fichetechnique VALUES('3','Croquants aux grisettes','4','chris','1','3','1','3');
+INSERT INTO fichetechnique VALUES('4','Croquants citron','2','vicent','1','4','1','4');
+INSERT INTO fichetechnique VALUES('5','sorbet magnum gérard','6','xavier','1','5','1','5');
+INSERT INTO fichetechnique VALUES('6','magnum glace gérard','10','nicolas','1','1','1','6');
+INSERT INTO fichetechnique VALUES('7','arranci boeuf','4','françois','1','1','1','7');
+INSERT INTO fichetechnique VALUES('8','arranci pesto','5','flavie','1','2','1','8');
+INSERT INTO fichetechnique VALUES('9','coeur choco framboise leetche','3','lysiane','1','3','1','9');
+INSERT INTO fichetechnique VALUES('10','Malakoff','1','jessica','1','4','1','10');
+INSERT INTO fichetechnique VALUES('11','Cake choco','20','Alex','1','1','1','1');
+INSERT INTO fichetechnique VALUES('12','Pate à cookies à crue Fleur sel','2','jean-jack','1','1','1','1');
+INSERT INTO fichetechnique VALUES('13','Chutney aux fruits secs','4','lucie','1','2','1','2');
+INSERT INTO fichetechnique VALUES('14','confiture orange badiane','4','Edgard','1','3','1','3');
+INSERT INTO fichetechnique VALUES('15','Pate à tartiner banane passion','2','Noémie','1','4','1','1');
+
+INSERT INTO ingredient VALUES('1','Farine','0.5','200','1',null,'1','7');
+INSERT INTO ingredient VALUES('2','Sucre','2','158','2',null,'2','7');
+INSERT INTO ingredient VALUES('3',"Huile d'olive",'5','321','1',null,'1','8');
+INSERT INTO ingredient VALUES('4','Lait','0.77','69','6',null,'3','3');
+INSERT INTO ingredient VALUES('5','Oeuf','0.9','87','2',null,'1','3');
+INSERT INTO ingredient VALUES('6','Bière','1.5','100','5',null,'1','9');
+INSERT INTO ingredient VALUES('7','Glucose','3.58','850','2',null,'1','11');
+INSERT INTO ingredient VALUES('8','Purée de banane','0.5','200','2',null,'1','5');
+INSERT INTO ingredient VALUES('9','Purée passion','5','2','2',null,'1','7');
+INSERT INTO ingredient VALUES('10','Beurre','0.7','0','2',null,'1','3');
+INSERT INTO ingredient VALUES('11','Rhum','0.21','50','5',null,'1','9');
+INSERT INTO ingredient VALUES('12','Genduja','5.1','58','7',null,'1','7');
+INSERT INTO ingredient VALUES('13','Trimoline','2','28','7',null,'1','7');
+INSERT INTO ingredient VALUES('14','Chocolat noire','6','578','2',null,'1','10');
+INSERT INTO ingredient VALUES('15','Fond de tarte','0.5','20','2',null,'1','7');
+
+INSERT INTO etape VALUES('1',"Dans un cul de poule verser la farine et former un puits");
+INSERT INTO etape VALUES('2',"verser le lait en plusieurs fois dans ce puits");
+INSERT INTO etape VALUES('3',"Mélanger en faisant tomber la farine petit à petit dans le lait afin de l'incorporer sans créer de grumeaux");
+INSERT INTO etape VALUES('4',"Ajouter la bière et mélanger de nouveau");
+INSERT INTO etape VALUES('5',"Battre les œufs puis les incorporer à la pâte avec l'huile");
+INSERT INTO etape VALUES('6',"Verser enfin le sucre et mélanger bien");
+INSERT INTO etape VALUES('7',"Laisser la pâte reposer 1 heure minimum (plus elle reposera mieux ça sera)");
+INSERT INTO etape VALUES('8',"Après ce temps de repos, mélanger un peu de nouveau et faire cuire vos crêpes dans une poêle à crêpes huilée");
 
 INSERT INTO Unite VALUES('1','Kg');
 INSERT INTO Unite VALUES('2','Gramme');
@@ -43,7 +88,11 @@ INSERT INTO Categorie_Ingredient VALUES('2','Poisson');
 INSERT INTO Categorie_Ingredient VALUES('3','Produit laitier');
 INSERT INTO Categorie_Ingredient VALUES('4','Fruit');
 INSERT INTO Categorie_Ingredient VALUES('5','Légume');
-INSERT INTO Categorie_Ingredient VALUES('6','Légume');
+INSERT INTO Categorie_Ingredient VALUES('7','Autre');
+INSERT INTO Categorie_Ingredient VALUES('8','Olive');
+INSERT INTO Categorie_Ingredient VALUES('9','Alccol');
+INSERT INTO Categorie_Ingredient VALUES('10','Chocolat');
+INSERT INTO Categorie_Ingredient VALUES('11','sucre');
 
 
 INSERT INTO TVA VALUES('1','Taxe produit de luxe','0.2');

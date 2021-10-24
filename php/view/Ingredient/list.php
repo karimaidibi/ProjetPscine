@@ -88,7 +88,13 @@ ini_set('display_errors', 'on');
         $FK_CodeTVA = $u->getFK_CodeTVA();
         $FK_NumCategorie = $u->getFK_NumCategorie();
 
-        $Unite = ModelUnite::select($FK_NumUnite)->getNomUnite();
+        $objetUnite = ModelUnite::select($FK_NumUnite);
+        if(empty($objetUnite)){
+            $Unite = "pas d'unité";
+        }else{
+            $Unite = $objetUnite->getNomUnite();
+        }
+        
         $TVA = ModelTVA::select($FK_CodeTVA)->getCoefTVA();
         $Allergene = ModelAllergene::select($FK_NumAllergene);
         if(empty($Allergene)){
