@@ -6,7 +6,7 @@
     echo '
     <!---------------------- The navigation bar---------------------->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark bg-gradient">
-      <div class="container-fluid">
+      <div class="container-fluid" style="height: 150px;">
         <a class="navbar-brand" href="#">
                   <!--Logo de notre site-->
             <div class="position-relative">

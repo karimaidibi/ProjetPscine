@@ -8,29 +8,49 @@ DELETE FROM coeffCoutPersonnel;
 DELETE FROM etape;
 DELETE FROM fichetechnique;
 DELETE FROM ingredient;
+DELETE FROM contenir;
+DELETE FROM composer;
+DELETE FROM inclure;
+
+INSERT INTO composer VALUES('1','1','500');
+INSERT INTO composer VALUES('1','2','350');
+INSERT INTO composer VALUES('1','3','5');
+INSERT INTO composer VALUES('1','4','500');
+INSERT INTO composer VALUES('1','5','800');
+INSERT INTO composer VALUES('1','6','1');
+
+INSERT INTO contenir VALUES('1','1','1');
+INSERT INTO contenir VALUES('1','2','2');
+INSERT INTO contenir VALUES('1','3','3');
+INSERT INTO contenir VALUES('1','4','4');
+INSERT INTO contenir VALUES('1','5','5');
+INSERT INTO contenir VALUES('1','6','6');
+INSERT INTO contenir VALUES('1','7','7');
+INSERT INTO contenir VALUES('1','8','8');
 
 
-INSERT INTO fichetechnique VALUES('1','Meringues framboises cranberry','4','Maxime','1','1','1','1');
-INSERT INTO fichetechnique VALUES('2','Guimauve passion','8','Pierre','1','2','1','2');
-INSERT INTO fichetechnique VALUES('3','Croquants aux grisettes','4','chris','1','3','1','3');
-INSERT INTO fichetechnique VALUES('4','Croquants citron','2','vicent','1','4','1','4');
-INSERT INTO fichetechnique VALUES('5','sorbet magnum gérard','6','xavier','1','5','1','5');
-INSERT INTO fichetechnique VALUES('6','magnum glace gérard','10','nicolas','1','1','1','6');
-INSERT INTO fichetechnique VALUES('7','arranci boeuf','4','françois','1','1','1','7');
-INSERT INTO fichetechnique VALUES('8','arranci pesto','5','flavie','1','2','1','8');
-INSERT INTO fichetechnique VALUES('9','coeur choco framboise leetche','3','lysiane','1','3','1','9');
-INSERT INTO fichetechnique VALUES('10','Malakoff','1','jessica','1','4','1','10');
-INSERT INTO fichetechnique VALUES('11','Cake choco','20','Alex','1','1','1','1');
-INSERT INTO fichetechnique VALUES('12','Pate à cookies à crue Fleur sel','2','jean-jack','1','1','1','1');
-INSERT INTO fichetechnique VALUES('13','Chutney aux fruits secs','4','lucie','1','2','1','2');
-INSERT INTO fichetechnique VALUES('14','confiture orange badiane','4','Edgard','1','3','1','3');
-INSERT INTO fichetechnique VALUES('15','Pate à tartiner banane passion','2','Noémie','1','4','1','1');
+INSERT INTO fichetechnique VALUES('1','Crepes','4','Louis','1','3','1','1');
+INSERT INTO fichetechnique VALUES('2','Meringues framboises cranberry','4','Maxime','1','1','1','1');
+INSERT INTO fichetechnique VALUES('3','Guimauve passion','8','Pierre','1','2','1','2');
+INSERT INTO fichetechnique VALUES('4','Croquants aux grisettes','4','chris','1','3','1','3');
+INSERT INTO fichetechnique VALUES('5','Croquants citron','2','vicent','1','4','1','4');
+INSERT INTO fichetechnique VALUES('6','sorbet magnum gérard','6','xavier','1','5','1','5');
+INSERT INTO fichetechnique VALUES('7','magnum glace gérard','10','nicolas','1','1','1','6');
+INSERT INTO fichetechnique VALUES('8','arranci boeuf','4','françois','1','1','1','7');
+INSERT INTO fichetechnique VALUES('9','arranci pesto','5','flavie','1','2','1','8');
+INSERT INTO fichetechnique VALUES('10','coeur choco framboise leetche','3','lysiane','1','3','1','9');
+INSERT INTO fichetechnique VALUES('11','Malakoff','1','jessica','1','4','1','10');
+INSERT INTO fichetechnique VALUES('12','Cake choco','20','Alex','1','1','1','1');
+INSERT INTO fichetechnique VALUES('13','Pate à cookies à crue Fleur sel','2','jean-jack','1','1','1','1');
+INSERT INTO fichetechnique VALUES('14','Chutney aux fruits secs','4','lucie','1','2','1','2');
+INSERT INTO fichetechnique VALUES('15','confiture orange badiane','4','Edgard','1','3','1','3');
+INSERT INTO fichetechnique VALUES('16','Pate à tartiner banane passion','2','Noémie','1','4','1','1');
 
-INSERT INTO ingredient VALUES('1','Farine','0.5','200','1',null,'1','7');
+INSERT INTO ingredient VALUES('1','Farine','0.5','200','1','4','1','7');
 INSERT INTO ingredient VALUES('2','Sucre','2','158','2',null,'2','7');
 INSERT INTO ingredient VALUES('3',"Huile d'olive",'5','321','1',null,'1','8');
-INSERT INTO ingredient VALUES('4','Lait','0.77','69','6',null,'3','3');
-INSERT INTO ingredient VALUES('5','Oeuf','0.9','87','2',null,'1','3');
+INSERT INTO ingredient VALUES('4','Lait','0.77','69','6','6','3','3');
+INSERT INTO ingredient VALUES('5','Oeuf','0.9','87','2','8','1','3');
 INSERT INTO ingredient VALUES('6','Bière','1.5','100','5',null,'1','9');
 INSERT INTO ingredient VALUES('7','Glucose','3.58','850','2',null,'1','11');
 INSERT INTO ingredient VALUES('8','Purée de banane','0.5','200','2',null,'1','5');
@@ -58,6 +78,8 @@ INSERT INTO Unite VALUES('4','Kl');
 INSERT INTO Unite VALUES('5','Litre');
 INSERT INTO Unite VALUES('6','ml');
 INSERT INTO Unite VALUES('7','Autre');
+INSERT INTO Unite VALUES('8','dl');
+
 
 
 INSERT INTO Allergene VALUES('1','Arachide');
@@ -81,6 +103,7 @@ INSERT INTO Categorie_Fiche VALUES('2','Plat');
 INSERT INTO Categorie_Fiche VALUES('3','Dessert');
 INSERT INTO Categorie_Fiche VALUES('4','Accompagnement');
 INSERT INTO Categorie_Fiche VALUES('5','Autre');
+INSERT INTO Categorie_Fiche VALUES('6','Petit déjeuner');
 
 
 INSERT INTO Categorie_Ingredient VALUES('1','Viande');
@@ -93,6 +116,7 @@ INSERT INTO Categorie_Ingredient VALUES('8','Olive');
 INSERT INTO Categorie_Ingredient VALUES('9','Alccol');
 INSERT INTO Categorie_Ingredient VALUES('10','Chocolat');
 INSERT INTO Categorie_Ingredient VALUES('11','sucre');
+INSERT INTO Categorie_Ingredient VALUES('12','poudre');
 
 
 INSERT INTO TVA VALUES('1','Taxe produit de luxe','0.2');
@@ -100,6 +124,7 @@ INSERT INTO TVA VALUES('2','Taxe consommation immédiate','0.1');
 INSERT INTO TVA VALUES('3','Taxe produit emballé','0.055');
 
 INSERT INTO coeffAss VALUES('1','0.05');
+INSERT INTO coeffAss VALUES('2','0.07');
 
 INSERT INTO coeffCoutPersonnel VALUES('1','0.02');
 INSERT INTO coeffCoutPersonnel VALUES('2','0.5');

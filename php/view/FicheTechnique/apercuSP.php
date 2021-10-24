@@ -19,10 +19,18 @@
 
     //objet CoefficientsAss
     $coeffAss = ModelCoeffAss::select($FK_CodeCoeffAss);
-    $valeurCoeffAss = $coeffAss -> getvaleurCoeffAss();
+    if(!empty($coeffAss)){
+        $valeurCoeffAss = $coeffAss -> getvaleurCoeffAss();
+    }else{
+        $valeurCoeffAss = 0;
+    }
     //objet coefficnets Cout personnel 
     $coeffCoutPersonnel = ModelCoeffCoutPersonnel::select($FK_CodeCoeffCoutPersonnel);
-    $valeurCoeffCoutPersonnel = $coeffCoutPersonnel -> getvaleurCoeffCoutPersonnel();
+    if(!empty($coeffCoutPersonnel)){
+        $valeurCoeffCoutPersonnel = $coeffCoutPersonnel -> getvaleurCoeffCoutPersonnel();
+    }else{
+        $valeurCoeffCoutPersonnel = 0;
+    }
 
 
     //les progression ? on a besoin de savoir quelles sont les etapes appartenant a cette fiche et les afficher.
@@ -157,7 +165,12 @@
                     }else{
                         $CategorieIng = "Autre";
                     }
-                    $NomUnite = ModelUnite::select($Ing["FK_NumUnite"]) -> getNomUnite(); //recuperer son nom unité
+                    $objUnite = ModelUnite::select($Ing["FK_NumUnite"]); //recuperer son nom unité
+                    if(!empty($objUnite)){
+                        $NomUnite = $objUnite  -> getNomUnite();
+                    }else{
+                        $NomUnite = "pas d'unité";
+                    }
                     //$PTHT = $Ing["QuantiteIngredient"] * $Ing["prixUnitaireIng"]; // calculer son PTHT
                     //$TotalDenree = $TotalDenree + $PTHT;
                         echo 
@@ -203,7 +216,11 @@
                         //recuperer le nom de numero categorie de chaque sous fiche 
                         $NumCatFiche = $sousfiche["FK_NumeroCatFiche"];
                         $cetteCategorie = ModelCategorie_Fiche::select($NumCatFiche);
-                        $NomCategorie = $cetteCategorie -> getNomCatFiche();
+                        if(!empty($cetteCategorie)){
+                            $NomCategorie = $cetteCategorie -> getNomCatFiche();
+                        }else{
+                            $NomCategorie = "pas de catégorie";
+                        }
                         echo
                            '<tr>
                                 <th scope="row">' .$sousfiche["ordre"].'</th>

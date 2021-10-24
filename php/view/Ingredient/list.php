@@ -95,7 +95,12 @@ ini_set('display_errors', 'on');
             $Unite = $objetUnite->getNomUnite();
         }
         
-        $TVA = ModelTVA::select($FK_CodeTVA)->getCoefTVA();
+        $objTVA = ModelTVA::select($FK_CodeTVA);
+        if(empty($objTVA)){
+             $TVA= "pas de TVA";
+        }else{
+            $TVA = $objTVA ->getCoefTVA();
+        }
         $Allergene = ModelAllergene::select($FK_NumAllergene);
         if(empty($Allergene)){
             $NomAllergene = "Non allergène";
@@ -104,7 +109,7 @@ ini_set('display_errors', 'on');
         }
         $Categorie = ModelCategorie_Ingredient::select($FK_NumCategorie);
         if(empty($Categorie)) {
-            $NomCategorie = "Autre";
+            $NomCategorie = "pas de catégorie";
         } else {
             $NomCategorie = $Categorie ->getNomCategorie();
         }
@@ -124,8 +129,14 @@ ini_set('display_errors', 'on');
                     echo '<td >'.$NomAllergene.'</td>';
                 }
             echo '
-                <td>' .$PrixUnitaire. '</td>
-                <td>' . $TVA*100 .'%</td>
+                <td>' .$PrixUnitaire. '</td>';
+                if(is_numeric($TVA)){
+                    $TVApourc = $TVA*100;
+                }else{
+                    $TVApourc = $TVA;
+                }
+                echo '
+                <td>' . $TVApourc.'%</td>
                 <td>
             <!-- Boutons stock -->
                     <form>

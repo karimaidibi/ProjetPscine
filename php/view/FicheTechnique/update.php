@@ -23,12 +23,20 @@ if($type=='readonly'){
   }
 
 
-  //coefficients de la fiche
-  $coeffAss = ModelCoeffAss::select($FK_CodeCoeffAss);
-  $valeurCoeffAss = $coeffAss -> getvaleurCoeffAss();
-  
-  $coeffCoutPersonnel = ModelCoeffCoutPersonnel::select($FK_CodeCoeffCoutPersonnel);
-  $valeurCoeffCoutPersonnel = $coeffCoutPersonnel -> getvaleurCoeffCoutPersonnel();
+    //objet CoefficientsAss
+    $coeffAss = ModelCoeffAss::select($FK_CodeCoeffAss);
+    if(!empty($coeffAss)){
+        $valeurCoeffAss = $coeffAss -> getvaleurCoeffAss();
+    }else{
+        $valeurCoeffAss = 0;
+    }
+    //objet coefficnets Cout personnel 
+    $coeffCoutPersonnel = ModelCoeffCoutPersonnel::select($FK_CodeCoeffCoutPersonnel);
+    if(!empty($coeffCoutPersonnel)){
+        $valeurCoeffCoutPersonnel = $coeffCoutPersonnel -> getvaleurCoeffCoutPersonnel();
+    }else{
+        $valeurCoeffCoutPersonnel = 0;
+    }
 
 }
 
@@ -374,8 +382,8 @@ echo '
                           $QuantiteStock = $i->getQteStockIngredient();
                           $FK_NumUnite = $i->getFK_NumUnite();
                           $FK_NumAllergene = $i->getFK_NumAllergene();
-                          $FK_CodeTVA = $i->getFK_CodeTVA();
-                          $FK_NumCategorie = $i->getFK_NumCategorie();
+                          //$FK_CodeTVA = $i->getFK_CodeTVA();
+                          //$FK_NumCategorie = $i->getFK_NumCategorie();
                   
                           $Unite = ModelUnite::select($FK_NumUnite);
                           if(!empty($Unite)){
@@ -479,7 +487,12 @@ echo '
                           }else{
                               $CategorieIng = "Autre";
                           }
-                          $NomUnite = ModelUnite::select($Ing["FK_NumUnite"]) -> getNomUnite(); //recuperer son nom unité
+                          $objUnite = ModelUnite::select($Ing["FK_NumUnite"]); //recuperer son nom unité
+                          if(!empty($objUnite)){
+                              $NomUnite = $objUnite  -> getNomUnite();
+                          }else{
+                              $NomUnite = "pas d'unité";
+                          }
                           $PTHT = $Ing["QuantiteIngredient"] * $Ing["prixUnitaireIng"]; // calculer son PTHT
                           $TotalDenree = $TotalDenree + $PTHT;
                               echo 

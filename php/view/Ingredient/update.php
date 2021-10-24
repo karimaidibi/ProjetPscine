@@ -135,7 +135,7 @@ if($type=='readonly'){
                                         echo '<option value="'. $NumeroCategorie .'">'. $NomCategorie .'</option>';
                                     }
                                 }
-                                    echo '<option value="">Autre</option>
+                            echo '
                                 </select>
                                 </div>
                                 </div>

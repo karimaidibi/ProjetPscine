@@ -105,10 +105,18 @@ foreach ($tab_u as $u)
     
     //objet CoefficientsAss
     $coeffAss = ModelCoeffAss::select($CodeCoeffAss);
-    $valeurCoeffAss = $coeffAss -> getvaleurCoeffAss();
+    if(!empty($coeffAss)){
+        $valeurCoeffAss = $coeffAss -> getvaleurCoeffAss();
+    }else{
+        $valeurCoeffAss = 0;
+    }
     //objet coefficnets Cout personnel 
     $coeffCoutPersonnel = ModelCoeffCoutPersonnel::select($CodeCoeffCoutPersonnel);
-    $valeurCoeffCoutPersonnel = $coeffCoutPersonnel -> getvaleurCoeffCoutPersonnel();
+    if(!empty($coeffCoutPersonnel)){
+        $valeurCoeffCoutPersonnel = $coeffCoutPersonnel -> getvaleurCoeffCoutPersonnel();
+    }else{
+        $valeurCoeffCoutPersonnel = 0;
+    }
 
 
   
@@ -136,7 +144,7 @@ foreach ($tab_u as $u)
                             <i class="bi bi-eye" style="font-size: 1rem; color:white;" ></i>    
                         </a>                
                         </button>
-                        <button type="button" class="btn btn-warning me-2" data-bs-toggle="offcanvas" data-bs-target="#offcanvasWithBothOptions" aria-controls="offcanvasWithBothOptions">
+                        <button type="button" class="btn btn-warning me-2 mt-1" data-bs-toggle="offcanvas" data-bs-target="#offcanvasWithBothOptions" aria-controls="offcanvasWithBothOptions">
                             <i class="bi bi-file-earmark-arrow-down" style="font-size: 1rem; color:black;"></i>
                             Utiliser cette fiche 
                         </button>
@@ -162,7 +170,10 @@ foreach ($tab_u as $u)
                                  $Ingredients = ModelFicheTechnique::selectIngredientsOf($NumeroFiche);
                                  if(!empty($Ingredients)){
                                      foreach($Ingredients as $Ing){
-                                    $StockFinal = $Ing["QteStockIngredient"] - $Ing["QuantiteIngredient"] ;
+                                    $StockFinal = $Ing["QteStockIngredient"] - $Ing["QuantiteIngredient"];
+                                    if($StockFinal<0){
+                                        $StockFinal = 0;
+                                    }
                                  echo '
                                          <tr>
                                              <td>' .$Ing["NomIng"]. '</td>

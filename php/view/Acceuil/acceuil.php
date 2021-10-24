@@ -1,6 +1,7 @@
 <?php
 
     echo '
+    <link rel="stylesheet" href="../../../html/view/Ines/CSS_fond.css">
     <!--Logo de notre site-->
     <div>
         <div class="position-relative">

@@ -43,7 +43,7 @@ echo '
             </button>  
         </div>
         <!--Division pour le formulaire complet de létiquette qui va etre imprimé-->
-        <div class="ms-5 me-5 mt-5 " id="imprimer">
+        <div class="ms-5 me-5 mt-5 mb-3" id="imprimer">
             <!--carte qui contient létiquette-->
             <div class="card">
                 <h5 class="card-header text-white bg-dark mb-3">' .$NomFiche. '</h5>
@@ -91,7 +91,6 @@ echo '
                 </div>
             </div>
         </div>
-        </div>
 
     <form class="was-validated">
         <!-- Ligne contenant deux colonnes  -->
@@ -123,6 +122,7 @@ echo '
                         Utiliser les étiquettes et imprimer 
                 </button>
             </div>
+        </div>
         </div>
     </form>
 
