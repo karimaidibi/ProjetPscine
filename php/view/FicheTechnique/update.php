@@ -1,7 +1,9 @@
+<script src="../javascript/CreationFiches.js" ></script>
 <script src="../../../javascript/CreationFiches.js" ></script>
 
 <?php
 
+echo '<script src="../../../javascript/CreationFiches.js" ></script>';
 
 // si on update la fiche 
 if($type=='readonly'){
@@ -172,9 +174,10 @@ echo '
                         $NumEtape2 = $ct->getNumEtape();
                         $NumeroFiche2 = $ct->getNumeroFiche();
                         echo '<input type="hidden" value ="'.$NumEtape2.'" class="NumEtapeA">
-                        <input type="hidden" value ="'.$NumeroFiche2.'" class="NumeroFicheA"></datalist>';
+                        <input type="hidden" value ="'.$NumeroFiche2.'" class="NumeroFicheA">';
                       }
-                echo '<!-- La liste d input des coefficients utilisés dans la fiche technique dans une colonne-->
+                echo '</datalist>
+                <!-- La liste d input des coefficients utilisés dans la fiche technique dans une colonne-->
                 <div class="col-6">
                     <ul class="list-group list-group-flush">
                         <!-- La liste d input des Coefficients utilisés-->
@@ -603,6 +606,7 @@ echo '
                           foreach($SousFiches as $sousfiche){
                             echo '<input type = "hidden" id ="readonly">';
                             //recuperer le nom de numero categorie de chaque sous fiche 
+                            $NumSousFiche = $sousfiche["FK_NumeroSousFiche"];
                             $NumCatFiche = $sousfiche["FK_NumeroCatFiche"];
                             $cetteCategorie = ModelCategorie_Fiche::select($NumCatFiche);
                             $NomCategorie = $cetteCategorie -> getNomCatFiche();
@@ -613,10 +617,10 @@ echo '
                                     <td>' .$sousfiche["NbreCouverts"]. '</td>
                                     <td>' .$sousfiche["NomAuteur"]. '</td>
                                     <td>' .$NomCategorie. '</td>
-                                    <td id="'.$NumCatFiche.'">
+                                    <td id="'.$NumSousFiche.'">
                                       <button class="btn btn-danger" type="button" onclick="DeleteRowFiches(this)">
-                                      <i class="bi bi-trash" style="font-size: 1rem;" ></i>
-                                      </button>
+                                      <i class="bi bi-trash" style="font-size: 1rem;" ></i>';
+                                      echo '</button >
                                     </td>
                                 </tr>';
                           }

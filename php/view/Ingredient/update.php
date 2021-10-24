@@ -186,10 +186,10 @@ if($type=='readonly'){
                                             $NomTVA = $TVA->getNomTVA();
                                             $CoefTVA = $TVA->getCoefTVA();
                                             if($NumeroTVA==$FK_CodeTVA) {
-                                                echo '<option selected value="'. $NumeroTVA .'">'. $NomTVA .' ('. $CoefTVA*100 .'%)</option>';
+                                                echo '<option selected value="'. $NumeroTVA .'">'. $NomTVA .' ('. $CoefTVA .'%)</option>';
                                             }
                                             else {
-                                                echo '<option value="'. $NumeroTVA .'">'. $NomTVA .' ('. $CoefTVA*100 .'%)</option>';
+                                                echo '<option value="'. $NumeroTVA .'">'. $NomTVA .' ('. $CoefTVA .'%)</option>';
                                             }
                                         } 
                                     }
@@ -198,7 +198,7 @@ if($type=='readonly'){
                                             $NumeroTVA = $TVA->getCodeTVA();
                                             $NomTVA = $TVA->getNomTVA();
                                             $CoefTVA = $TVA->getCoefTVA();
-                                            echo '<option value="'. $NumeroTVA .'">'. $NomTVA .' ('. $CoefTVA*100 .'%)</option>';
+                                            echo '<option value="'. $NumeroTVA .'">'. $NomTVA .' ('. $CoefTVA .'%)</option>';
                                         }
                                     }
                                         echo '</select>

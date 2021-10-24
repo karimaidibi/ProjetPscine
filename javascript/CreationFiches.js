@@ -37,6 +37,7 @@ document.addEventListener('DOMContentLoaded',function(){
     for(var i = 0, row;row=tableSousFiche.rows[i]; i++){
       var CodeSousFiche = row.cells[5].id;
       TabFiches.push(CodeSousFiche); // on push le code dans le tableau
+      ordreFiche = ordreFiche + 1;
     }// fin pour fiche
     document.cookie = 'TabFiches=' + JSON.stringify(TabFiches) + '; path=/'; // cookie
     console.log("Tab initiale Fiches : " + TabFiches);
@@ -48,6 +49,7 @@ document.addEventListener('DOMContentLoaded',function(){
     }// fin pour prog
     document.cookie = 'TabProgressions=' + JSON.stringify(TabProgressions) + '; path=/'; // cookie
     console.log("Tab initiale Prog : " + TabProgressions);
+    console.log(TabProgressions);
   }// fin if
 });
 
@@ -246,13 +248,7 @@ document.addEventListener("click",function(){
       }
       i = i + 1;
     }
-    dejaPresent = false;
-    for(var i=0; i<TabFiches.length; i++){
-      if(TabFiches[i]==codeFiche){
-        dejaPresent=true;
-      }
-    }
-    if(fichetrouver == true && !dejaPresent){
+    if(fichetrouver == true){
     var table = document.getElementById("bodyFiche");
     var row = table.insertRow(table.length);
     var cell1 = row.insertCell(0);
@@ -288,9 +284,7 @@ document.addEventListener("click",function(){
   var tabingredientsPushed = [];
 
   function associerIngredient(TabFiches){
-    console.log('^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^');
     options = document.querySelectorAll('#listeDesIngredients .nomIngredient') //les noms des ingredients dans la BD
-    console.log(options);
     optionsNum = document.querySelectorAll('#listeDesIngredients .NumIngredient')  // les num des ingredients dans ma BD
     optionsPrixU = document.querySelectorAll('#listeDesIngredients .PrixUnitaire') //les prixU des ing dans la BD
     optionsUnite = document.querySelectorAll('#listeDesIngredients .Unite') // les Unite des ing dans la BD
@@ -316,8 +310,6 @@ document.addEventListener("click",function(){
               Unite = optionsUnite[y].value;
               Allergene = optionsAllergene[y].value;
               Quantite = QuantiteIngredient[i].value;
-              console.log('gggggggggggggggggggggggggggggggggggggggggg');
-              console.log(ingredientInTable(CodeIngredient));
               if(!ingredientInTable(CodeIngredient)){
                 var row = table.insertRow(table.length);
                 var cell1 = row.insertCell(0);
@@ -361,7 +353,6 @@ document.addEventListener("click",function(){
 
   function ingredientInTable(CodeIngredient){
     for(var i=0; i<TabIngredients.length; i++){
-      console.log('TabIngredients');
       if(CodeIngredient==TabIngredients[i]){
         return true;
       }
@@ -377,6 +368,7 @@ document.addEventListener("click",function(){
     var rem = TabFiches.splice(index,1); // supprimer un element qui se trouve à la position index
     console.log("TabFiche après supprime " + TabFiches);
     console.log(TabFiches);
+    ordreFiche = ordreFiche -1;
     // supprimer la ligne
     var p=o.parentNode.parentNode;
     p.parentNode.removeChild(p);
@@ -396,75 +388,89 @@ document.addEventListener("click",function(){
     var progressiontrouver = false;
     var NomChoisi = document.getElementById('inputProgressionExistante').value;
     while(i<options.length && !progressiontrouver){
-    if(options[i].value === NomChoisi){
-        progressiontrouver = true;
-        ordreProgressions = ordreProgressions + 1; //ordre + 1
-        var CodeProgression = optionsNum[i].value;
-    }
-    i = i + 1;
+      if(options[i].value === NomChoisi){
+          progressiontrouver = true;
+          ordreProgressions = ordreProgressions + 1; //ordre + 1
+          var CodeProgression = optionsNum[i].value;
+      }
+      i = i + 1;
     }
     if(progressiontrouver == true){
-    var table = document.getElementById("bodyProgressions");
-    var row = table.insertRow(table.length);
-    var cell1 = row.insertCell(0);
-    var cell2 = row.insertCell(1);
-    var cell3 = row.insertCell(2);
-    cell1.innerHTML = ordreProgressions;
-    cell2.innerHTML = NomChoisi;
-    cell3.innerHTML = '<button class="btn btn-danger" type="button" onclick="DeleteRowProgressions(this)"><i class="bi bi-trash" style="font-size: 1rem;" ></i></button>';
-    cell3.id = CodeProgression; // on attribut le code de la progression qui vient detre rajouté dans le front comme id à la case qui contient le bouton supprimer
-    console.log("id etape ajouté : " + CodeProgression);
-    TabProgressions.push(CodeProgression); // on push le code dans le tableau 
-    console.log("le tab de prog : " + TabProgressions);
-    document.cookie = 'TabProgressions=' + JSON.stringify(TabProgressions) + '; path=/'; // cookie
+      var table = document.getElementById("bodyProgressions");
+      var row = table.insertRow(table.length);
+      var cell1 = row.insertCell(0);
+      var cell2 = row.insertCell(1);
+      var cell3 = row.insertCell(2);
+      cell1.innerHTML = ordreProgressions;
+      cell2.innerHTML = NomChoisi;
+      cell3.innerHTML = '<button class="btn btn-danger" type="button" onclick="DeleteRowProgressions(this)"><i class="bi bi-trash" style="font-size: 1rem;" ></i></button>';
+      cell3.id = CodeProgression; // on attribut le code de la progression qui vient detre rajouté dans le front comme id à la case qui contient le bouton supprimer
+      console.log("id etape ajouté : " + CodeProgression);
+      TabProgressions.push(CodeProgression); // on push le code dans le tableau 
+      tabProgressionsPushed(CodeProgression);
+      console.log("Tab progression après ajout : " + TabProgressions);
+      console.log(TabProgressions);
+      console.log("TapProgressionPushed après ajout");
+      console.log(tabProgressionsPushed);
+      document.cookie = 'TabProgressions=' + JSON.stringify(TabProgressions) + '; path=/'; // cookie
     }
     else{
-    alert('Progression non trouvé, veuillez réessayer'); 
+      alert('Progression non trouvé, veuillez réessayer'); 
     }
 }
 
   tabProgressionsPushed = new Array();
 
   function associerProgressions(){
-    console.log(" pushedddddddddd "+tabProgressionsPushed.length);
-    console.log(" pushedddddddddd "+TabFiches.length);
     options = document.querySelectorAll('#listeDesProgressions .nomProgression'); //les noms des progressions dans la BD
     optionsNum = document.querySelectorAll('#listeDesProgressions .NumProgression'); //les Num des progressions dans la BD
-    ContenirFiche = document.querySelectorAll('#listeDesProgressionsA .NumeroFicheA');
-    ContenirEtape = document.querySelectorAll('#listeDesProgressionsA .NumEtapeA');
-    if(TabFiches.length>tabProgressionsPushed.length){
-      if(tabingredientsPushed.length==0){
+    ContenirFiche = document.querySelectorAll('#listeDesProgressionsA .NumeroFicheA'); //Les numéro de fiche de la table contenir
+    ContenirEtape = document.querySelectorAll('#listeDesProgressionsA .NumEtapeA'); //Les numéros de progressions dans la table contenir
+    //if(TabFiches.length>tabProgressionsPushed.length){
+      /*if(tabingredientsPushed.length==0){
         indexFiche = 0;
       }
       else{
         indexFiche = TabFiches.length - tabingredientsPushed.length;
-      }
-      for(var i=0; i<ContenirFiche.length; i++){
-        if(TabFiches[indexFiche]==ContenirFiche[i].value){
-          for(var y=0; y<ContenirEtape.length; y++){
-            if(ContenirEtape[i].value==optionsNum[y].value){
-              description = options[y].value;
-              ordreProgressions = ordreProgressions + 1;
-              if(!ProgressionInTable(ContenirEtape[i].value)){
-                var table = document.getElementById("bodyProgressions");
-                var row = table.insertRow(table.length);
-                var cell1 = row.insertCell(0);
-                var cell2 = row.insertCell(1);
-                var cell3 = row.insertCell(2);
-                cell1.innerHTML = ordreProgressions;
-                cell2.innerHTML = description;
-                cell3.innerHTML = '<button class="btn btn-danger" type="button" onclick="DeleteRowProgressions(this)"><i class="bi bi-trash" style="font-size: 1rem;" ></i></button>';
-                cell3.id = ContenirEtape[i].value;
-                tabProgressionsPushed.push(ContenirEtape[i].value);
-                TabProgressions.push(ContenirEtape[i].value);
-                console.log('TabProgressions');
-                console.log(TabProgressions);
-                document.cookie = 'TabProgressions=' + JSON.stringify(TabProgressions) + '; path=/'; // cookie
-              }
+      }*/
+      for(var i=0; i<ContenirFiche.length; i++){  //Pour chanque Numéro de fiche dans la table contenir
+        console.log('i');
+        console.log(i);
+        console.log('Taille ContenirFiche');
+        console.log(ContenirFiche.length);
+        if(TabFiches[TabFiches.length-1]==ContenirFiche[i].value){//Si le numéro de la dernière sous fiche ajouttée == le numéro d'une fiche dans contenir
+          console.log('ContenirFiche');
+          console.log(ContenirFiche[i].value);
+          for(var y=0; y<optionsNum.length; y++){ //Pour chaque Numéro de progression dans la table contenir
+            console.log('y');
+            console.log(y);
+            console.log(ContenirEtape[i].value);
+            console.log(optionsNum[y].value);
+            if(ContenirEtape[i].value==optionsNum[y].value){ // Si le numéro de la progression dans contenir == le numéro d'une progression dans progression
+              description = options[y].value; //On stocke la progression
+              ordreProgressions = ordreProgressions + 1; 
+              //if(!ProgressionInTable(ContenirEtape[i].value)){
+              var table = document.getElementById("bodyProgressions");
+              var row = table.insertRow(table.length);
+              var cell1 = row.insertCell(0);
+              var cell2 = row.insertCell(1);
+              var cell3 = row.insertCell(2);
+              cell1.innerHTML = ordreProgressions;
+              cell2.innerHTML = description;
+              cell3.innerHTML = '<button class="btn btn-danger" type="button" onclick="DeleteRowProgressions(this)"><i class="bi bi-trash" style="font-size: 1rem;" ></i></button>';
+              cell3.id = ContenirEtape[i].value;
+              //tabProgressionsPushed.push(ContenirEtape[i].value);
+              TabProgressions.push(ContenirEtape[i].value); //on push le numéro de la progression dans TabProgressions
+              console.log('TabProgressions après association');
+              console.log(TabProgressions);
+              console.log('tabProgressionsPushed après association');
+              //console.log(tabProgressionsPushed);
+              document.cookie = 'TabProgressions=' + JSON.stringify(TabProgressions) + '; path=/'; // cookie
+              //}
             }
           }
         }
-      }
+      //}
     }
   }
 
@@ -483,11 +489,15 @@ document.addEventListener("click",function(){
     var index1 = tabProgressionsPushed.indexOf(o.parentNode.id);
     var rem = TabProgressions.splice(index,1); // supprimer un element qui se trouve à la position index
     var rem1 = tabProgressionsPushed.splice(index1,1);
-    console.log("TABétape après supprime " + TabProgressions);
+    console.log("Tab Progression après suppression" + TabProgressions);
+    console.log(TabProgressions);
+    console.log("TapProgressionPushed après suppression");
+    console.log(tabProgressionsPushed);
+    //ordreProgressions = ordreProgressions -1;
     // supprimer la ligne
     var p=o.parentNode.parentNode;
     p.parentNode.removeChild(p);
-    document.cookie = 'TabProgressions=' + JSON.stringify(TabFiches) + '; path=/'; // cookie renvoyé avec le tableau mis à jour
+    document.cookie = 'TabProgressions=' + JSON.stringify(TabProgressions) + '; path=/'; // cookie renvoyé avec le tableau mis à jour
   }
 
     /* Elle prend la table de la création des fiches techniques :
@@ -496,19 +506,22 @@ document.addEventListener("click",function(){
   function CreateLigneProgressionInDB() {
     options = null;
     options = document.querySelectorAll('#listeDesProgressions .nomProgression'); //les noms des progressions dans la BD
-    //optionsNum = document.querySelectorAll('#listeDesProgressions .NumProgression'); //les Num des progressions dans la BD
+    optionsNum = document.querySelectorAll('#listeDesProgressions .NumProgression'); //les Num des progressions dans la BD
     var i = 0;
     var progressiontrouver = false;
     var NomChoisi = document.getElementById('inputProgressionInDB').value;
+    console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>><<");
+    console.log(NomChoisi);
     while(i<options.length && !progressiontrouver){
-    if(options[i].value === NomChoisi || NomChoisi ===""){
+      if(options[i].value === NomChoisi || NomChoisi ===""){
         progressiontrouver = true;
-        //var CodeProgression = optionsNum[i].value;
-    }
-    i = i + 1;
+        CodeProgression = optionsNum[i].value;
+      }
+      i = i + 1;
     }
     if(progressiontrouver == false){
       ordreProgressions = ordreProgressions + 1; //ordre + 1
+      CodeProgression = ordreProgressions;
       var table = document.getElementById("bodyProgressions");
       var row = table.insertRow(table.length);
       var cell1 = row.insertCell(0);
@@ -519,8 +532,10 @@ document.addEventListener("click",function(){
       cell3.innerHTML = '<button class="btn btn-danger" type="button" onclick="DeleteRowProgressions(this)"><i class="bi bi-trash" style="font-size: 1rem;" ></i></button>';
       cell3.id = NomChoisi; // on attribut le code de la progression qui vient detre rajouté dans le front comme id à la case qui contient le bouton supprimer
       console.log("id etape ajouté : " + NomChoisi);
-      TabProgressions.push(NomChoisi); // on push le code dans le tableau 
+      TabProgressions.push(NomChoisi); // on push le code dans le tableau *
+      tabProgressionsPushed.push(CodeProgression);
       console.log("le tab de prog : " + TabProgressions);
+      console.log(TabProgressions);
       document.cookie = 'TabProgressions=' + JSON.stringify(TabProgressions) + '; path=/'; // cookie
     }
     else{
@@ -528,7 +543,7 @@ document.addEventListener("click",function(){
         alert("impossible");
       }
       else{
-        alert('Progression existe déja, veuillez la rajouter de la barre en dessous'); 
+        alert('Cette progression existe déja, veuillez l\'ajouter grâce à la barre en dessous'); 
       }
     }
   }
