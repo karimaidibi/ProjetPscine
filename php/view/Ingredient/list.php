@@ -125,7 +125,7 @@ ini_set('display_errors', 'on');
                 }
             echo '
                 <td>' .$PrixUnitaire. '</td>
-                <td>' .$TVA.'%</td>
+                <td>' . $TVA*100 .'%</td>
                 <td>
             <!-- Boutons stock -->
                     <form>
