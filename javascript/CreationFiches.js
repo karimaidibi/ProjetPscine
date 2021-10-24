@@ -44,6 +44,7 @@ document.addEventListener('DOMContentLoaded',function(){
     for(var i = 0, row;row=tableProg.rows[i]; i++){
       var CodeProg= row.cells[2].id;
       TabProgressions.push(CodeProg); // on push le code dans le tableau
+      ordreProgressions = ordreProgressions + 1 ;
     }// fin pour prog
     document.cookie = 'TabProgressions=' + JSON.stringify(TabProgressions) + '; path=/'; // cookie
     console.log("Tab initiale Prog : " + TabProgressions);
@@ -422,9 +423,11 @@ document.addEventListener("click",function(){
     }
 }
 
-  tabProgressionsPushed = [];
+  tabProgressionsPushed = new Array();
 
   function associerProgressions(){
+    console.log(" pushedddddddddd "+tabProgressionsPushed.length);
+    console.log(" pushedddddddddd "+TabFiches.length);
     options = document.querySelectorAll('#listeDesProgressions .nomProgression'); //les noms des progressions dans la BD
     optionsNum = document.querySelectorAll('#listeDesProgressions .NumProgression'); //les Num des progressions dans la BD
     ContenirFiche = document.querySelectorAll('#listeDesProgressionsA .NumeroFicheA');

@@ -1,3 +1,5 @@
+<script src="../../../javascript/CreationFiches.js" ></script>
+
 <?php
 
 
@@ -433,9 +435,9 @@ echo '
                           <!-- Deuxième ligne-->
                           <tr>
                             <!-- première colonne-->
-                            <th scope="col">INGREDIENT</th>
-                            <!-- deuxième colonne-->
                             <th scope="col">ALLERGENE</th>
+                            <!-- deuxième colonne-->
+                            <th scope="col">ingredient</th>
                             <!-- 3ème colonne-->
                             <th scope="col">UNITE</th>
                             <!-- 4ème colonne-->
@@ -473,9 +475,9 @@ echo '
                               echo 
                                   '<tr>
                                       <!-- Première colonne (code) -->
-                                      <th scope="row"> ' .$Ing["NomIng"]. '</th>
+                                      <th scope="row"> ' .$NomAllergene. '</th>
                                       <!-- deuxième colonne (ingrédient)-->
-                                      <td>' .$NomAllergene. '</td>
+                                      <td>'  .$Ing["NomIng"]. '</td>
                                       <!-- 3ème colonne (Unitairé)-->
                                       <td>' .$NomUnite. '</td>
                                       <!-- 4èmme colonne (Qté_Ing)-->
@@ -566,7 +568,12 @@ echo '
                       $NumCategorieFiche = $f->getFK_NumeroCatFiche();
                   
                       $categorieFiche = ModelCategorie_Fiche::select($NumCategorieFiche);
-                      $NomCategorieFiche =  $categorieFiche -> getNomCatFiche(); //une ligne = objet
+                      if(!empty($categorieFiche)){
+                        $NomCategorieFiche =  $categorieFiche -> getNomCatFiche(); //une ligne = objet
+                      }else{
+                        $NomCategorieFiche = "pas de catégorie";
+                      }
+
                   echo '<option value="'.$NomFiche.'" class="nomFiche">
                           <input type="hidden" value ="'.$NumeroFiche.'" class="NumeroFiche">
                           <input type="hidden" value ="'.$NbreCouverts.'" class="NbreCouverts">
@@ -644,4 +651,3 @@ echo '
 
 ?>
 
-<script src="../../../javascript/CreationFiches.js" ></script>
