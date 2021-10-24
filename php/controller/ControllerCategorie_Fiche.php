@@ -5,7 +5,7 @@ class ControllerCategorie_Fiche{
 	protected static $object='Categorie_Fiche';
 
 	public static function readAll() {
-        $tab_u = ModelCategorie_Fiche::selectAll();     
+        $categorie = ModelCategorie_Fiche::selectAll();     
         $view='list';
         $pagetitle='Liste des categories fiches';
         require_once File::build_path(array("view", "view.php"));
@@ -35,7 +35,7 @@ class ControllerCategorie_Fiche{
 
 
 	public static function delete(){
-		if(!is_null(myGet('NumeroCatFiche'))){
+		if(is_null(myGet('NumeroCatFiche'))){
         	$view='error';
         	$pagetitle='Page 404';
 	    	require_once File::build_path(array("view", "view.php"));
@@ -43,11 +43,21 @@ class ControllerCategorie_Fiche{
 		else{
 			$NumeroCatFiche = myGet('NumeroCatFiche');
 			ModelCategorie_Fiche::delete($NumeroCatFiche);
-			$tab_u = ModelCategorie_Fiche::selectAll();
-	        $view='deleted';
+			$categorie = ModelCategorie_Fiche::selectAll();
+	        $view='list';
 	        $pagetitle='Categorie_Fiche supprimé';
 		    require_once File::build_path(array("view", "view.php"));
 		}
+	}
+
+	public static function update(){
+		if(!is_null(myGet('NomCatFiche'))){
+			$NomCatFiche=myGet('NomCatFiche');
+		}
+		self::create($NomCatFiche);
+		$categorie = ModelCategorie_Fiche::selectAll();
+		$view='list';
+		require_once File::build_path(array("view", "view.php"));
 	}
 
 	public static function create($NomCatFiche){

@@ -5,7 +5,7 @@ class ControllerCoeffAss{
 	protected static $object='CoeffAss';
 
 	public static function readAll() {
-        $tab_u = ModelCoeffAss::selectAll();     
+        $CoeffAss= ModelCoeffAss::selectAll();     
         $view='list';
         $pagetitle='Liste des coefficients';
         require_once File::build_path(array("view", "view.php"));
@@ -34,7 +34,7 @@ class ControllerCoeffAss{
 	}
 
 	public static function delete(){
-		if(!is_null(myGet('CodeCoeffAss'))){
+		if(is_null(myGet('CodeCoeffAss'))){
         	$view='error';
         	$pagetitle='Page 404';
 	    	require_once File::build_path(array("view", "view.php"));
@@ -42,11 +42,21 @@ class ControllerCoeffAss{
 		else{
 			$CodeCoeffAss = myGet('CodeCoeffAss');
 			ModelCoeffAss::delete($CodeCoeffAss);
-			$tab_u = ModelCoeffAss::selectAll();
-	        $view='deleted';
+			$CoeffAss = ModelCoeffAss::selectAll();
+	        $view='list';
 	        $pagetitle='CoeffAss supprimé';
 		    require_once File::build_path(array("view", "view.php"));
 		}
+	}
+
+	public static function update(){
+		if(!is_null(myGet('valeurCoeffAss'))){
+			$valeurCoeffAss=myGet('valeurCoeffAss');
+		}
+		self::create($valeurCoeffAss);
+		$CoeffAss = ModelCoeffAss::selectAll();
+		$view='list';
+		require_once File::build_path(array("view", "view.php"));
 	}
 
 	public static function create($valeurCoeffAss){

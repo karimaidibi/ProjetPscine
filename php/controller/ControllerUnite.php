@@ -5,7 +5,7 @@ class ControllerUnite{
 	protected static $object='unite';
 
 	public static function readAll() {
-        $tab_u = ModelUnite::selectAll();     //appel au modèle pour gerer la BD  //"redirige" vers la vue
+        $unite = ModelUnite::selectAll();     //appel au modèle pour gerer la BD  //"redirige" vers la vue
         $view='list';
         $pagetitle='Liste des unités';
         require_once File::build_path(array("view", "view.php"));
@@ -34,7 +34,7 @@ class ControllerUnite{
 	}
 
 	public static function delete(){
-		if(!is_null(myGet('NumUnite'))){
+		if(is_null(myGet('NumUnite'))){
         	$view='error';
         	$pagetitle='Page 404';
 	    	require_once File::build_path(array("view", "view.php"));
@@ -42,17 +42,27 @@ class ControllerUnite{
 		else{
 			$NumUnite = myGet('NumUnite');
 			ModelUnite::delete($NumUnite);
-			$tab_u = ModelUnite::selectAll();
-	        $view='deleted';
-	        $pagetitle='Catégorie supprimé';
+			$unite = ModelUnite::selectAll();
+	        $view='list';
+	        $pagetitle='Unitésupprimé';
 		    require_once File::build_path(array("view", "view.php"));
 		}
+	}
+
+	public static function update(){
+		if(!is_null(myGet('NomUnite'))){
+			$NomUnite=myGet('NomUnite');
+		}
+		self::create($NomUnite);
+		$unite = ModelUnite::selectAll();
+		$view='list';
+		require_once File::build_path(array("view", "view.php"));
 	}
 
 	public static function create($nomU){
         $v1 = new ModelUnite($nomU);
 		$v1->save();
-		return $v1->getIdUnite();
+		//return $v1->getIdUnite();
 	}
 }
 ?>

@@ -7,6 +7,12 @@
 	require_once File::build_path(array("controller","ControllerIngredient.php"));	
 	require_once File::build_path(array("controller","ControllerAcceuil.php"));
 	require_once File::build_path(array("controller","ControllerCategorie_Ingredient.php"));
+	require_once File::build_path(array("controller","ControllerCategorie_Fiche.php"));
+	require_once File::build_path(array("controller","ControllerAllergene.php"));
+	require_once File::build_path(array("controller","ControllerTVA.php"));
+	require_once File::build_path(array("controller","ControllerUnite.php"));
+	require_once File::build_path(array("controller","ControllerCoeffAss.php"));
+	require_once File::build_path(array("controller","ControllerCoeffCoutPersonnel.php"));
 
 	/*SI ON NE TROUVE PAS CONTROLLR SPECIFIQUE =>
 		- on affiche la page d'acceuil

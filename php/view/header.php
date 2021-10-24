@@ -43,7 +43,7 @@
                   <div class ="d-inline-flex p-2 bd-highlight shadow p-3 rounded"> <p class="fs-4"> <a class="nav-link" href="index.php?controller=ficheTechnique&action=readAll">Fiches techniques</a> </p> </div>
                 </div>     
               </div>';
-            }elseif($Page =='ingredient' || $Page=="categorie_ingredient"){
+            }elseif($Page =='ingredient' || $Page=="categorie_ingredient" || $Page=="allergene" || $Page =="unite" || $Page=="tva"){
               echo '
               <!-- Division qui contient les elements de navigations-->
               <div class="navbar-nav">
@@ -63,7 +63,7 @@
                   <div class ="d-inline-flex p-2 bd-highlight shadow p-3 rounded"> <p class="fs-4"> <a class="nav-link" href="index.php?controller=ficheTechnique&action=readAll">Fiches techniques</a> </p> </div>
                 </div>     
               </div>'; 
-            }elseif($Page =='fichetechnique'){
+            }elseif($Page =='fichetechnique' || $Page =="coeffass" || $Page=="coeffcoutpersonnel" || $Page=="categorie_fiche"){
               echo '
               <!-- Division qui contient les elements de navigations-->
               <div class="navbar-nav">
