@@ -28,6 +28,7 @@ class ModelCategorie_Fiche extends Model{
 	public function __construct($nom = NULL) {
   	if (!is_null($nom)) {
 	    $this->NomCatFiche = $nom;
+        $this->NumeroCatFiche = self::configNumeroCatFiche()+1;
     	}
   	}
 

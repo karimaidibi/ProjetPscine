@@ -5,7 +5,7 @@ class ControllerCoeffCoutPersonnel{
 	protected static $object='CoeffCoutPersonnel';
 
 	public static function readAll() {
-        $tab_u = ModelCoeffCoutPersonnel::selectAll();     
+        $CoeffCoutPersonnel= ModelCoeffCoutPersonnel::selectAll();     
         $view='list';
         $pagetitle='Liste des coefficients';
         require_once File::build_path(array("view", "view.php"));
@@ -34,7 +34,7 @@ class ControllerCoeffCoutPersonnel{
 	}
 
 	public static function delete(){
-		if(!is_null(myGet('CodeCoeffCoutPersonnel'))){
+		if(is_null(myGet('CodeCoeffCoutPersonnel'))){
         	$view='error';
         	$pagetitle='Page 404';
 	    	require_once File::build_path(array("view", "view.php"));
@@ -42,11 +42,22 @@ class ControllerCoeffCoutPersonnel{
 		else{
 			$CodeCoeffCoutPersonnel = myGet('CodeCoeffCoutPersonnel');
 			ModelCoeffCoutPersonnel::delete($CodeCoeffCoutPersonnel);
-			$tab_u = ModelCoeffCoutPersonnel::selectAll();
-	        $view='deleted';
+			$CoeffCoutPersonnel = ModelCoeffCoutPersonnel::selectAll();
+	        $view='list';
 	        $pagetitle='CoeffCoutPersonnel supprimé';
 		    require_once File::build_path(array("view", "view.php"));
 		}
+	}
+
+	
+	public static function update(){
+		if(!is_null(myGet('valeurCoeffCoutPersonnel'))){
+			$valeurCoeffCoutPersonnel=myGet('valeurCoeffCoutPersonnel');
+		}
+		self::create($valeurCoeffCoutPersonnel);
+		$CoeffCoutPersonnel = ModelCoeffCoutPersonnel::selectAll();
+		$view='list';
+		require_once File::build_path(array("view", "view.php"));
 	}
 
 	public static function create($valeurCoeffCoutPersonnel){

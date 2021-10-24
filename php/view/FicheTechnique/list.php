@@ -76,7 +76,9 @@ echo
                 <th scope="col">NomFiche</th>
                 <th scope="col">NbreCouverts</th>
                 <th scope="col">NomAuteur</th>
-                <th scope="col">Catégorie</th>
+                <th scope="col"><a href="index.php?controller=Categorie_Fiche&action=readAll">Catégorie</a></th>
+                <th scope="col"><a href="index.php?controller=CoeffAss&action=readAll">Coeff ASS</a></th>
+                <th scope="col"><a href="index.php?controller=CoeffCoutPersonnel&action=readAll">Coeff Cout Personnel</a></th>
                 <th scope="col"></th>
             </tr>
             </thead>
@@ -91,6 +93,8 @@ foreach ($tab_u as $u)
     $NomAuteur = $u->getNomAuteur();
     $CoutFluide = $u->getCoutFluide();
     $NumCategorieFiche = $u->getFK_NumeroCatFiche();
+    $CodeCoeffAss = $u ->getFK_CodeCoeffAss();
+    $CodeCoeffCoutPersonnel = $u ->getFK_CodeCoeffCoutPersonnel();
 
     $categorieFiche = ModelCategorie_Fiche::select($NumCategorieFiche);
     if(!empty($categorieFiche)){
@@ -98,6 +102,13 @@ foreach ($tab_u as $u)
     }else{
         $NomCategorieFiche = "pas de catégorie";
     }
+    
+    //objet CoefficientsAss
+    $coeffAss = ModelCoeffAss::select($CodeCoeffAss);
+    $valeurCoeffAss = $coeffAss -> getvaleurCoeffAss();
+    //objet coefficnets Cout personnel 
+    $coeffCoutPersonnel = ModelCoeffCoutPersonnel::select($CodeCoeffCoutPersonnel);
+    $valeurCoeffCoutPersonnel = $coeffCoutPersonnel -> getvaleurCoeffCoutPersonnel();
 
 
   
@@ -106,6 +117,8 @@ foreach ($tab_u as $u)
                 <td>'.$NbreCouverts.'</td>
                 <td>'. $NomAuteur.'</td>
                 <td>'. $NomCategorieFiche.'</td>
+                <td>'. $valeurCoeffAss.'</td>
+                <td>'. $valeurCoeffCoutPersonnel.'</td>
                 <td>
                     <div class="d-grid gap-2 d-md-block">
                         <button class="btn btn-success" type="button">

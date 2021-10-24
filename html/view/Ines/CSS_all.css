@@ -1,0 +1,9 @@
+body {
+    font-family:'Open Sans', sans-serif;
+    color:black;
+    background-image: url("../img/fond_all.jpg");
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: -173px 141px ;
+    
+} 

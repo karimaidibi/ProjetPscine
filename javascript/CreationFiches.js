@@ -513,13 +513,13 @@ document.addEventListener("click",function(){
     console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>><<");
     console.log(NomChoisi);
     while(i<options.length && !progressiontrouver){
-      if(options[i].value === NomChoisi || NomChoisi ===""){
+    if(options[i].value === NomChoisi || NomChoisi ===""){ // si le nom de la progression dans la BD = nomchoisi || nom = null
         progressiontrouver = true;
         CodeProgression = optionsNum[i].value;
       }
       i = i + 1;
     }
-    if(progressiontrouver == false){
+    if(progressiontrouver == false){ // si le nomchosi n'existe pas dans la BD, il rajoute une ligne
       ordreProgressions = ordreProgressions + 1; //ordre + 1
       CodeProgression = ordreProgressions;
       var table = document.getElementById("bodyProgressions");

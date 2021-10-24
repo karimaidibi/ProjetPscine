@@ -27,6 +27,7 @@ class ModelAllergene extends Model{
 	public function __construct($nom = NULL) {
   	if (!is_null($nom)) {
 	    $this->NomAllergene = $nom;
+        $this->NumAllergene = self::configNumAllergene()+1;
     	}
   	}
 

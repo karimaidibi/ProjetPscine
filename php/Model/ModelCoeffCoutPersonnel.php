@@ -27,6 +27,7 @@ class ModelCoeffCoutPersonnel extends Model{
 	public function __construct($valeurCoeffCoutPersonnel = NULL) {
   	if (!is_null($valeurCoeffCoutPersonnel)) {
         $this->valeurCoeffCoutPersonnel = $valeurCoeffCoutPersonnel;
+        $this->CodeCoeffCoutPersonnel = self::configCodeCoeff()+1;
     	}
   	}
 
@@ -63,7 +64,6 @@ class ModelCoeffCoutPersonnel extends Model{
                 "CodeCoeffCoutPersonnel" => self::configCodeCoeff()+1,
                 "valeurCoeffCoutPersonnel" => $this->valeurCoeffCoutPersonnel
             );
-            self::setCodeCoeff(self::configCodeCoeff() + 1);
             // On donne les valeurs et on exécute la requête     
             $req_prep->execute($values);
             // echo $sql;

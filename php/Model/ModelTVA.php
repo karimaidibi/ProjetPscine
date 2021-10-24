@@ -2,7 +2,7 @@
 require_once File::build_path(array("model", "Model.php"));
 class ModelTVA extends Model{
 
-	protected static $object = 'TVA';
+	protected static $object = 'tva';
 	protected static $primary='CodeTVA';
 
 	private $CodeTVA;
@@ -37,6 +37,7 @@ class ModelTVA extends Model{
   	if (!is_null($nom)) {
 	    $this->NomTVA = $nom;
         $this->CoefTVA = $coef;
+        $this->CodeTVA = self::configCodeTVA()+1;
     	}
   	}
 

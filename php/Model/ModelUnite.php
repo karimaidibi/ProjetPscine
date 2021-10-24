@@ -2,7 +2,7 @@
 require_once File::build_path(array("model", "Model.php"));
 class ModelUnite extends Model{
 
-	protected static $object = 'Unite';
+	protected static $object = 'unite';
 	protected static $primary='NumUnite';
 
 	private $NumUnite;
