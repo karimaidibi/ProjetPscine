@@ -68,10 +68,10 @@ ini_set('display_errors', 'on');
             <tr>
                 <th scope="col">Nom</th>
                 <th scope="col"><a href="index.php?controller=categorie_Ingredient&action=readAll">Catégorie</a></th>
-                <th scope="col">Unité</th>
-                <th scope="col">Type d\'allergène</th>
+                <th scope="col"><a href="index.php?controller=Unite&action=readAll">Unite</a></th>
+                <th scope="col"><a href="index.php?controller=Allergene&action=readAll">Type d\'allergène</a></th>
                 <th scope="col">Prix Unitaire <em>(en €)</em></th>
-                <th scope="col">TVA</th>
+                <th scope="col"><a href="index.php?controller=TVA&action=readAll">TVA</a></th>
                 <th scope ="col">Stock</th>
                 <th scope="col"></th>
             </tr>

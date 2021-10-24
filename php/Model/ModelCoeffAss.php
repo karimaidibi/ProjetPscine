@@ -27,6 +27,7 @@ class ModelCoeffAss extends Model{
 	public function __construct($valeurCoeffAss = NULL) {
   	if (!is_null($valeurCoeffAss)) {
         $this->valeurCoeffAss = $valeurCoeffAss;
+        $this->CodeCoeffAss = self::configCodeCoeff()+1;
     	}
   	}
 

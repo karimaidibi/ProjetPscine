@@ -2,7 +2,7 @@
 ini_set('display_errors', 'on'); 
 
     echo '<!--Label pour laffichage des ingrédients-->
-    <div class="container bg-light bg-gradient border border-dark mt-5">
+    <div class="container bg-light bg-gradient border border-dark mt-5 ">
         <div class=" container-fluid bg-dark bg-gradient" align=center style="color:whitesmoke;">
             <p class="fs-5"> Liste des catégories d\'ingrédient </p>
         </div>
@@ -10,7 +10,7 @@ ini_set('display_errors', 'on');
         <div class="container pt-5 ps-5 pe-5">
         <!--3eme colonne-->
         <div class="mb-4">
-            <button type="button" class="btn btn-dark">
+            <button type="button" class="btn btn-dark ">
                 <a href="index.php?controller=categorie_Ingredient&action=update" style="color:white; text-decoration:none;">
                 <i class="bi bi-plus-square"></i>
                 Créer une nouvelle catégorie d\'ingrédient
@@ -18,7 +18,7 @@ ini_set('display_errors', 'on');
             </button>
         </div>
         <!--Tableau qui contient les ingrédients triés-->
-        <table class="table table-striped table-hover w-auto">
+        <table class="table table-striped table-hover w-auto mx-auto">
             <thead class = "table-dark">
             <tr>
                 <th scope="col">Nom de la catégorie</th>
