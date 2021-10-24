@@ -501,13 +501,13 @@ document.addEventListener("click",function(){
     var progressiontrouver = false;
     var NomChoisi = document.getElementById('inputProgressionInDB').value;
     while(i<options.length && !progressiontrouver){
-    if(options[i].value === NomChoisi || NomChoisi ===""){
+    if(options[i].value === NomChoisi || NomChoisi ===""){ // si le nom de la progression dans la BD = nomchoisi || nom = null
         progressiontrouver = true;
         //var CodeProgression = optionsNum[i].value;
     }
     i = i + 1;
     }
-    if(progressiontrouver == false){
+    if(progressiontrouver == false){ // si le nomchosi n'existe pas dans la BD, il rajoute une ligne
       ordreProgressions = ordreProgressions + 1; //ordre + 1
       var table = document.getElementById("bodyProgressions");
       var row = table.insertRow(table.length);
