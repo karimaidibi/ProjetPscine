@@ -36,7 +36,7 @@
 
   <!--Logo de notre site-->
       <div class="mt-3 ms-3">
-          <img src="../../html/view/img/restaura_logo1.png" class="rounded mx-auto d-block" alt="Logo de notre site" >
+          <img src="../html/view/img/restaura_logo1.png" class="rounded mx-auto d-block" alt="Logo de notre site" >
       </div>
  
 

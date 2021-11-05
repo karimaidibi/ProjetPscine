@@ -12,7 +12,7 @@
             <div class="position-relative">
                 <div class="ponslate-middle-y">
                     <div class="mt-3 ms-3" >
-                        <img src="../../../html/view/img/restaura_logo1.png" class="rounded mx-auto d-block" alt="Logo de notre site" style="width:170px; height:170px;">
+                        <img src="../html/view/img/restaura_logo1.png" class="rounded mx-auto d-block" alt="Logo de notre site" style="width:170px; height:170px;">
                     </div>
                 </div>  
             </div>
@@ -92,7 +92,7 @@
             <div class="position-relative">
                 <div class="ponslate-middle-y">
                     <div class="mt-3 me-4" >
-                        <img src="../../../html/view/img/restaura_logo1.png" class="rounded mx-auto d-block" alt="Logo de notre site" style="width:170px; height:170px;">
+                        <img src="../html/view/img/restaura_logo1.png" class="rounded mx-auto d-block" alt="Logo de notre site" style="width:170px; height:170px;">
                     </div>
                 </div>  
             </div>
